@@ -1,0 +1,15 @@
+{
+  "categories": [
+    { "id": 1, "name": "Proteins" }, { "id": 2, "name": "Carbohydrates" }, { "id": 3, "name": "Fats" },
+    { "id": 4, "name": "Fruits" }, { "id": 5, "name": "Beverages & Dairy" }, { "id": 6, "name": "Vegetables & Tubers" },
+    { "id": 7, "name": "Sauces & Condiments" }, { "id": 8, "name": "Snacks & Processed Foods" },
+    { "id": 9, "name": "Supplements" }, { "id": 10, "name": "Bakery & Sweets" },
+    { "id": 11, "name": "Fast Food & Prepared Meals" }, { "id": 12, "name": "Alcohol & Non-Diet Drinks" }
+  ],
+  "tags": [
+    { "id": 1, "name": "High Protein" }, { "id": 2, "name": "Low Carb" }, { "id": 3, "name": "Low Calorie" },
+    { "id": 4, "name": "Vegan" }, { "id": 5, "name": "Vegetarian" }, { "id": 6, "name": "Gluten-Free" },
+    { "id": 7, "name": "Keto" }, { "id": 8, "name": "Quick & Easy" }, { "id": 9, "name": "Meal Prep" },
+    { "id": 10, "name": "Budget Friendly" }
+  ]
+}
