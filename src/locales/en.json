@@ -1,3 +1,8 @@
 {
-
+  "tracking": {
+    "time_of_day": "Time of Day",
+    "quantity": "Quantity(gr)",
+    "notes": "Food",
+    "calories": "Calories(Kcal)"
+  }
 }
