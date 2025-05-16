@@ -9,8 +9,9 @@ export default {
     return {
       drawer: false,
       items: [
-        {label: 'option.home',       to: '/tracking'},
-        {label: 'option.about',      to: '/about'}
+        {label: 'option.home',       to: '/home'},
+        {label: 'option.about',      to: '/about'},
+        {label: 'option.recommendations',     to: '/recommendations'}
       ]
     }
   },
