@@ -7,6 +7,7 @@ export default {
     return {
       drawer: false,
       items: [
+          //recommendations route
         {label: 'option.home', to: '/'},
         {label: 'option.recommendations', to: '/nutrition/recommendations'},
         {label: 'option.sign-in', to: '/sign-in'}
