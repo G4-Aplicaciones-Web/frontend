@@ -1,7 +1,7 @@
 <script>
 
 import {defineComponent} from "vue";
-import TrackingManagement from "@/tracking/pages/tracking-management.component.vue";
+import TrackingManagement from "@/domains/tracking/pages/tracking-management.component.vue";
 
 
 export default defineComponent({

@@ -1,4 +1,15 @@
 {
+  "option": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "categories": "Categorías",
+    "sign-in": "Iniciar sesión"
+  },
+  "authoring-phrase": {
+    "intro": "Hecho con",
+    "use": "utilizando",
+    "author": "por el equipo de Desarrolladores de {brand}"
+  },
   "tracking": {
     "time_of_day": "Hora del día",
     "quantity": "Cantidad (g)",

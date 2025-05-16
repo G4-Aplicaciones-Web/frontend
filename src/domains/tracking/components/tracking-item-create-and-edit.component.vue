@@ -2,7 +2,7 @@
 /**
  * Import the base create-and-edit component to extend its functionality
  */
-import CreateAndEdit from "../../shared/components/create-and-edit.component.vue";
+import CreateAndEdit from "../../../shared/components/create-and-edit.component.vue";
 
 /**
  * @component
