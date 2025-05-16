@@ -17,7 +17,7 @@ import {
     DataTable,
     Dialog,
     DialogService,
-    Drawer,
+    Drawer, Dropdown,
     FileUpload,
     FloatLabel,
     IconField,
@@ -67,5 +67,6 @@ app.use(i18n)
     .component('pv-textarea', Textarea)
     .component('pv-toolbar', Toolbar)
     .component('pv-toast', Toast)
+    .component('pv-dropdown', Dropdown)
     .use(router)
     .mount('#app')

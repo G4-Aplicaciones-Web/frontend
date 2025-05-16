@@ -138,19 +138,19 @@ export default {
 
 <template>
   <div class="w-full">
-    <data-manager :title=title
+    <data-manager :title="$t('recommendation.title')"
                   :items="recommendations"
                   @new-item-requested="onNewItem"
                   @edit-item-requested="onEditItem($event)"
                   @delete-item-requested="onDeleteItem($event)"
                   @delete-selected-items-requested="onDeleteSelectedItems($event)">
       <template #custom-columns>
-        <pv-column :sortable="true" field="id" header="ID" style="min-width: 8rem"/>
-        <pv-column field="reason" header="Reason" style="min-width: 20rem"/>
-        <pv-column field="time_of_day" header="Time of Day" style="min-width: 12rem"/>
-        <pv-column field="notes" header="Notes" style="min-width: 12rem"/>
-        <pv-column :sortable="true" field="score" header="Score" style="min-width: 8rem"/>
-        <pv-column field="status" header="Status" style="min-width: 10rem"/>
+        <pv-column :sortable="true" field="id" :header="$t('recommendation.columns.id')" style="min-width: 8rem"/>
+        <pv-column field="reason" :header="$t('recommendation.columns.reason')" style="min-width: 20rem"/>
+        <pv-column field="time_of_day" :header="$t('recommendation.columns.time_of_day')" style="min-width: 12rem"/>
+        <pv-column field="notes" :header="$t('recommendation.columns.notes')" style="min-width: 12rem"/>
+        <pv-column :sortable="true" field="score" :header="$t('recommendation.columns.score')" style="min-width: 8rem"/>
+        <pv-column field="status" :header="$t('recommendation.columns.status')" style="min-width: 10rem"/>
       </template>
     </data-manager>
     <recommendation-item-create-and-edit-dialog
