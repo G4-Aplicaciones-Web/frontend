@@ -12,7 +12,7 @@ import {TrackingService} from "../services/tracking.service.js";
 /**
  * Import the DataManager component for displaying and managing category data
  */
-import DataManager from "../../shared/components/data-manager.component.vue";
+import DataManager from "../../../shared/components/data-manager.component.vue";
 
 /**
  * Import the CategoryItemCreateAndEditDialog component for creating and editing categories
