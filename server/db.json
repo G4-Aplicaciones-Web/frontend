@@ -1,0 +1,76 @@
+{
+  "activity_levels": [
+    {
+      "id": 1,
+      "name": "Sedentario",
+      "description": "Poco o nada de ejercicio"
+    },
+    {
+      "id": 2,
+      "name": "Ligeramente Activo",
+      "description": "Ejercicio 2 a 3 dias por semana"
+    },
+    {
+      "id": 3,
+      "name": "Moderadamente Activo",
+      "description": "Ejercicio 4 a 5 dias por semana"
+    },
+    {
+      "id": 4,
+      "name": "Muy Activo",
+      "description": "Ejercicio 6 a 7 dias por semana"
+    },
+    {
+      "id": 5,
+      "name": "Atleta Profesional",
+      "description": "Ejercicio intenso 6 a 7 dias por semana"
+    }
+  ],
+  "ingredient_categories": [
+    {
+      "id": 1,
+      "name": "Proteinas"
+    },
+    {
+      "id": 2,
+      "name": "Carbohidratos"
+    },
+    {
+      "id": 3,
+      "name": "Grasas"
+    },
+    {
+      "id": 4,
+      "name": "Frutas"
+    },
+    {
+      "id": 5,
+      "name": "Bebidas y lacteos"
+    },
+    {
+      "id": 6,
+      "name": "Vegetales y tuberculos"
+    },
+    {
+      "id": 7,
+      "name": "Salsas y condimentos"
+    }
+  ],
+  "objectives": [
+    {
+      "id": 1,
+      "name": "Ganar musculo"
+    },
+    {
+      "id": 2,
+      "name": "Mantenerse en forma"
+    },
+    {
+      "id": 3,
+      "name": "Perder peso"
+    }
+  ],
+  "ingredients":[
+
+  ]
+}
