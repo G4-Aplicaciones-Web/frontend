@@ -18,6 +18,7 @@ import DataManager from "../../shared/components/data-manager.component.vue";
  * Import the RecommendationItemCreateAndEditDialog component
  */
 import RecommendationItemCreateAndEditDialog from "../components/recommendation-item-create-and-edit.component.vue";
+import {Column as PvColumn} from "primevue";
 
 /**
  * @component
@@ -25,7 +26,7 @@ import RecommendationItemCreateAndEditDialog from "../components/recommendation-
  */
 export default {
   name: "recommendation-management",
-  components: {RecommendationItemCreateAndEditDialog, DataManager},
+  components: {PvColumn, RecommendationItemCreateAndEditDialog, DataManager},
 
   data() {
     return {
@@ -128,8 +129,8 @@ export default {
   created() {
     this.recommendationService = new RecommendationService();
     this.recommendationService.getAll().then(response => {
-      console.log(response);
-      this.recommendations = response.data.map(recommendation => new Recommendation(recommendation));
+      console.log(response.data);
+      this.recommendations = response.map(recommendation => new Recommendation(recommendation));
     }).catch(error => console.error(error));
   }
 }
@@ -145,10 +146,11 @@ export default {
                   @delete-selected-items-requested="onDeleteSelectedItems($event)">
       <template #custom-columns>
         <pv-column :sortable="true" field="id" header="ID" style="min-width: 8rem"/>
-        <pv-column :sortable="true" field="reason" header="Reason" style="min-width: 20rem"/>
-        <pv-column :sortable="true" field="time_of_day" header="Time of Day" style="min-width: 12rem"/>
+        <pv-column field="reason" header="Reason" style="min-width: 20rem"/>
+        <pv-column field="time_of_day" header="Time of Day" style="min-width: 12rem"/>
+        <pv-column field="notes" header="Notes" style="min-width: 12rem"/>
         <pv-column :sortable="true" field="score" header="Score" style="min-width: 8rem"/>
-        <pv-column :sortable="true" field="status" header="Status" style="min-width: 10rem"/>
+        <pv-column field="status" header="Status" style="min-width: 10rem"/>
       </template>
     </data-manager>
     <recommendation-item-create-and-edit-dialog
