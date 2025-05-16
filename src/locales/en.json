@@ -3,7 +3,8 @@
     "home": "Home",
     "about": "About",
     "recommendations": "Recommendations",
-    "sign-in": "Sign In"
+    "meal_plans": "Meal Plans",
+    "recipes": "Recipes"
   },
   "authoring-phrase": {
     "intro": "Made with",

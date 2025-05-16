@@ -5,7 +5,7 @@ export class RecommendationService {
      * @returns {string} The complete API endpoint for recommendations
      */
     get resourceEndpoint() {
-        return import.meta.env.VITE_RECOMMENDATIONS_ENDPOINT_PATH || '/api/v1/recommendations';
+        return import.meta.env.VITE_RECOMMENDATIONS_ENDPOINT_PATH;
     }
 
     getAll() {

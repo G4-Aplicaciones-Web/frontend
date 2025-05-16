@@ -16,6 +16,10 @@ const AboutComponent = () => import('../public/pages/about.component.vue');
 const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue');
 
 const RecommendationManagement = () => import('../domains/recommendations/pages/recommendation-management.component.vue');
+const MealPlanDetail = () => import('../domains/meal_plans/pages/meal-plan-detail.component.vue');
+import RecipeListComponent from "@/domains/recipes/pages/recipe-list.component.vue";
+import RecipeDetailComponent from "@/domains/recipes/components/recipe-detail.component.vue";
+import RecipeEditorComponent from "@/domains/recipes/pages/recipe-editor.component.vue";
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -27,9 +31,31 @@ const RecommendationManagement = () => import('../domains/recommendations/pages/
  * - meta: Additional metadata including page title
  */
 const routes = [
-    {   path: '/home',                 name: 'home',      component: HomeComponent,              meta: {title: 'Home'}},
+    {   path: '/home',                  name: 'home',      component: HomeComponent,              meta: {title: 'Home'}},
     {   path: '/about',                 name: 'about',      component: AboutComponent,              meta: {title: 'About us'}},
     {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement, meta: {title: 'Recommendations'}},
+    {   path: '/meal_plans',            name: 'meal_plans', component: MealPlanDetail, meta: {title: 'Meal Plans'}},
+    {
+        path: '/recipes',
+        name: 'recipe-list',
+        component: RecipeListComponent
+    },
+    {
+        path: '/recipes/new', // Route for creating a new recipe
+        name: 'recipe-creator',
+        component: RecipeEditorComponent
+    },
+    {
+        path: '/recipes/:id', // Route for displaying a recipe detail
+        name: 'recipe-detail',
+        component: RecipeDetailComponent, // Or a page component that loads the detail component
+        props: true // Pass route params as props (useful for detail page to get ID)
+    },
+    {
+        path: '/recipes/:id/edit', // Route for editing an existing recipe
+        name: 'recipe-editor',
+        component: RecipeEditorComponent
+    },
     {   path: '/',                      name: 'default',    redirect: {name: 'home'}},
     {   path: '/:pathMatch(.*)*',       name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}},
 ]

@@ -3,7 +3,9 @@
     "home": "Inicio",
     "about": "Acerca de",
     "recommendations": "Recomendaciones",
-    "sign-in": "Iniciar sesión"
+    "meal_plans": "Planes alimenticios",
+    "sign-in": "Iniciar sesión",
+    "recipes": "Recetas"
   },
   "authoring-phrase": {
     "intro": "Hecho con",

@@ -11,4 +11,5 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const mealPlanId = parseInt(route.params.id);
+console.log(mealPlanId);
 </script>
