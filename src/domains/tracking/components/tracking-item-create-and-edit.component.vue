@@ -46,25 +46,12 @@ export default {
     }
   },
   methods: {
-    getNextTrackingId() {
-      return Math.floor(Math.random() * 1000000); // Simulación de ID
-    },
-
     onCancelRequested() {
       this.$emit('cancel-requested');
     },
 
     onSaveRequested() {
       this.submitted = true;
-
-      const now = new Date();
-
-      if (!this.item.id) {
-        this.item.id = this.getNextTrackingId(); // solo si no tiene ID
-        this.item.date = now.toISOString().split('T')[0];
-        this.item.created_at = now.toISOString().slice(0, 19) + 'Z';
-      }
-
       this.$emit('save-requested', this.item);
     }
   }
@@ -81,23 +68,21 @@ export default {
       @save-action-requested="onSaveRequested"
   >
     <template #content>
-      <div class="p-fluid p-4">
+      <div class="form-container">
         <div class="grid formgrid">
-
-          <!-- Time of Day -->
+          <!-- Momento del día -->
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <pv-input-text
                   id="time_of_day"
                   v-model="item.time_of_day"
-                  placeholder="Ej: Desayuno, Almuerzo, Cena"
               />
               <label for="time_of_day">Momento del día</label>
             </pv-float-label>
           </div>
 
-          <!-- Quantity -->
-          <div class="field col-12 md:col-6">
+          <!-- Cantidad -->
+          <div class="field col-12">
             <pv-float-label>
               <pv-input-number
                   id="quantity"
@@ -105,13 +90,12 @@ export default {
                   :min="0"
                   :step="0.1"
                   mode="decimal"
-                  placeholder="Cantidad consumida"
               />
               <label for="quantity">Cantidad (porciones / gramos)</label>
             </pv-float-label>
           </div>
 
-          <!-- Calories -->
+          <!-- Calorías -->
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <pv-input-number
@@ -119,48 +103,64 @@ export default {
                   v-model="item.calories"
                   :min="0"
                   :step="1"
-                  placeholder="Total de calorías"
               />
-              <label for="calories">Calorías</label>
+              <label for="calories">Total de Calorías</label>
             </pv-float-label>
           </div>
 
-          <!-- Recipe ID -->
+          <!-- ID de Receta -->
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <pv-input-number
                   id="recipe_id"
                   v-model="item.recipe_id"
                   :min="0"
-                  placeholder="ID de la receta (si aplica)"
               />
               <label for="recipe_id">ID de Receta</label>
             </pv-float-label>
           </div>
 
-          <!-- Notes -->
+          <!-- Notas -->
           <div class="field col-12">
             <pv-float-label>
-              <pv-input-textarea
+              <pv-textarea
                   id="notes"
                   v-model="item.notes"
                   autoResize
                   rows="3"
-                  placeholder="Observaciones o comentarios adicionales"
               />
-              <label for="notes">Notas</label>
+              <label for="notes">Comentarios adicionales</label>
             </pv-float-label>
           </div>
-
         </div>
       </div>
     </template>
   </create-and-edit>
 </template>
 
-
-
-
 <style scoped>
+.form-container {
+  padding: 1.5rem;
+}
 
+.formgrid {
+  gap: 1rem; /* Añade un espacio entre los elementos del grid */
+}
+
+.field {
+  margin-bottom: 1rem; /* Reduce un poco el margen inferior entre campos */
+}
+
+.p-float-label > input,
+.p-float-label > textarea {
+  background-color: #1e1e1e;
+  color: #fff;
+  border-color: #444;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.p-float-label > label {
+  color: #aaa;
+}
 </style>

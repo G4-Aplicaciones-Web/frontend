@@ -1,4 +1,3 @@
-
 <script>
 import {Recipe} from "@/domains/recipes/models/recipe.entity.js";
 
@@ -33,28 +32,28 @@ export default {
       <p class="recipe-description">{{ truncateDescription(recipe.description) }}</p>
       <div class="nutrition-info">
         <div class="nutrition-item">
-          <span class="label">Calorías:</span>
+          <span class="label">{{ $t('recipeCard.calories') }}</span>
           <span class="value">{{ recipe.total_calories }}</span>
         </div>
         <div class="nutrition-items">
           <div class="nutrition-item">
-            <span class="label">Carbos:</span>
+            <span class="label">{{ $t('recipeCard.carbs') }}</span>
             <span class="value">{{ recipe.total_carbs }}g</span>
           </div>
           <div class="nutrition-item">
-            <span class="label">Proteínas:</span>
+            <span class="label">{{ $t('recipeCard.proteins') }}</span>
             <span class="value">{{ recipe.total_proteins }}g</span>
           </div>
           <div class="nutrition-item">
-            <span class="label">Grasas:</span>
+            <span class="label">{{ $t('recipeCard.fats') }}</span>
             <span class="value">{{ recipe.total_fats }}g</span>
           </div>
         </div>
       </div>
     </div>
     <div class="card-footer">
-      <button @click="viewDetails" class="btn btn-primary">Ver detalles</button>
-      <button @click="editRecipe" class="btn btn-secondary">Editar</button>
+      <button @click="viewDetails" class="btn btn-primary">{{ $t('common.viewDetails') }}</button>
+      <button @click="editRecipe" class="btn btn-secondary">{{ $t('common.edit') }}</button>
     </div>
   </div>
 </template>

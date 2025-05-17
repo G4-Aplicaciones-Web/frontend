@@ -1,22 +1,42 @@
 <script>
-import {Recipe} from "@/domains/recipes/models/recipe.entity.js";
+import { RecipeService } from "@/domains/recipes/services/recipe.service.js";
+import { Recipe } from "@/domains/recipes/models/recipe.entity.js";
 
 export default {
   name: 'recipe-detail',
   props: {
-    recipe: {
-      type: Recipe,
+    recipeId: {
+      type: [String, Number],
       required: true
     }
   },
   data() {
     return {
-      showDeleteModal: false
+      recipe: null,
+      loading: true,
+      error: null,
+      showDeleteModal: false,
+      recipeService: new RecipeService()
     };
   },
+  created() {
+    this.loadRecipe();
+  },
   methods: {
+    async loadRecipe() {
+      try {
+        this.loading = true;
+        const recipeData = await this.recipeService.getById(this.recipeId);
+        this.recipe = new Recipe(recipeData);
+        this.loading = false;
+      } catch (error) {
+        this.error = 'Error al cargar la receta. Por favor, inténtalo de nuevo.';
+        console.error(error);
+        this.loading = false;
+      }
+    },
     editRecipe() {
-      this.$emit('edit', this.recipe.id);
+      this.$emit('edit', this.recipeId);
     },
     confirmDelete() {
       this.showDeleteModal = true;
@@ -25,7 +45,7 @@ export default {
       this.showDeleteModal = false;
     },
     deleteRecipe() {
-      this.$emit('delete', this.recipe.id);
+      this.$emit('delete', this.recipeId);
       this.closeModal();
     }
   }
@@ -33,36 +53,42 @@ export default {
 </script>
 
 <template>
-  <div class="recipe-detail" v-if="recipe">
+  <div v-if="loading" class="loading">
+    <p>{{ $t('recipeDetail.loading') }}</p>
+  </div>
+  <div v-else-if="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+  <div v-else-if="recipe" class="recipe-detail">
     <div class="detail-header">
       <h2>{{ recipe.title }}</h2>
       <div class="action-buttons">
-        <button @click="editRecipe" class="btn btn-primary">Editar</button>
-        <button @click="confirmDelete" class="btn btn-danger">Eliminar</button>
+        <button @click="editRecipe" class="btn btn-primary">{{ $t('common.edit') }}</button>
+        <button @click="confirmDelete" class="btn btn-danger">{{ $t('common.delete') }}</button>
       </div>
     </div>
 
     <div class="nutrition-summary">
       <div class="nutrition-card">
         <div class="nutrition-value">{{ recipe.total_calories }}</div>
-        <div class="nutrition-label">Calorías</div>
+        <div class="nutrition-label">{{ $t('recipeCard.calories') }}</div>
       </div>
       <div class="nutrition-card">
         <div class="nutrition-value">{{ recipe.total_carbs }}g</div>
-        <div class="nutrition-label">Carbohidratos</div>
+        <div class="nutrition-label">{{ $t('recipeCard.carbs') }}</div>
       </div>
       <div class="nutrition-card">
         <div class="nutrition-value">{{ recipe.total_proteins }}g</div>
-        <div class="nutrition-label">Proteínas</div>
+        <div class="nutrition-label">{{ $t('recipeCard.proteins') }}</div>
       </div>
       <div class="nutrition-card">
         <div class="nutrition-value">{{ recipe.total_fats }}g</div>
-        <div class="nutrition-label">Grasas</div>
+        <div class="nutrition-label">{{ $t('recipeCard.fats') }}</div>
       </div>
     </div>
 
     <div class="description-section">
-      <h3>Descripción</h3>
+      <h3>{{ $t('recipeDetail.description') }}</h3>
       <div class="description-content">
         {{ recipe.description }}
       </div>
@@ -70,17 +96,14 @@ export default {
 
     <div class="modal" v-if="showDeleteModal">
       <div class="modal-content">
-        <h3>Confirmar eliminación</h3>
-        <p>¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer.</p>
+        <h3>{{ $t('recipeDetail.confirmDeleteTitle') }}</h3>
+        <p>{{ $t('recipeDetail.confirmDeleteMessage') }}</p>
         <div class="modal-actions">
-          <button @click="closeModal" class="btn btn-secondary">Cancelar</button>
-          <button @click="deleteRecipe" class="btn btn-danger">Eliminar</button>
+          <button @click="closeModal" class="btn btn-secondary">{{ $t('common.cancel') }}</button>
+          <button @click="deleteRecipe" class="btn btn-danger">{{ $t('common.delete') }}</button>
         </div>
       </div>
     </div>
-  </div>
-  <div v-else class="loading">
-    <p>Cargando receta...</p>
   </div>
 </template>
 

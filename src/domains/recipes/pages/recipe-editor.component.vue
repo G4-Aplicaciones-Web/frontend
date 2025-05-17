@@ -106,16 +106,16 @@ export default {
     <h1>{{ pageTitle }}</h1>
 
     <div v-if="isLoading" class="loading-container">
-      <p>Cargando receta...</p>
+      <p>{{ $t('recipeDetail.loading') }}</p>
     </div>
 
     <div v-else-if="error" class="error-container">
       <p class="error-message">{{ error }}</p>
-      <button @click="isEditing ? fetchRecipe(recipeId) : null" class="btn btn-primary">
-        {{ isEditing ? 'Reintentar cargar' : '' }}
+      <button v-if="isEditing" @click="fetchRecipe(recipeId)" class="btn btn-primary">
+        {{ $t('recipeDetail.retry') }}
       </button>
       <button v-if="!isEditing" @click="handleCancel" class="btn btn-secondary">
-        Volver a la lista
+        {{ $t('recipeDetail.backToList') }}
       </button>
     </div>
 
@@ -128,18 +128,19 @@ export default {
           :disabled="isSaving"
       />
       <div v-if="isSaving" class="saving-indicator">
-        <p>Guardando...</p>
+        <p>{{ $t('recipeDetail.saving') }}</p>
       </div>
     </div>
 
     <div v-else class="no-recipe-found">
-      <p>Receta no encontrada o error de carga.</p>
+      <p>{{ $t('recipeDetail.notFound') }}</p>
       <button @click="handleCancel" class="btn btn-secondary">
-        Volver a la lista
+        {{ $t('recipeDetail.backToList') }}
       </button>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .recipe-editor-page {

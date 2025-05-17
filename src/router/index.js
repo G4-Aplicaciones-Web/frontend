@@ -31,30 +31,35 @@ import RecipeEditorComponent from "@/domains/recipes/pages/recipe-editor.compone
  * - meta: Additional metadata including page title
  */
 const routes = [
-    {   path: '/home',                  name: 'home',      component: HomeComponent,              meta: {title: 'Home'}},
-    {   path: '/about',                 name: 'about',      component: AboutComponent,              meta: {title: 'About us'}},
-    {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement, meta: {title: 'Recommendations'}},
-    {   path: '/meal_plans',            name: 'meal_plans', component: MealPlanDetail, meta: {title: 'Meal Plans'}},
+    {   path: '/home',                  name: 'home',      component: HomeComponent,                            meta: {title: 'Home'}},
+    {   path: '/about',                 name: 'about',      component: AboutComponent,                          meta: {title: 'About us'}},
+    {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement,           meta: {title: 'Recommendations'}},
+    {   path: '/meal_plans',            name: 'meal_plans', component: MealPlanDetail,                          meta: {title: 'Meal Plans'}},
     {
         path: '/recipes',
         name: 'recipe-list',
-        component: RecipeListComponent
+        component: RecipeListComponent,
+        meta: {title: 'Recipe List'}
     },
     {
         path: '/recipes/new', // Route for creating a new recipe
         name: 'recipe-creator',
-        component: RecipeEditorComponent
+        component: RecipeEditorComponent,
+        meta: {title: 'Create Your Recipe'}
     },
     {
         path: '/recipes/:id', // Route for displaying a recipe detail
         name: 'recipe-detail',
         component: RecipeDetailComponent, // Or a page component that loads the detail component
-        props: true // Pass route params as props (useful for detail page to get ID)
+        props: route => ({ recipeId: route.params.id }),// Pass route params as props (useful for detail page to get ID)
+        meta: {title: 'Recipe Detail'}
     },
     {
         path: '/recipes/:id/edit', // Route for editing an existing recipe
         name: 'recipe-editor',
-        component: RecipeEditorComponent
+        component: RecipeEditorComponent,
+        props: route => ({ recipeId: route.params.id }),
+        meta: {title: 'Edit A Recipe'}
     },
     {   path: '/',                      name: 'default',    redirect: {name: 'home'}},
     {   path: '/:pathMatch(.*)*',       name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}},

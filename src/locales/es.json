@@ -7,15 +7,67 @@
     "sign-in": "Iniciar sesión",
     "recipes": "Recetas"
   },
-  "authoring-phrase": {
-    "intro": "Hecho con",
-    "use": "utilizando",
-    "author": "por el equipo de Desarrolladores de {brand}"
-  },
   "tracking": {
     "time_of_day": "Hora del día",
     "quantity": "Cantidad (g)",
     "notes": "Alimento",
     "calories": "Calorías (Kcal)"
+  },
+  "recipes": {
+    "title": "Recetas",
+    "newRecipe": "Nueva Receta",
+    "searchPlaceholder": "Buscar recetas...",
+    "loading": "Cargando recetas...",
+    "noMatches": "No se encontraron recetas que coincidan con",
+    "emptyMessage": "No hay recetas disponibles. ¡Crea tu primera receta!",
+    "description": "Descripción",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer."
+  },
+  "recipeDetail": {
+    "loading": "Cargando receta...",
+    "retry": "Reintentar cargar",
+    "backToList": "Volver a la lista",
+    "saving": "Guardando...",
+    "notFound": "Receta no encontrada o error de carga."
+  },
+  "recipeForm": {
+    "title": "Título:",
+    "description": "Descripción:",
+    "nutritionInfo": "Información Nutricional",
+    "totalCalories": "Calorías totales:",
+    "carbs": "Carbohidratos (g):",
+    "proteins": "Proteínas (g):",
+    "fats": "Grasas (g):"
+  },
+  "recipeCard": {
+    "calories": "Calorías:",
+    "carbs": "Carbos:",
+    "proteins": "Proteínas:",
+    "fats": "Grasas:"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "delete": "Eliminar",
+    "update": "Actualizar",
+    "viewDetails": "Ver detalles",
+    "edit": "Editar"
+  },
+  "about": {
+    "title": "Acerca de Nosotros",
+    "mission": "En NutriPlus, nuestra misión es empoderar a las personas para que tomen decisiones informadas sobre su alimentación y alcancen sus metas de salud de manera sostenible. A través de nuestro producto estrella, Alimentate+, ofrecemos las herramientas necesarias para llevar un control nutricional efectivo y disfrutar de una vida más saludable.",
+    "vision": "Nuestra visión es convertirnos en la plataforma líder en Latinoamérica para el bienestar nutricional, brindando soluciones innovadoras y personalizadas que se adapten a las necesidades de cada usuario.",
+    "description": "Alimentate+ es el resultado de nuestra dedicación por combinar la tecnología con el conocimiento nutricional, creando una experiencia accesible, práctica y motivadora para nuestros usuarios."
+  },
+  "notFound": {
+    "title": "404 - Página no encontrada",
+    "message": "La ruta",
+    "goHome": "Volver al inicio"
+  },
+  "authoring-phrase": {
+    "intro": "Hecho con",
+    "use": "utilizando",
+    "author": "por el equipo de Desarrolladores de {brand}"
   }
 }

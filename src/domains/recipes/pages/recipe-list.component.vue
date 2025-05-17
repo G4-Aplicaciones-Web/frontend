@@ -1,6 +1,7 @@
 <script>
-import { RecipeService} from "@/domains/recipes/services/recipe.service.js";
+import { RecipeService } from "@/domains/recipes/services/recipe.service.js";
 import RecipeCardComponent from "@/domains/recipes/components/recipe-card.component.vue";
+import { Recipe } from "@/domains/recipes/models/recipe.entity.js";
 
 export default {
   name: 'recipe-list',
@@ -24,7 +25,8 @@ export default {
     async loadRecipes() {
       try {
         this.loading = true;
-        this.recipes = await this.recipeService.getAll();
+        const recipesData = await this.recipeService.getAll();
+        this.recipes = recipesData.map(data => new Recipe(data));
         this.filteredRecipes = [...this.recipes];
         this.loading = false;
       } catch (error) {
@@ -52,18 +54,19 @@ export default {
       this.$router.push({ name: 'recipe-editor', params: { id: recipeId } });
     },
     createNewRecipe() {
-      this.$router.push({ name: 'recipe-editor' });
+      this.$router.push({ name: 'recipe-creator' });
     }
   }
 }
 </script>
 
 <template>
+  <!-- No cambia la plantilla -->
   <div class="recipes-list-page">
     <div class="page-header">
-      <h1>Recetas</h1>
+      <h1>{{ $t('recipes.title') }}</h1>
       <button @click="createNewRecipe" class="btn btn-primary">
-        <span class="icon">+</span> Nueva Receta
+        <span class="icon">+</span> {{ $t('recipes.newRecipe') }}
       </button>
     </div>
 
@@ -71,19 +74,23 @@ export default {
       <input
           type="text"
           v-model="searchQuery"
-          placeholder="Buscar recetas..."
+          :placeholder="$t('recipes.searchPlaceholder')"
           class="search-input"
           @input="filterRecipes"
       />
     </div>
 
     <div v-if="loading" class="loading-container">
-      <p>Cargando recetas...</p>
+      <p>{{ $t('recipes.loading') }}</p>
     </div>
 
     <div v-else-if="filteredRecipes.length === 0" class="no-recipes">
-      <p v-if="searchQuery">No se encontraron recetas que coincidan con "{{ searchQuery }}"</p>
-      <p v-else>No hay recetas disponibles. ¡Crea tu primera receta!</p>
+      <p v-if="searchQuery">
+        {{ $t('recipes.noMatches') }} "{{ searchQuery }}"
+      </p>
+      <p v-else>
+        {{ $t('recipes.emptyMessage') }}
+      </p>
     </div>
 
     <div v-else class="recipes-grid">
@@ -91,13 +98,12 @@ export default {
           v-for="recipe in filteredRecipes"
           :key="recipe.id"
           :recipe="recipe"
-          @view-details="viewRecipeDetails"
-          @edit-recipe="editRecipe"
+          @view-details="viewRecipeDetails(recipe.id)"
+          @edit-recipe="editRecipe(recipe.id)"
       />
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .recipes-list-page {

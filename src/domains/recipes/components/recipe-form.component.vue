@@ -69,7 +69,7 @@ export default {
   <div class="recipe-form">
     <form @submit.prevent="submitForm">
       <div class="form-group">
-        <label for="title">Título:</label>
+        <label for="title">{{ $t('recipeForm.title') }}</label>
         <input
             type="text"
             id="title"
@@ -80,7 +80,7 @@ export default {
       </div>
 
       <div class="form-group">
-        <label for="description">Descripción:</label>
+        <label for="description">{{ $t('recipeForm.description') }}</label>
         <textarea
             id="description"
             v-model="formData.description"
@@ -91,10 +91,10 @@ export default {
       </div>
 
       <div class="nutrition-section">
-        <h3>Información Nutricional</h3>
+        <h3>{{ $t('recipeForm.nutritionInfo') }}</h3>
 
         <div class="form-group">
-          <label for="total_calories">Calorías totales:</label>
+          <label for="total_calories">{{ $t('recipeForm.totalCalories') }}</label>
           <input
               type="number"
               id="total_calories"
@@ -107,7 +107,7 @@ export default {
 
         <div class="form-row">
           <div class="form-group">
-            <label for="total_carbs">Carbohidratos (g):</label>
+            <label for="total_carbs">{{ $t('recipeForm.carbs') }}</label>
             <input
                 type="number"
                 id="total_carbs"
@@ -119,7 +119,7 @@ export default {
           </div>
 
           <div class="form-group">
-            <label for="total_proteins">Proteínas (g):</label>
+            <label for="total_proteins">{{ $t('recipeForm.proteins') }}</label>
             <input
                 type="number"
                 id="total_proteins"
@@ -131,7 +131,7 @@ export default {
           </div>
 
           <div class="form-group">
-            <label for="total_fats">Grasas (g):</label>
+            <label for="total_fats">{{ $t('recipeForm.fats') }}</label>
             <input
                 type="number"
                 id="total_fats"
@@ -145,12 +145,17 @@ export default {
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="cancel">Cancelar</button>
-        <button type="submit" class="btn btn-primary">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="btn btn-secondary" @click="cancel">
+          {{ $t('common.cancel') }}
+        </button>
+        <button type="submit" class="btn btn-primary">
+          {{ isEditing ? $t('common.update') : $t('common.create') }}
+        </button>
       </div>
     </form>
   </div>
 </template>
+
 
 <style scoped>
 .recipe-form {
