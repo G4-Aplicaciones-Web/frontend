@@ -1,0 +1,41 @@
+{
+  "option": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "recommendations": "Recomendaciones",
+    "sign-in": "Iniciar Sesión"
+  },
+  "recommendation": {
+    "title": "Gestión de Recomendaciones Nutricionales",
+    "columns": {
+      "id": "ID",
+      "reason": "Razón",
+      "time_of_day": "Momento del Día",
+      "notes": "Notas",
+      "score": "Puntuación",
+      "status": "Estado"
+    },
+    "actions": {
+      "create": "Crear Recomendación",
+      "edit": "Editar Recomendación",
+      "delete": "Eliminar",
+      "delete_selected": "Eliminar Seleccionados"
+    },
+    "messages": {
+      "created": "Recomendación creada exitosamente",
+      "updated": "Recomendación actualizada exitosamente",
+      "deleted": "Recomendación eliminada exitosamente"
+    }
+  },
+  "authoring-phrase": {
+    "intro": "Hecho con",
+    "use": "usando",
+    "author": "por el equipo de desarrollo de {brand}"
+  },
+  "tracking": {
+    "time_of_day": "Momento del Día",
+    "quantity": "Cantidad(gr)",
+    "notes": "Comida",
+    "calories": "Calorías(Kcal)"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "option": {
+    "home": "Home",
+    "about": "About",
+    "recommendations": "Recommendations",
+    "sign-in": "Sign In"
+  },
+  "recommendation": {
+    "title": "Nutrition Recommendations Management",
+    "columns": {
+      "id": "ID",
+      "reason": "Reason",
+      "time_of_day": "Time of Day",
+      "notes": "Notes",
+      "score": "Score",
+      "status": "Status"
+    },
+    "actions": {
+      "create": "Create Recommendation",
+      "edit": "Edit Recommendation",
+      "delete": "Delete",
+      "delete_selected": "Delete Selected"
+    },
+    "messages": {
+      "created": "Recommendation created successfully",
+      "updated": "Recommendation updated successfully",
+      "deleted": "Recommendation deleted successfully"
+    }
+  },
+  "authoring-phrase": {
+    "intro": "Made with",
+    "use": "using",
+    "author": "by {brand} Developer Team"
+  },
+  "tracking": {
+    "time_of_day": "Time of Day",
+    "quantity": "Quantity(gr)",
+    "notes": "Food",
+    "calories": "Calories(Kcal)"
+  }
+}
