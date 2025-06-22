@@ -7,11 +7,7 @@ import {MealPlanService} from "@/domains/meal_plans/services/meal-plan.service.j
 import DataManager from "../../../shared/components/data-manager.component.vue";
 
 import MealplanItemCreateAndEditComponent from "@/domains/meal_plans/components/mealplan-item-create-and-edit.component.vue";
-import TrackingItemCreateAndEditDialog from "@/domains/tracking/components/tracking-item-create-and-edit.component.vue";
-import {Tracking} from "@/domains/tracking/model/tracking.entity.js";
-import {TrackingService} from "@/domains/tracking/services/tracking.service.js";
-import MealplanItemCreateAndEditDialog
-  from "@/domains/meal_plans/components/mealplan-item-create-and-edit.component.vue";
+import MealplanItemCreateAndEditDialog from "@/domains/meal_plans/components/mealplan-item-create-and-edit.component.vue";
 
 export default {
   name: "meal-plan-management",
@@ -260,7 +256,7 @@ export default {
 
     <mealplan-item-create-and-edit-dialog
         :edit="isEdit"
-        :item="meal_plan"
+        :item=""
         :visible="createAndEditDialogIsVisible"
         @cancel-requested="onCancelRequested"
         @save-requested="onSaveRequested($event)"
