@@ -3,7 +3,14 @@
     "home": "Inicio",
     "about": "Acerca de",
     "recommendations": "Recomendaciones",
+    "meal-plans": "Planes de Comida",
     "sign-in": "Iniciar Sesión"
+  },
+  "meal_plan": {
+    "description": "Descripción",
+    "total_calories": "Calorías Totales",
+    "total_carbs": "Carbohidratos Totales",
+    "profile_id": "ID de Perfil"
   },
   "recommendation": {
     "title": "Gestión de Recomendaciones Nutricionales",

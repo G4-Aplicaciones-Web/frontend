@@ -1,6 +1,6 @@
 <script>
 /**
- * Import the Recommendation entity model
+ * Import the Recommendation entity models
  */
 import {Recommendation} from "../model/recommendation.entity.js";
 

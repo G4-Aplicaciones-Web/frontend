@@ -1,71 +1,47 @@
 <script>
-/**
- * Import the Category entity models for creating and manipulating category objects
- */
-import {Tracking} from "../model/tracking.entity.js";
 
-/**
- * Import the CategoryService for handling API operations related to categories
- */
-import {TrackingService} from "../services/tracking.service.js";
+import {MealPlan} from "@/domains/meal_plans/models/meal-plan.entity.js";
 
-/**
- * Import the DataManager component for displaying and managing category data
- */
+import {MealPlanService} from "@/domains/meal_plans/services/meal-plan.service.js";
+
 import DataManager from "../../../shared/components/data-manager.component.vue";
 
-/**
- * Import the CategoryItemCreateAndEditDialog component for creating and editing categories
- */
-import TrackingItemCreateAndEditDialog from "../components/tracking-item-create-and-edit.component.vue";
+import MealplanItemCreateAndEditComponent from "@/domains/meal_plans/components/mealplan-item-create-and-edit.component.vue";
+import TrackingItemCreateAndEditDialog from "@/domains/tracking/components/tracking-item-create-and-edit.component.vue";
+import {Tracking} from "@/domains/tracking/model/tracking.entity.js";
+import {TrackingService} from "@/domains/tracking/services/tracking.service.js";
+import MealplanItemCreateAndEditDialog
+  from "@/domains/meal_plans/components/mealplan-item-create-and-edit.component.vue";
 
-/**
- * @component
- * @description Page component for managing categories in the publishing context.
- * Provides a user interface for viewing, creating, editing, and deleting categories.
- * Handles all CRUD operations through the CategoryService.
- */
 export default {
-  name: "tracking-management",
-  components: {TrackingItemCreateAndEditDialog, DataManager},
+  name: "meal-plan-management",
+  components: {MealplanItemCreateAndEditDialog, MealplanItemCreateAndEditComponent, DataManager},
 
   /**
    * @returns {Object} Component data
    */
   data() {
     return {
-      selectedTracking: null,
+      selectedMealPlan: null,
       /**
        * @type {Object}
        * @property {string} singular - Singular name for display purposes
        * @property {string} plural - Plural name for display purposes
        * @description Title configuration for the data manager
        */
-      title: {singular: "Tracking", plural: "Trackings"},
+      title: {singular: "MealPlan", plural: "MealPlans"},
 
-      /**
-       * @type {Array<Tracking>}
-       * @description Collection of all categories loaded from the server
-       */
-      trackings: [],
 
-      /**
-       * @type {Tracking}
-       * @description Currently selected category for editing or creating
-       */
-      tracking: new Tracking({}),
+      mealPlans: [],
 
-      /**
-       * @type {Array<Tracking>}
-       * @description Collection of categories selected for bulk operations
-       */
-      selectedTrackings: [],
 
-      /**
-       * @type {TrackingService|null}
-       * @description Service for handling API requests related to categories
-       */
-      trackingService: null,
+      meal_plan: new MealPlan({}),
+
+
+      selectedMealPlans: [],
+
+
+      mealPlanService: null,
 
       /**
        * @type {Boolean}
@@ -102,13 +78,8 @@ export default {
       this.$toast.add({severity: 'success', summary: 'Success', detail: message, life: 3000});
     },
 
-    /**
-     * Finds the index of a category item in the category array by its ID
-     * @param {string} id - The ID of the category to find
-     * @returns {number} The index of the category in the array, or -1 if not found
-     */
     findIndexById(id) {
-      return this.trackings.findIndex(tracking => tracking.id === id);
+      return this.mealPlans.findIndex(meal_plan => meal_plan.id === id);
     },
 
     /**
@@ -116,7 +87,7 @@ export default {
      * Prepares the form for creating a new category and shows the dialog
      */
     onNewItem() {
-      this.tracking = new Tracking({});
+      this.meal_plan = new MealPlan({});
       this.isEdit = false;
       this.submitted = false;
       this.createAndEditDialogIsVisible = true;
@@ -129,7 +100,7 @@ export default {
      * @param {Tracking} item - The category to edit
      */
     onEditItem(item) {
-      this.tracking = new Tracking(item);
+      this.meal_plan = new MealPlan(item);
       this.isEdit = true;
       this.submitted = false;
       this.createAndEditDialogIsVisible = true;
@@ -141,8 +112,8 @@ export default {
      * @param {Tracking} item - The category to delete
      */
     onDeleteItem(item) {
-      this.tracking = {...item};
-      this.deleteTracking();
+      this.meal_plan = {...item};
+      this.deleteMealPlan();
     },
 
     /**
@@ -150,8 +121,8 @@ export default {
      * @param {Array<Tracking>} selectedItems - The array of categories to delete
      */
     onDeleteSelectedItems(selectedItems) {
-      this.selectedTrackings = selectedItems;
-      this.deleteSelectedTrackings();
+      this.selectedMealPlans = selectedItems;
+      this.deleteSelectedMealPlans();
     },
 
     /**
@@ -172,26 +143,26 @@ export default {
     onSaveRequested(item) {
       console.log('onSaveRequested');
       this.submitted = true;
-      if (this.tracking.user_id) {
-        if (item.id) {
-          this.updateTracking();
-        } else {
-          this.createTracking();
-        }
-        this.createAndEditDialogIsVisible = false;
-        this.isEdit = false;
+      this.meal_plan = item;
+      if (this.meal_plan.id) {
+        this.updateMealPlan();
+      } else {
+        this.createMealPlan();
       }
+      this.createAndEditDialogIsVisible = false;
+      this.isEdit = false;
     },
 
     /**
      * Creates a new category via the API
      * Adds the created category to the local array on success
      */
-    createTracking() {
-      this.trackingService.create(this.tracking).then(response => {
-        let tracking = new Tracking(response.data);
-        this.trackings.push(tracking);
-        this.notifySuccessfulAction("Tracking Created");
+
+     createMealPlan() {
+      this.mealPlanService.create(this.meal_plan).then(response => {
+        let meal_plan = new MealPlan(response.data);
+        this.mealPlans.push(meal_plan);
+        this.notifySuccessfulAction("MealPlan Created");
       }).catch(error => console.error(error));
     },
 
@@ -199,13 +170,11 @@ export default {
      * Updates an existing category via the API
      * Updates the local category in the array on success
      */
-    updateTracking() {
-      this.trackingService.update(this.tracking.id, this.tracking).then(response => {
-        console.log('updateTracking');
-        let index = this.findIndexById(this.tracking.id);
-        this.trackings[index] = new Tracking(response.data);
-        console.log(this.trackings);
-        this.notifySuccessfulAction("Tracking Updated");
+    updateMealPlan() {
+      this.mealPlanService.update(this.meal_plan.id, this.meal_plan).then(response => {
+        let index = this.findIndexById(this.meal_plan.id);
+        this.mealPlans[index] = new MealPlan(response.data);
+        this.notifySuccessfulAction("MealPlan Updated");
       }).catch(error => console.error(error));
     },
 
@@ -213,11 +182,11 @@ export default {
      * Deletes the current category via the API
      * Removes the category from the local array on success
      */
-    deleteTracking() {
-      this.trackingService.delete(this.tracking.id).then(() => {
-        let index = this.findIndexById(this.tracking.id);
-        this.trackings.splice(index, 1);
-        this.notifySuccessfulAction("Tracking Deleted");
+    deleteMealPlan() {
+      this.mealPlanService.delete(this.meal_plan.id).then(() => {
+        let index = this.findIndexById(this.meal_plan.id);
+        this.mealPlans.splice(index, 1);
+        this.notifySuccessfulAction("MealPlan Deleted");
       }).catch(error => console.error(error));
     },
 
@@ -225,13 +194,13 @@ export default {
      * Deletes multiple selected categories via the API
      * Removes the categories from the local array on success
      */
-    deleteSelectedTrackings() {
-      this.selectedTrackings.forEach((tracking) => {
-        this.trackingService.delete(tracking.id).then(() => {
-          this.trackings = this.trackings.filter((t) => t.id !== this.tracking.id);
+    deleteSelectedMealPlans() {
+      this.selectedMealPlans.forEach((meal_plan) => {
+        this.mealPlanService.delete(meal_plan.id).then(() => {
+          this.mealPlans = this.mealPlans.filter((t) => t.id !== meal_plan.id);
         });
       });
-      this.notifySuccessfulAction("Trackings Deleted");
+      this.notifySuccessfulAction("Meal Plans Deleted");
     }
   },
 
@@ -240,20 +209,21 @@ export default {
    * Initializes the category service and loads all categories from the server
    */
   created() {
-    this.trackingService = new TrackingService();
-    this.trackingService.getAll().then(response => {
-      this.trackings = response.data.map(tracking => new Tracking(tracking));
-      console.log(this.trackings);
+    this.mealPlanService = new MealPlanService();
+    this.mealPlanService.getAll().then(response => {
+      this.mealPlans = response.data.map(meal_plan => new MealPlan(meal_plan));
+      console.log(this.mealPlans);
     }).catch(error => console.error(error));
   }
 }
+
 </script>
 
 <template>
   <div class="w-full">
     <data-manager
         :title="title"
-        :items="trackings"
+        :items="mealPlans"
         @new-item-requested="onNewItem"
         @edit-item-requested="onEditItem($event)"
         @delete-item-requested="onDeleteItem($event)"
@@ -263,42 +233,37 @@ export default {
       <template #custom-columns>
         <pv-column
             :sortable="true"
-            field="time_of_day"
-            :header="$t('tracking.time_of_day')"
+            field="description"
+            :header="$t('meal_plan.description')"
             style="min-width:14rem"
         />
         <pv-column
             :sortable="true"
-            field="quantity"
-            :header="$t('tracking.quantity')"
+            field="total_calories"
+            :header="$t('meal_plan.total_calories')"
             style="min-width:12rem"
         />
         <pv-column
             :sortable="true"
-            field="notes"
-            :header="$t('tracking.notes')"
+            field="total_carbs"
+            :header="$t('meal_plan.total_carbs')"
             style="min-width:18rem"
         />
         <pv-column
             :sortable="true"
-            field="calories"
-            :header="$t('tracking.calories')"
+            field="profile_id"
+            :header="$t('meal_plan.profile_id')"
             style="min-width:12rem"
         />
       </template>
     </data-manager>
 
-    <tracking-item-create-and-edit-dialog
+    <mealplan-item-create-and-edit-dialog
         :edit="isEdit"
-        :item="tracking"
+        :item="meal_plan"
         :visible="createAndEditDialogIsVisible"
         @cancel-requested="onCancelRequested"
         @save-requested="onSaveRequested($event)"
     />
   </div>
 </template>
-
-
-
-<style scoped>
-</style>

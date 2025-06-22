@@ -14,6 +14,7 @@ import {createRouter, createWebHistory} from "vue-router";
 const HomeComponent = () => import('../public/pages/home.component.vue');
 const AboutComponent = () => import('../public/pages/about.component.vue');
 const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue');
+const MealPlanManagement = () => import('../domains/meal_plans/pages/meal-plan-management.component.vue');
 
 const RecommendationManagement = () => import('../domains/recommendations/pages/recommendation-management.component.vue');
 
@@ -32,6 +33,7 @@ const routes = [
     {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement, meta: {title: 'Recommendations'}},
     {   path: '/',                      name: 'default',    redirect: {name: 'home'}},
     {   path: '/:pathMatch(.*)*',       name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}},
+    {   path: '/meal-plans',            name: 'meal-plans', component: MealPlanManagement,          meta: {title: 'Meal plans'}},
 ]
 
 /**

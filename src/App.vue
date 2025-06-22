@@ -11,7 +11,8 @@ export default {
       items: [
         {label: 'option.home',       to: '/home'},
         {label: 'option.about',      to: '/about'},
-        {label: 'option.recommendations',     to: '/recommendations'}
+        {label: 'option.recommendations',     to: '/recommendations'},
+        {label: 'option.meal-plans', to: '/meal-plans'}
       ]
     }
   },
