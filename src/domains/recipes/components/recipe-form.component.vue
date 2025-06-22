@@ -1,14 +1,17 @@
 <script>
-import {Recipe} from "@/domains/recipes/models/recipe.entity.js";
 
 export default {
   name: 'recipe-form',
   props: {
     recipe: {
-      type: Recipe,
+      type: Object,
       required: true
     },
     isEditing: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }
@@ -26,9 +29,9 @@ export default {
       }
     };
   },
-  created() {
-    // Clone the recipe object to avoid modifying the original
-    this.formData = { ...this.recipe };
+  mounted() {
+    this.syncFormData();
+    console.log('Formulario montado con recipe:', this.recipe);
   },
   watch: {
     recipe: {
@@ -39,7 +42,19 @@ export default {
     }
   },
   methods: {
-    submitForm() {
+    syncFormData() {
+      if (this.recipe) {
+        this.formData = { ...this.recipe };
+      }
+    },
+    submitForm(event) {
+      // Ensure we prevent default form submission
+      console.log('submitForm fue llamado');
+      console.log('formData justo antes de emitir:', this.formData);
+      if (event) {
+        event.preventDefault();
+      }
+
       // Validate form data
       if (!this.formData.title || !this.formData.description) {
         alert('Por favor, completa todos los campos requeridos.');
@@ -48,12 +63,10 @@ export default {
 
       // Ensure all numeric fields are numbers and not strings
       const recipeData = {
-        ...this.formData,
-        total_calories: Number(this.formData.total_calories),
-        total_carbs: Number(this.formData.total_carbs),
-        total_proteins: Number(this.formData.total_proteins),
-        total_fats: Number(this.formData.total_fats)
+        ...this.formData
       };
+
+      console.log('formData justo antes de emitir:', this.formData);
 
       // Emit the event with the recipe data
       this.$emit('submit', recipeData);
@@ -67,7 +80,8 @@ export default {
 
 <template>
   <div class="recipe-form">
-    <form @submit.prevent="submitForm">
+    <!-- Eliminamos @submit.prevent y usamos @click en el botón de submit -->
+    <form>
       <div class="form-group">
         <label for="title">{{ $t('recipeForm.title') }}</label>
         <input
@@ -76,6 +90,7 @@ export default {
             v-model="formData.title"
             class="form-control"
             required
+            :disabled="disabled"
         />
       </div>
 
@@ -87,6 +102,7 @@ export default {
             class="form-control"
             rows="5"
             required
+            :disabled="disabled"
         ></textarea>
       </div>
 
@@ -102,6 +118,7 @@ export default {
               class="form-control"
               min="0"
               required
+              :disabled="disabled"
           />
         </div>
 
@@ -115,6 +132,7 @@ export default {
                 class="form-control"
                 min="0"
                 required
+                :disabled="disabled"
             />
           </div>
 
@@ -127,6 +145,7 @@ export default {
                 class="form-control"
                 min="0"
                 required
+                :disabled="disabled"
             />
           </div>
 
@@ -139,23 +158,23 @@ export default {
                 class="form-control"
                 min="0"
                 required
+                :disabled="disabled"
             />
           </div>
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="cancel">
+        <button type="button" class="btn btn-secondary" @click="cancel" :disabled="disabled">
           {{ $t('common.cancel') }}
         </button>
-        <button type="submit" class="btn btn-primary">
+        <button type="button" class="btn btn-primary" @click="() => { console.log('Click en botón'); submitForm(); }" :disabled="disabled">
           {{ isEditing ? $t('common.update') : $t('common.create') }}
         </button>
       </div>
     </form>
   </div>
 </template>
-
 
 <style scoped>
 .recipe-form {

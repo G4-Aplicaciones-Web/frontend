@@ -2,11 +2,13 @@
 import { RecipeService } from "@/domains/recipes/services/recipe.service.js";
 import { Recipe } from "@/domains/recipes/models/recipe.entity.js";
 
+const recipeService = new RecipeService();
+
 export default {
   name: 'recipe-detail',
   props: {
     recipeId: {
-      type: [String, Number],
+      type: Number,
       required: true
     }
   },
@@ -15,8 +17,7 @@ export default {
       recipe: null,
       loading: true,
       error: null,
-      showDeleteModal: false,
-      recipeService: new RecipeService()
+      showDeleteModal: false
     };
   },
   created() {
@@ -26,7 +27,7 @@ export default {
     async loadRecipe() {
       try {
         this.loading = true;
-        const recipeData = await this.recipeService.getById(this.recipeId);
+        const recipeData = await recipeService.getById(this.recipeId);
         this.recipe = new Recipe(recipeData);
         this.loading = false;
       } catch (error) {
@@ -36,7 +37,7 @@ export default {
       }
     },
     editRecipe() {
-      this.$emit('edit', this.recipeId);
+      this.$router.push({ name: 'recipe-editor', params: { id: this.recipeId } });
     },
     confirmDelete() {
       this.showDeleteModal = true;
@@ -45,8 +46,11 @@ export default {
       this.showDeleteModal = false;
     },
     deleteRecipe() {
-      this.$emit('delete', this.recipeId);
+      recipeService.delete(this.recipeId).then(() => {
+        this.$router.push({ name: 'recipe-list' });
+      });
       this.closeModal();
+
     }
   }
 }

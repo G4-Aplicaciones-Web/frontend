@@ -3,6 +3,8 @@ import { RecipeService } from "@/domains/recipes/services/recipe.service.js";
 import RecipeCardComponent from "@/domains/recipes/components/recipe-card.component.vue";
 import { Recipe } from "@/domains/recipes/models/recipe.entity.js";
 
+const recipeService = new RecipeService();
+
 export default {
   name: 'recipe-list',
   components: {
@@ -14,8 +16,7 @@ export default {
       filteredRecipes: [],
       searchQuery: '',
       loading: true,
-      error: null,
-      recipeService: new RecipeService()
+      error: null
     };
   },
   created() {
@@ -25,7 +26,7 @@ export default {
     async loadRecipes() {
       try {
         this.loading = true;
-        const recipesData = await this.recipeService.getAll();
+        const recipesData = await recipeService.getAll();
         this.recipes = recipesData.map(data => new Recipe(data));
         this.filteredRecipes = [...this.recipes];
         this.loading = false;

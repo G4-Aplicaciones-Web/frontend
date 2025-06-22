@@ -17,6 +17,7 @@ const PageNotFoundComponent = () => import('../public/pages/page-not-found.compo
 
 const RecommendationManagement = () => import('../domains/recommendations/pages/recommendation-management.component.vue');
 const MealPlanDetail = () => import('../domains/meal_plans/pages/meal-plan-detail.component.vue');
+
 import RecipeListComponent from "@/domains/recipes/pages/recipe-list.component.vue";
 import RecipeDetailComponent from "@/domains/recipes/components/recipe-detail.component.vue";
 import RecipeEditorComponent from "@/domains/recipes/pages/recipe-editor.component.vue";
@@ -34,7 +35,13 @@ const routes = [
     {   path: '/home',                  name: 'home',      component: HomeComponent,                            meta: {title: 'Home'}},
     {   path: '/about',                 name: 'about',      component: AboutComponent,                          meta: {title: 'About us'}},
     {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement,           meta: {title: 'Recommendations'}},
-    {   path: '/meal_plans',            name: 'meal_plans', component: MealPlanDetail,                          meta: {title: 'Meal Plans'}},
+    {
+        path: '/meal_plans/1',
+        name: 'meal_plan-detail',
+        component: MealPlanDetail,
+        props: true,
+        meta: { title: 'Meal Plan Detail' }
+    },
     {
         path: '/recipes',
         name: 'recipe-list',

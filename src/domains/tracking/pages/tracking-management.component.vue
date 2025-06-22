@@ -172,15 +172,16 @@ export default {
     onSaveRequested(item) {
       console.log('onSaveRequested');
       this.submitted = true;
-      if (this.tracking.user_id) {
-        if (item.id) {
-          this.updateTracking();
-        } else {
-          this.createTracking();
-        }
-        this.createAndEditDialogIsVisible = false;
-        this.isEdit = false;
+
+
+      if (item.id) {
+        this.updateTracking();
+      } else {
+        this.createTracking();
       }
+
+      this.createAndEditDialogIsVisible = false;
+      this.isEdit = false;
     },
 
     /**

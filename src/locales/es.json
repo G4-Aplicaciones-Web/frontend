@@ -19,17 +19,17 @@
     "searchPlaceholder": "Buscar recetas...",
     "loading": "Cargando recetas...",
     "noMatches": "No se encontraron recetas que coincidan con",
-    "emptyMessage": "No hay recetas disponibles. ¡Crea tu primera receta!",
-    "description": "Descripción",
-    "confirmDeleteTitle": "Confirmar eliminación",
-    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer."
+    "emptyMessage": "No hay recetas disponibles. ¡Crea tu primera receta!"
   },
   "recipeDetail": {
     "loading": "Cargando receta...",
     "retry": "Reintentar cargar",
     "backToList": "Volver a la lista",
     "saving": "Guardando...",
-    "notFound": "Receta no encontrada o error de carga."
+    "notFound": "Receta no encontrada o error de carga.",
+    "description": "Descripción",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer."
   },
   "recipeForm": {
     "title": "Título:",

@@ -1,68 +1,33 @@
 <script>
-/**
- * Import the base create-and-edit component to extend its functionality
- */
 import CreateAndEdit from "@/shared/components/create-and-edit.component.vue";
 import {Select as PvSelect, SelectButton as PvSelectButton} from "primevue";
-
-/**
- * @component
- * @description A specialized dialog component for creating and editing Recommendation entities.
- * Extends the generic create-and-edit component with recommendation-specific UI elements.
- */
 export default {
   name: "recommendation-item-create-and-edit-dialog",
   components: {PvSelectButton, PvSelect, CreateAndEdit},
   props: {
-    /**
-     * @type {Recommendation|null}
-     * @description The recommendation item being created or edited
-     */
-    item: null,
-
-    /**
-     * @type {Boolean}
-     * @description Controls the visibility of the dialog
-     */
-    visible: false
+    item: {
+      type: Object,
+      required: true
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    edit: {
+      type: Boolean,
+      default: false
+    }
   },
-
-  /**
-   * @event cancel-requested - Emitted when cancel action is triggered
-   * @event save-requested - Emitted when save action is triggered with recommendation data
-   */
   emits: ['cancel-requested', 'save-requested'],
-
   data() {
     return {
-      /**
-       * @type {Boolean}
-       * @description Tracks form submission for validation
-       */
       submitted: false,
-
-      item:{
-        reason: '',
-        time_of_day: 'morning',
-        notes: '',
-        score: 0,
-        status: 'pending'
-      },
-      /**
-       * @type {Array}
-       * @description Available time of day options
-       */
       timeOptions: [
         {label: 'Morning', value: 'morning'},
         {label: 'Afternoon', value: 'afternoon'},
         {label: 'Night', value: 'night'},
         {label: 'All Day', value: 'all day'}
       ],
-
-      /**
-       * @type {Array}
-       * @description Available status options
-       */
       statusOptions: [
         {label: 'Active', value: 'active'},
         {label: 'Pending', value: 'pending'},
@@ -74,8 +39,8 @@ export default {
     onCancelRequested() {
       this.$emit('cancel-requested');
     },
-
     onSaveRequested() {
+      console.log('Item a guardar:', this.item);
       this.submitted = true;
       if (this.item.reason && this.item.time_of_day && this.item.status) {
         this.$emit('save-requested', this.item);
@@ -88,6 +53,7 @@ export default {
 <template>
   <create-and-edit :entity="item"
                    :visible="visible"
+                   :edit="edit"
                    entity-name="Recommendation"
                    size="standard"
                    @cancel-action-requested="onCancelRequested"
@@ -102,33 +68,28 @@ export default {
               <label for="reason">Reason*</label>
             </pv-float-label>
           </div>
-
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <pv-select id="time_of_day" v-model="item.time_of_day"
-                           :options="timeOptions" optionLabel="label" optionValue="value"
-                            :default-value="morning"
-                           :class="{ 'p-invalid': submitted && !item.time_of_day }"/>
+                         :options="timeOptions" optionLabel="label" optionValue="value"
+                         :class="{ 'p-invalid': submitted && !item.time_of_day }"/>
               <label for="time_of_day">Time of Day*</label>
             </pv-float-label>
           </div>
-
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <pv-select id="status" v-model="item.status"
-                           :options="statusOptions" optionLabel="label" optionValue="value"
-                           :class="{ 'p-invalid': submitted && !item.status }"/>
+                         :options="statusOptions" optionLabel="label" optionValue="value"
+                         :class="{ 'p-invalid': submitted && !item.status }"/>
               <label for="status">Status*</label>
             </pv-float-label>
           </div>
-
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <pv-textarea id="notes" v-model="item.notes" rows="2"/>
               <label for="notes">Notes</label>
             </pv-float-label>
           </div>
-
           <div class="field col-12 md:col-6">
             <pv-float-label>
               <label for="score">Score (1-10)</label>

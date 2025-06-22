@@ -3,6 +3,8 @@ import RecipeFormComponent from "@/domains/recipes/components/recipe-form.compon
 import { RecipeService } from "@/domains/recipes/services/recipe.service.js";
 import { Recipe } from "@/domains/recipes/models/recipe.entity.js";
 
+const recipeService = new RecipeService(); // Instance of the recipe service
+
 export default {
   name: 'recipe-editor',
   components: {
@@ -15,7 +17,6 @@ export default {
       isSaving: false, // State for saving the form data
       error: null, // State for errors during loading or saving
       isEditing: false, // Determines if we are editing or creating
-      recipeService: new RecipeService() // Instance of the recipe service
     };
   },
   computed: {
@@ -48,8 +49,8 @@ export default {
       this.error = null;
       try {
         // Fetch the recipe and wrap it in the Recipe entity for type consistency
-        const fetchedRecipe = await this.recipeService.getById(id);
-        this.recipe = new Recipe(fetchedRecipe);
+        const fetchedRecipe = await recipeService.getById(id);
+        this.recipe = {...fetchedRecipe};
       } catch (err) {
         this.error = 'Error al cargar la receta. Por favor, inténtalo de nuevo.';
         console.error(err);
@@ -65,17 +66,29 @@ export default {
     async handleFormSubmit(formData) {
       this.isSaving = true;
       this.error = null; // Clear previous errors
+
+      // Check if formData is an event object instead of the actual recipe data
+      if (formData && (formData.isTrusted !== undefined || formData._vts !== undefined)) {
+        console.error('Recibido un objeto de evento en lugar de los datos del formulario:', formData);
+        this.error = 'Error de datos del formulario. Por favor, contacte al soporte técnico.';
+        this.isSaving = false;
+        return;
+      }
+
+      console.log('Datos recibidos del formulario:', formData);
+
       try {
         let result;
+        // IMPORTANTE: Usar formData en lugar de this.recipe
         if (this.isEditing) {
-          // Update the existing recipe
-          result = await this.recipeService.update(this.recipeId, formData);
+          // Update the existing recipe with the data from the form
+          result = await recipeService.update(this.recipeId, formData);
           console.log('Receta actualizada:', result);
           // Navigate to the detail page of the updated recipe
           this.$router.push({ name: 'recipe-detail', params: { id: this.recipeId } });
         } else {
-          // Create a new recipe
-          result = await this.recipeService.create(formData);
+          // Create a new recipe with the data from the form
+          result = await recipeService.create(formData);
           console.log('Nueva receta creada:', result);
           // Navigate to the detail page of the newly created recipe (assuming the API returns the new ID)
           this.$router.push({ name: 'recipe-detail', params: { id: result.id } });
@@ -123,9 +136,9 @@ export default {
       <recipe-form-component
           :recipe="recipe"
           :is-editing="isEditing"
-          @submit="handleFormSubmit"
-          @cancel="handleCancel"
           :disabled="isSaving"
+          @submit="(data) => { console.log('Evento submit capturado en parent:', data); handleFormSubmit(data); }"
+          @cancel="handleCancel"
       />
       <div v-if="isSaving" class="saving-indicator">
         <p>{{ $t('recipeDetail.saving') }}</p>

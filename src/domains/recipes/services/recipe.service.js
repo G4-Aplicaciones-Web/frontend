@@ -35,5 +35,4 @@ export class RecipeService {
     delete(id) {
         return httpInstance.delete(`${this.resourceEndpoint}/${id}`);
     }
-
 }

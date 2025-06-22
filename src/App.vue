@@ -11,7 +11,7 @@ export default {
       items: [
         { label: 'option.home', to: '/home', icon: 'pi pi-home' },
         { label: 'option.recommendations', to: '/recommendations', icon: 'pi pi-star' },
-        { label: 'option.meal_plans', to: '/meal_plans', icon: 'pi pi-calendar' },
+        { label: 'option.meal_plans', to: '/meal_plans/1', icon: 'pi pi-calendar' },
         { label: 'option.recipes', to: '/recipes', icon: 'pi pi-book' },
         { label: 'option.about', to: '/about', icon: 'pi pi-info-circle' }
       ]
