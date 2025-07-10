@@ -1,35 +1,43 @@
+import httpInstance from "@/shared/services/http.instance.js";
+
 /**
  * @class TrackingGoalService
- * @description Service class for handling tracking goals
+ * @description Service for managing tracking goals and their macronutrient targets.
  */
 export class TrackingGoalService {
-    /** @type {string} The API endpoint for tracking goals */
-    resourceEndpoint = import.meta.env.VITE_TRACKING_GOALS_ENDPOINT_PATH;
+    /** @type {string} */
+    resourceEndpoint = import.meta.env.VITE_TRACKING_GOAL_ENDPOINT_PATH;
 
     /**
-     * Creates a new tracking goal
-     * @param {Object} resource - The tracking goal object to create
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the created goal
-     */
-    create(resource) {
-        return httpInstance.post(this.resourceEndpoint, resource);
-    }
-
-    /**
-     * Retrieves tracking goal by user ID
+     * Gets the tracking goal of a user by user ID
      * @param {number} userId - The user ID
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the user's tracking goal
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
      */
     getByUserId(userId) {
         return httpInstance.get(`${this.resourceEndpoint}/user/${userId}`);
     }
 
     /**
-     * Gets target macronutrients by tracking goal ID
-     * @param {number} goalId - The tracking goal ID
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves to target macros
+     * Gets the target macronutrients for a given tracking goal ID
+     * @param {number} trackingGoalId - The tracking goal ID
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
      */
-    getTargetMacros(goalId) {
-        return httpInstance.get(`${this.resourceEndpoint}/${goalId}/target-macros`);
+    getTargetMacros(trackingGoalId) {
+        return httpInstance.get(`${this.resourceEndpoint}/${trackingGoalId}/target-macros`);
+    }
+
+    /**
+     * Creates a new tracking goal
+     * @param {Object} resource - Tracking goal creation payload
+     * @param {number} resource.userId - ID of the user
+     * @param {Object} resource.targetMacros - Target macronutrient values
+     * @param {number} resource.targetMacros.calories
+     * @param {number} resource.targetMacros.carbs
+     * @param {number} resource.targetMacros.proteins
+     * @param {number} resource.targetMacros.fats
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
+     */
+    create(resource) {
+        return httpInstance.post(this.resourceEndpoint, resource);
     }
 }

@@ -1,47 +1,53 @@
+import httpInstance from "@/shared/services/http.instance.js";
+
 /**
  * @class MealPlanEntryService
- * @description Service class for handling CRUD operations on meal plan entries
+ * @description Service for managing meal plan entries related to tracking.
  */
 export class MealPlanEntryService {
-    /** @type {string} The API endpoint for meal plan entries */
-    resourceEndpoint = import.meta.env.VITE_MEAL_PLAN_ENTRIES_ENDPOINT_PATH;
+    /** @type {string} */
+    resourceEndpoint = import.meta.env.VITE_MEAL_PLAN_ENTRY_ENDPOINT_PATH;
 
     /**
-     * Creates a new meal plan entry
-     * @param {number} trackingId - The tracking ID this entry belongs to
-     * @param {Object} resource - The meal plan entry object to create
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the created entry
+     * Creates a new meal plan entry for a given tracking
+     * @param {number} trackingId - The tracking ID to which the meal belongs
+     * @param {Object} resource - The entry creation payload
+     * @param {number} resource.userId
+     * @param {number} resource.recipeId
+     * @param {string} resource.mealPlanType
+     * @param {number} resource.dayNumber
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
      */
     create(trackingId, resource) {
-        return httpInstance.post(`${this.resourceEndpoint}/${trackingId}`, resource);
+        return httpInstance.post(`${this.resourceEndpoint}/tracking/${trackingId}`, resource);
     }
 
     /**
-     * Retrieves all meal plan entries for a tracking
-     * @param {number} trackingId - The tracking ID
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves to array of meal entries
+     * Gets all meal plan entries for a specific tracking ID
+     * @param {number} trackingId
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
      */
     getAllByTrackingId(trackingId) {
         return httpInstance.get(`${this.resourceEndpoint}/tracking/${trackingId}`);
     }
 
     /**
-     * Updates an existing meal plan entry
-     * @param {number} entryId - The ID of the entry to update
-     * @param {Object} resource - The updated entry data
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves to the updated entry
+     * Updates a specific meal plan entry by its ID
+     * @param {number} mealPlanEntryId
+     * @param {Object} resource - The updated meal plan entry
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
      */
-    update(entryId, resource) {
-        return httpInstance.put(`${this.resourceEndpoint}/${entryId}`, resource);
+    update(mealPlanEntryId, resource) {
+        return httpInstance.put(`${this.resourceEndpoint}/${mealPlanEntryId}`, resource);
     }
 
     /**
-     * Deletes a meal plan entry
-     * @param {number} trackingId - The tracking ID
-     * @param {number} entryId - The ID of the entry to delete
-     * @returns {Promise<AxiosResponse<any>>} Promise that resolves when the entry is deleted
+     * Removes a meal plan entry from a tracking
+     * @param {number} trackingId
+     * @param {number} mealPlanEntryId
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
      */
-    delete(trackingId, entryId) {
-        return httpInstance.delete(`${this.resourceEndpoint}/tracking/${trackingId}/entry/${entryId}`);
+    remove(trackingId, mealPlanEntryId) {
+        return httpInstance.delete(`${this.resourceEndpoint}/tracking/${trackingId}/entry/${mealPlanEntryId}`);
     }
 }
