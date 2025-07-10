@@ -1,16 +1,6 @@
 <template>
   <div class="p-6 max-w-3xl mx-auto">
-    <div class="bg-white shadow-md rounded-2xl p-6 mb-6 border border-gray-200">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">📝 {{ mealPlan?.description }}</h2>
-      <div class="grid grid-cols-2 gap-4 text-gray-700">
-        <div><strong>📅 Fecha de creación:</strong> {{ formatDate(mealPlan?.created_at) }}</div>
-        <div><strong>🔥 Calorías:</strong> {{ mealPlan?.total_calories }} kcal</div>
-        <div><strong>🍞 Carbohidratos:</strong> {{ mealPlan?.total_carbs }} g</div>
-        <div><strong>🍗 Proteínas:</strong> {{ mealPlan?.total_proteins }} g</div>
-        <div><strong>🥑 Grasas:</strong> {{ mealPlan?.total_fats }} g</div>
-        <div><strong>📊 Puntuación:</strong> {{ mealPlan?.min_score }} - {{ mealPlan?.max_score }}</div>
-      </div>
-    </div>
+
 
     <MealPlanDays v-if="mealPlanId" :mealPlanId="mealPlanId" />
   </div>

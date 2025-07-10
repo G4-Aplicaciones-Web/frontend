@@ -12,6 +12,36 @@
     "total_carbs": "Total Carbs",
     "profile_id": "Profile ID"
   },
+  "meal_plan_day": {
+    "title": "Meal Plans",
+    "form": {
+      "add_meal": "Add New Meal",
+      "edit_meal": "Edit Meal",
+      "recipe_id": "Recipe ID",
+      "day_number": "Plan Day",
+      "meal_type": "Meal Type",
+      "breakfast": "🌅 Breakfast",
+      "lunch": "🌞 Lunch",
+      "dinner": "🌙 Dinner",
+      "select_meal_type": "Select meal type",
+      "recipe_required": "Recipe ID is required",
+      "day_required": "Day is required",
+      "meal_type_required": "Meal type is required",
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update"
+    },
+    "list": {
+      "meals_count": "meal",
+      "meals_count_plural": "meals",
+      "day": "Day",
+      "recipe": "Recipe #",
+      "edit_tooltip": "Edit meal",
+      "delete_tooltip": "Delete meal",
+      "empty_title": "No meals added",
+      "empty_message": "Start adding meals to your plan using the form above"
+    }
+  },
   "recommendation": {
     "title": "Nutrition Recommendations Management",
     "columns": {

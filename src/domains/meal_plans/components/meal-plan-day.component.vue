@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3>🍽️ Comidas del Plan</h3>
-    <MealPlanDayList :meals="meals" @edit="edit" @remove="removeMeal" />
+    <h3>🍽️ {{ $t('meal_plan_day.title') }}</h3>
     <MealPlanDayForm :editData="selected" :mealPlanId="mealPlanId" @updated="loadMeals" />
+    <MealPlanDayList :meals="meals" @edit="edit" @remove="removeMeal" />
   </div>
 </template>
 

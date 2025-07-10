@@ -13,6 +13,36 @@
     "total_carbs": "Carbohidratos Totales",
     "profile_id": "ID de Perfil"
   },
+  "meal_plan_day": {
+    "title": "Comidas del Plan",
+    "form": {
+      "add_meal": "Agregar Nueva Comida",
+      "edit_meal": "Editar Comida",
+      "recipe_id": "ID de Receta",
+      "day_number": "Día del Plan",
+      "meal_type": "Tipo de Comida",
+      "breakfast": "🌅 Desayuno",
+      "lunch": "🌞 Almuerzo",
+      "dinner": "🌙 Cena",
+      "select_meal_type": "Selecciona el tipo de comida",
+      "recipe_required": "El ID de receta es requerido",
+      "day_required": "El día es requerido",
+      "meal_type_required": "El tipo de comida es requerido",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "update": "Actualizar"
+    },
+    "list": {
+      "meals_count": "comida",
+      "meals_count_plural": "comidas",
+      "day": "Día",
+      "recipe": "Receta #",
+      "edit_tooltip": "Editar comida",
+      "delete_tooltip": "Eliminar comida",
+      "empty_title": "No hay comidas agregadas",
+      "empty_message": "Comienza agregando comidas a tu plan usando el formulario de arriba"
+    }
+  },
   "recommendation": {
     "title": "Gestión de Recomendaciones Nutricionales",
     "columns": {
