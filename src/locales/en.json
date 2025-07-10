@@ -3,10 +3,10 @@
     "home": "Home",
     "about": "About",
     "recommendations": "Recommendations",
-    "meal-plans" : "Meal Plans",
-    "sign-in": "Sign In"
+    "meal_plans": "Meal Plans",
+    "recipes": "Recipes"
   },
-  "meal_plan": {
+  "meal_plans": {
     "description": "Description",
     "total_calories": "Total Calories",
     "total_carbs": "Total Carbs",
@@ -44,5 +44,62 @@
     "quantity": "Quantity(gr)",
     "notes": "Food",
     "calories": "Calories(Kcal)"
+  },
+  "recipes": {
+    "title": "Recipes",
+    "newRecipe": "New Recipe",
+    "searchPlaceholder": "Search recipes...",
+    "loading": "Loading recipes...",
+    "noMatches": "No recipes found matching",
+    "emptyMessage": "No recipes available. Create your first one!"
+  },
+  "recipeDetail": {
+    "loading": "Loading recipe...",
+    "retry": "Retry loading",
+    "backToList": "Back to list",
+    "saving": "Saving...",
+    "notFound": "Recipe not found or failed to load.",
+    "description": "Description",
+    "confirmDeleteTitle": "Confirm Deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this recipe? This action cannot be undone."
+  },
+  "recipeForm": {
+    "title": "Title:",
+    "description": "Description:",
+    "nutritionInfo": "Nutritional Information",
+    "totalCalories": "Total Calories:",
+    "carbs": "Carbohydrates (g):",
+    "proteins": "Proteins (g):",
+    "fats": "Fats (g):"
+  },
+  "recipeCard": {
+    "calories": "Calories:",
+    "carbs": "Carbs:",
+    "proteins": "Proteins:",
+    "fats": "Fats:"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "delete": "Delete",
+    "update": "Update",
+    "viewDetails": "View Details",
+    "edit": "Edit"
+  },
+  "about": {
+    "title": "About Us",
+    "mission": "At NutriPlus, our mission is to empower people to make informed decisions about their nutrition and achieve their health goals sustainably. Through our flagship product, Alimentate+, we provide the tools needed to maintain effective nutritional control and enjoy a healthier life.",
+    "vision": "Our vision is to become the leading nutritional wellness platform in Latin America, offering innovative and personalized solutions that adapt to each user's needs.",
+    "description": "Alimentate+ is the result of our dedication to combining technology with nutritional knowledge, creating an accessible, practical, and motivating experience for our users."
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "message": "The route",
+    "goHome": "Go to Home"
+  },
+  "authoring-phrase": {
+    "intro": "Made with",
+    "use": "using",
+    "author": "by {brand} Developer Team"
   }
 }

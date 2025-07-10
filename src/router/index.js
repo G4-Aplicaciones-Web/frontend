@@ -17,6 +17,11 @@ const PageNotFoundComponent = () => import('../public/pages/page-not-found.compo
 const MealPlanManagement = () => import('../domains/meal_plans/pages/meal-plan-management.component.vue');
 
 const RecommendationManagement = () => import('../domains/recommendations/pages/recommendation-management.component.vue');
+const MealPlanDetail = () => import('../domains/meal_plans/pages/meal-plan-detail.component.vue');
+
+import RecipeListComponent from "@/domains/recipes/pages/recipe-list.component.vue";
+import RecipeDetailComponent from "@/domains/recipes/components/recipe-detail.component.vue";
+import RecipeEditorComponent from "@/domains/recipes/pages/recipe-editor.component.vue";
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -28,9 +33,42 @@ const RecommendationManagement = () => import('../domains/recommendations/pages/
  * - meta: Additional metadata including page title
  */
 const routes = [
-    {   path: '/home',                 name: 'home',      component: HomeComponent,              meta: {title: 'Home'}},
-    {   path: '/about',                 name: 'about',      component: AboutComponent,              meta: {title: 'About us'}},
-    {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement, meta: {title: 'Recommendations'}},
+    {   path: '/home',                  name: 'home',      component: HomeComponent,                            meta: {title: 'Home'}},
+    {   path: '/about',                 name: 'about',      component: AboutComponent,                          meta: {title: 'About us'}},
+    {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement,           meta: {title: 'Recommendations'}},
+    {
+        path: '/meal_plans/1',
+        name: 'meal_plan-detail',
+        component: MealPlanDetail,
+        props: true,
+        meta: { title: 'Meal Plan Detail' }
+    },
+    {
+        path: '/recipes',
+        name: 'recipe-list',
+        component: RecipeListComponent,
+        meta: {title: 'Recipe List'}
+    },
+    {
+        path: '/recipes/new', // Route for creating a new recipe
+        name: 'recipe-creator',
+        component: RecipeEditorComponent,
+        meta: {title: 'Create Your Recipe'}
+    },
+    {
+        path: '/recipes/:id', // Route for displaying a recipe detail
+        name: 'recipe-detail',
+        component: RecipeDetailComponent, // Or a page component that loads the detail component
+        props: route => ({ recipeId: route.params.id }),// Pass route params as props (useful for detail page to get ID)
+        meta: {title: 'Recipe Detail'}
+    },
+    {
+        path: '/recipes/:id/edit', // Route for editing an existing recipe
+        name: 'recipe-editor',
+        component: RecipeEditorComponent,
+        props: route => ({ recipeId: route.params.id }),
+        meta: {title: 'Edit A Recipe'}
+    },
     {   path: '/',                      name: 'default',    redirect: {name: 'home'}},
     {   path: '/:pathMatch(.*)*',       name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}},
     {   path: '/meal-plans',            name: 'meal-plans', component: MealPlanManagement,          meta: {title: 'Meal plans'}},

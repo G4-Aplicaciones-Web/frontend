@@ -1,79 +1,195 @@
+/* Importación de la fuente Poppins desde Google Fonts con sus variantes */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
+    /* Tipografía base */
+    font-family: 'Poppins', system-ui, sans-serif;
+    line-height: 1.6;
     font-weight: 400;
 
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    /* Esquema de colores (predeterminado claro) */
+    color-scheme: light;
+    color: #333333;
+    background-color: #ffffff;
 
+    /* Variables de color para la aplicación */
+    --primary-color: #63B663;
+    --primary-color-hover: #45A049;
+    --text-color: #333333;
+    --text-color-light: #666666;
+    --background-color: #ffffff;
+    --background-color-alt: #f5f7fa;
+    --border-color: #e0e0e0;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    /* Optimizaciones de renderizado */
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Estilos para enlaces */
 a {
     font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-}
-a:hover {
-    color: #535bf2;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
+a:hover {
+    color: var(--primary-color-hover);
+}
+
+/* Estilos del body */
 body {
     margin: 0;
+    padding: 0;
     display: flex;
-    place-items: start;
     min-width: 320px;
     min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+/* Estilos para títulos con Poppins semibold */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600; /* semibold para títulos */
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+    color: var(--text-color);
 }
 
 h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+    font-size: 2.5rem;
 }
 
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+/* Estilos para párrafos con Poppins light */
+p {
+    font-weight: 300; /* light para textos largos */
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--text-color-light);
+}
+
+/* Estilos para botones */
 button {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
     cursor: pointer;
-    transition: border-color 0.25s;
+    transition: all 0.2s ease;
 }
+
 button:hover {
-    border-color: #646cff;
+    border-color: var(--primary-color);
+    background-color: #f0f0f0;
 }
+
 button:focus,
 button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+    outline: 3px solid rgba(100, 108, 255, 0.2);
 }
 
+/* Estilos para tarjetas */
 .card {
-    padding: 2em;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilos para el contenedor principal */
 #app {
-    max-width: inherit;
+    width: 100%;
     margin: 0 auto;
-    padding: 2rem;
     text-align: start;
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
+/* Clases de utilidad */
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: var(--primary-color);
+}
+
+.bg-alt {
+    background-color: var(--background-color-alt);
+}
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 3rem; }
+
+.m-1 { margin: 0.25rem; }
+.m-2 { margin: 0.5rem; }
+.m-3 { margin: 1rem; }
+.m-4 { margin: 1.5rem; }
+.m-5 { margin: 3rem; }
+
+/* Modo oscuro activado por preferencia del sistema (ahora opcional) */
+@media (prefers-color-scheme: dark) {
+    .system-preferred-dark {
+        color-scheme: dark;
+        color: rgba(255, 255, 255, 0.87);
+        background-color: #242424;
+
+        --text-color: rgba(255, 255, 255, 0.87);
+        --text-color-light: rgba(255, 255, 255, 0.65);
+        --background-color: #242424;
+        --background-color-alt: #2a2a2a;
+        --border-color: #414141;
+        --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
-    a:hover {
-        color: #747bff;
+}
+
+/* Estilos responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
     }
-    button {
-        background-color: #f9f9f9;
+    h2 {
+        font-size: 1.75rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+    .card {
+        padding: 1rem;
     }
 }
