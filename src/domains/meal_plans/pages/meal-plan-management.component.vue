@@ -256,7 +256,7 @@ export default {
 
     <mealplan-item-create-and-edit-dialog
         :edit="isEdit"
-        :item=""
+        :item="meal_plan"
         :visible="createAndEditDialogIsVisible"
         @cancel-requested="onCancelRequested"
         @save-requested="onSaveRequested($event)"
