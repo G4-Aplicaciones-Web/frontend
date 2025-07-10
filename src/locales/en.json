@@ -118,6 +118,8 @@
   },
   "about": {
     "title": "About Us",
+    "mission-title": "Our Mission" ,
+    "vision-title": "Our Vision",
     "mission": "At NutriPlus, our mission is to empower people to make informed decisions about their nutrition and achieve their health goals sustainably. Through our flagship product, Alimentate+, we provide the tools needed to maintain effective nutritional control and enjoy a healthier life.",
     "vision": "Our vision is to become the leading nutritional wellness platform in Latin America, offering innovative and personalized solutions that adapt to each user's needs.",
     "description": "Alimentate+ is the result of our dedication to combining technology with nutritional knowledge, creating an accessible, practical, and motivating experience for our users."

@@ -119,6 +119,8 @@
   },
   "about": {
     "title": "Acerca de Nosotros",
+    "mission-title": "Nuestra Misión" ,
+    "vision-title": "Nuestra Visión",
     "mission": "En NutriPlus, nuestra misión es empoderar a las personas para que tomen decisiones informadas sobre su alimentación y alcancen sus metas de salud de manera sostenible. A través de nuestro producto estrella, Alimentate+, ofrecemos las herramientas necesarias para llevar un control nutricional efectivo y disfrutar de una vida más saludable.",
     "vision": "Nuestra visión es convertirnos en la plataforma líder en Latinoamérica para el bienestar nutricional, brindando soluciones innovadoras y personalizadas que se adapten a las necesidades de cada usuario.",
     "description": "Alimentate+ es el resultado de nuestra dedicación por combinar la tecnología con el conocimiento nutricional, creando una experiencia accesible, práctica y motivadora para nuestros usuarios."
