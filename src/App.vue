@@ -1,10 +1,11 @@
 <script>
 import LanguageSwitcher from "./public/components/language-switcher.component.vue";
 import FooterContent from "./public/components/footer-content.component.vue";
+import AuthenticationSection from "@/domains/iam/components/authentication-section.component.vue";
 
 export default {
   name: 'App',
-  components: { FooterContent, LanguageSwitcher },
+  components: { AuthenticationSection, FooterContent, LanguageSwitcher },
   data() {
     return {
       drawer: false,
@@ -13,7 +14,8 @@ export default {
         { label: 'option.recommendations', to: '/recommendations', icon: 'pi pi-star' },
         { label: 'option.meal_plans', to: '/meal_plans/1', icon: 'pi pi-calendar' },
         { label: 'option.recipes', to: '/recipes', icon: 'pi pi-book' },
-        { label: 'option.about', to: '/about', icon: 'pi pi-info-circle' }
+        { label: 'option.about', to: '/about', icon: 'pi pi-info-circle' },
+        { label: 'option.profile', to: '/profile', icon: 'pi pi-user' },
       ]
     }
   },
