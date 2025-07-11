@@ -13,6 +13,30 @@
     "total_carbs": "Carbohidratos Totales",
     "profile_id": "ID de Perfil"
   },
+  "meal_plan": {
+    "form": {
+      "add_plan": "Agregar Nuevo Plan Alimenticio",
+      "edit_plan": "Editar Plan Alimenticio",
+      "profile_id": "ID de Perfil",
+      "score": "Puntuación",
+      "summary": "Resumen del Plan",
+      "summary_placeholder": "Describe brevemente este plan alimenticio...",
+      "profile_required": "El ID de perfil es requerido",
+      "summary_required": "El resumen es requerido",
+      "cancel": "Cancelar",
+      "create": "Crear Plan",
+      "update": "Actualizar Plan"
+    },
+    "search": {
+      "title": "Buscar Plan Alimenticio",
+      "meal_plan_id": "ID del Plan Alimenticio",
+      "search": "Buscar",
+      "found": "Plan Alimenticio Encontrado",
+      "profile_id": "ID de Perfil",
+      "score": "Puntuación",
+      "summary": "Resumen"
+    }
+  },
   "meal_plan_day": {
     "title": "Comidas del Plan",
     "form": {

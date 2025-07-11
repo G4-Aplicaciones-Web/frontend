@@ -1,14 +1,20 @@
 <template>
   <div class="p-6 max-w-3xl mx-auto">
-
-
     <MealPlanDays v-if="mealPlanId" :mealPlanId="mealPlanId" />
+    
+    <!-- Búsqueda de meal plan -->
+    <MealPlanSearch />
+    
+    <!-- Nuevo formulario de meal plan -->
+    <MealPlanForm @updated="handleMealPlanUpdated" />
   </div>
 </template>
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import MealPlanDays from '../components/meal-plan-day.component.vue';
+import MealPlanSearch from '../components/meal-plan-search.component.vue';
+import MealPlanForm from '../components/meal-plan-form.component.vue';
 import axios from 'axios';
 
 const route = useRoute();
@@ -27,6 +33,10 @@ const formatDate = (dateStr) => {
     month: 'long',
     day: 'numeric'
   });
+};
+
+const handleMealPlanUpdated = () => {
+  fetchMealPlan();
 };
 
 onMounted(fetchMealPlan);
