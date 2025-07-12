@@ -1,10 +1,18 @@
 <script>
 import CreateAndEdit from "@/shared/components/create-and-edit.component.vue";
-import { Select as PvSelect, SelectButton as PvSelectButton } from "primevue";
+import { Select as PvSelect, SelectButton as PvSelectButton, InputText as PvInputText, Textarea as PvTextarea, InputNumber as PvInputNumber, FloatLabel as PvFloatLabel } from "primevue";
 
 export default {
   name: "recommendation-item-create-and-edit-dialog",
-  components: { PvSelectButton, PvSelect, CreateAndEdit },
+  components: {
+    PvSelectButton,
+    PvSelect,
+    PvInputText,
+    PvTextarea,
+    PvInputNumber,
+    PvFloatLabel,
+    CreateAndEdit
+  },
   props: {
     item: {
       type: Object,

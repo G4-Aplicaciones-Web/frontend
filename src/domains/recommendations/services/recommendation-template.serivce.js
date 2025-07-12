@@ -6,7 +6,7 @@ import httpInstance from "@/shared/services/http.instance.js";
  */
 export class RecommendationTemplateService {
     /** @type {string} The API endpoint for recommendation templates */
-    resourceEndpoint = '/api/v1/recommendation-templates';
+    resourceEndpoint = '/recommendation-templates';
 
     /**
      * Get all recommendation templates

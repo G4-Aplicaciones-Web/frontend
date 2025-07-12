@@ -69,24 +69,33 @@
   },
   "recommendation": {
     "title": "Gestión de Recomendaciones Nutricionales",
+    "loading": "Cargando recomendaciones...",
+    "empty": "No tienes recomendaciones asignadas",
     "columns": {
       "id": "ID",
       "reason": "Razón",
-      "time_of_day": "Momento del Día",
       "notes": "Notas",
+      "time_of_day": "Momento del Día",
       "score": "Puntuación",
-      "status": "Estado"
+      "status": "Estado",
+      "assigned": "Fecha de asignación"
     },
     "actions": {
-      "create": "Crear Recomendación",
-      "edit": "Editar Recomendación",
+      "edit": "Editar",
       "delete": "Eliminar",
-      "delete_selected": "Eliminar Seleccionados"
+      "load": "Asignar recomendaciones",
+      "load_more": "Asignar más recomendaciones"
     },
-    "messages": {
-      "created": "Recomendación creada exitosamente",
-      "updated": "Recomendación actualizada exitosamente",
-      "deleted": "Recomendación eliminada exitosamente"
+    "time_of_day": {
+      "morning": "Mañana",
+      "afternoon": "Tarde",
+      "evening": "Noche",
+      "all_day": "Todo el día"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "active": "Activa",
+      "inactive": "Inactiva"
     }
   },
   "authoring-phrase": {
@@ -181,10 +190,5 @@
       "have_account": "¿Ya tienes cuenta?",
       "sign_in_link": "Inicia sesión"
     }
-  },
-  "authoring-phrase": {
-    "intro": "Hecho con",
-    "use": "utilizando",
-    "author": "por el equipo de Desarrolladores de {brand}"
   }
 }

@@ -1,13 +1,12 @@
-// src/shared/services/http.instance.js
+// http.instance.js
 import axios from 'axios';
 
 const httpInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: 'http://localhost:5037/api/v1',
 });
 
-// Agrega el token a cada petición si existe
 httpInstance.interceptors.request.use(config => {
-    const token = localStorage.getItem('authToken'); // O donde guardes el token
+    const token = localStorage.getItem('token'); // O como lo guardes
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

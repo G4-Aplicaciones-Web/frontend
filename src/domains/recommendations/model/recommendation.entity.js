@@ -45,23 +45,30 @@ export class Recommendation {
     /**
      * Domain methods for displaying values (matching backend enums exactly)
      */
-    get timeOfDayDisplay() {
-        const timeMap = {
-            0: 'Morning',
-            1: 'Afternoon',
-            2: 'Evening',
-            3: 'AllDay'
+    get mappedTimeOfDay() {
+        const backendToFrontend = {
+            0: 'morning',
+            1: 'afternoon',
+            2: 'evening',
+            3: 'all_day',
+            'Morning': 'morning',
+            'Afternoon': 'afternoon',
+            'Evening': 'evening',
+            'AllDay': 'all_day'
         };
-        return timeMap[this.timeOfDay] || 'Unknown';
+        return backendToFrontend[this.timeOfDay] || 'morning';
     }
 
-    get statusDisplay() {
-        const statusMap = {
-            0: 'Pending',
-            1: 'Active',
-            2: 'Inactive'
+    get mappedStatus() {
+        const backendToFrontend = {
+            0: 'pending',
+            1: 'active',
+            2: 'inactive',
+            'Pending': 'pending',
+            'Active': 'active',
+            'Inactive': 'inactive'
         };
-        return statusMap[this.status] || 'Unknown';
+        return backendToFrontend[this.status] || 'pending';
     }
 
     /**
@@ -86,10 +93,14 @@ export class Recommendation {
     }
 
     /**
-     * Domain method to get template title safely
+     * Devuelve el título del template según el templateId de la recomendación.
+     * @param {Array} templates - Array de templates con propiedad id y title.
+     * @returns {string}
      */
-    getTemplateTitle() {
-        return this.template?.title || 'Sin título';
+    getTemplateTitleById(templates) {
+        if (!Array.isArray(templates)) return 'Sin título';
+        const found = templates.find(t => t.id === this.templateId);
+        return found?.title || 'Sin título';
     }
 
     /**
