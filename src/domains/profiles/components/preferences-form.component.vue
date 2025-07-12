@@ -1,46 +1,5 @@
 <template>
-  <div>
-    <h3 class="text-lg font-semibold mb-2">Tu Información Física</h3>
 
-    <form @submit.prevent="saveProfile" class="p-fluid">
-      <div class="field">
-        <label for="gender">Género</label>
-        <pv-dropdown v-model="form.gender" :options="genderOptions" option-label="label" option-value="value" />
-      </div>
-
-      <div class="field">
-        <label for="height">Altura (cm)</label>
-        <pv-input-number v-model="form.height" inputId="height" :min="0" />
-      </div>
-
-      <div class="field">
-        <label for="weight">Peso (kg)</label>
-        <pv-input-number v-model="form.weight" inputId="weight" :min="0" />
-      </div>
-
-      <div class="field">
-        <label for="activityLevel">Nivel de Actividad</label>
-        <pv-dropdown
-            v-model="form.activityLevelId"
-            :options="activityLevels"
-            option-label="name"
-            option-value="id"
-        />
-      </div>
-
-      <div class="field">
-        <label for="objective">Objetivo</label>
-        <pv-dropdown
-            v-model="form.objectiveId"
-            :options="objectives"
-            option-label="name"
-            option-value="id"
-        />
-      </div>
-
-      <pv-button type="submit" label="Guardar" class="mt-3 w-full" />
-    </form>
-  </div>
 </template>
 
 <script setup>
