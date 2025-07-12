@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/meal_plan_day_meals';
+const BASE_URL = 'https://alimentate-plus-api.onrender.com/meal_plan_day_meals';
 
 export const getAllByMealPlanId = async (mealPlanId) => {
     const res = await axios.get(`${BASE_URL}?meal_plan_id=${mealPlanId}`);

@@ -3,7 +3,70 @@
     "home": "Inicio",
     "about": "Acerca de",
     "recommendations": "Recomendaciones",
-    "sign-in": "Iniciar Sesión"
+    "meal_plans": "Planes alimenticios",
+    "sign-in": "Iniciar sesión",
+    "recipes": "Recetas",
+    "profile": "Perfil"
+  },
+  "meal_plans": {
+    "description": "Descripción",
+    "total_calories": "Calorías Totales",
+    "total_carbs": "Carbohidratos Totales",
+    "profile_id": "ID de Perfil"
+  },
+  "meal_plan": {
+    "form": {
+      "add_plan": "Agregar Nuevo Plan Alimenticio",
+      "edit_plan": "Editar Plan Alimenticio",
+      "profile_id": "ID de Perfil",
+      "score": "Puntuación",
+      "summary": "Resumen del Plan",
+      "summary_placeholder": "Describe brevemente este plan alimenticio...",
+      "profile_required": "El ID de perfil es requerido",
+      "summary_required": "El resumen es requerido",
+      "cancel": "Cancelar",
+      "create": "Crear Plan",
+      "update": "Actualizar Plan"
+    },
+    "search": {
+      "title": "Buscar Plan Alimenticio",
+      "meal_plan_id": "ID del Plan Alimenticio",
+      "search": "Buscar",
+      "found": "Plan Alimenticio Encontrado",
+      "profile_id": "ID de Perfil",
+      "score": "Puntuación",
+      "summary": "Resumen"
+    }
+  },
+  "meal_plan_day": {
+    "title": "Comidas del Plan",
+    "form": {
+      "add_meal": "Agregar Nueva Comida",
+      "edit_meal": "Editar Comida",
+      "recipe_id": "ID de Receta",
+      "day_number": "Día del Plan",
+      "meal_type": "Tipo de Comida",
+      "breakfast": "🌅 Desayuno",
+      "lunch": "🌞 Almuerzo",
+      "dinner": "🌙 Cena",
+      "select_meal_type": "Selecciona el tipo de comida",
+      "recipe_required": "El ID de receta es requerido",
+      "day_required": "El día es requerido",
+      "meal_type_required": "El tipo de comida es requerido",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "update": "Actualizar"
+    },
+    "list": {
+      "meals_count": "comida",
+      "meals_count_plural": "comidas",
+      "day": "Día",
+      "recipe": "Receta #",
+      "edit_tooltip": "Editar comida",
+      "delete_tooltip": "Eliminar comida",
+      "empty_title": "No hay comidas agregadas",
+      "empty_message": "Comienza agregando comidas a tu plan usando el formulario de arriba"
+    }
   },
   "recommendation": {
     "title": "Gestión de Recomendaciones Nutricionales",
@@ -33,9 +96,96 @@
     "author": "por el equipo de desarrollo de {brand}"
   },
   "tracking": {
-    "time_of_day": "Momento del Día",
-    "quantity": "Cantidad(gr)",
-    "notes": "Comida",
-    "calories": "Calorías(Kcal)"
+    "time_of_day": "Hora del día",
+    "quantity": "Cantidad (g)",
+    "notes": "Alimento",
+    "calories": "Calorías (Kcal)"
+  },
+  "recipes": {
+    "title": "Recetas",
+    "newRecipe": "Nueva Receta",
+    "searchPlaceholder": "Buscar recetas...",
+    "loading": "Cargando recetas...",
+    "noMatches": "No se encontraron recetas que coincidan con",
+    "emptyMessage": "No hay recetas disponibles. ¡Crea tu primera receta!"
+  },
+  "recipeDetail": {
+    "loading": "Cargando receta...",
+    "retry": "Reintentar cargar",
+    "backToList": "Volver a la lista",
+    "saving": "Guardando...",
+    "notFound": "Receta no encontrada o error de carga.",
+    "description": "Descripción",
+    "confirmDeleteTitle": "Confirmar eliminación",
+    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer."
+  },
+  "recipeForm": {
+    "title": "Título:",
+    "description": "Descripción:",
+    "nutritionInfo": "Información Nutricional",
+    "totalCalories": "Calorías totales:",
+    "carbs": "Carbohidratos (g):",
+    "proteins": "Proteínas (g):",
+    "fats": "Grasas (g):"
+  },
+  "recipeCard": {
+    "calories": "Calorías:",
+    "carbs": "Carbos:",
+    "proteins": "Proteínas:",
+    "fats": "Grasas:"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "delete": "Eliminar",
+    "update": "Actualizar",
+    "viewDetails": "Ver detalles",
+    "edit": "Editar"
+  },
+  "about": {
+    "title": "Acerca de Nosotros",
+    "mission-title": "Nuestra Misión" ,
+    "vision-title": "Nuestra Visión",
+    "mission": "En NutriPlus, nuestra misión es empoderar a las personas para que tomen decisiones informadas sobre su alimentación y alcancen sus metas de salud de manera sostenible. A través de nuestro producto estrella, Alimentate+, ofrecemos las herramientas necesarias para llevar un control nutricional efectivo y disfrutar de una vida más saludable.",
+    "vision": "Nuestra visión es convertirnos en la plataforma líder en Latinoamérica para el bienestar nutricional, brindando soluciones innovadoras y personalizadas que se adapten a las necesidades de cada usuario.",
+    "description": "Alimentate+ es el resultado de nuestra dedicación por combinar la tecnología con el conocimiento nutricional, creando una experiencia accesible, práctica y motivadora para nuestros usuarios."
+  },
+  "notFound": {
+    "title": "404 - Página no encontrada",
+    "message": "La ruta",
+    "goHome": "Volver al inicio"
+  },
+  "auth": {
+    "sign_in": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Ingresa tus credenciales para acceder",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "username_placeholder": "Ingresa tu usuario",
+      "password_placeholder": "Ingresa tu contraseña",
+      "username_required": "El usuario es requerido",
+      "password_required": "La contraseña es requerida",
+      "button": "Iniciar Sesión",
+      "no_account": "¿No tienes cuenta?",
+      "sign_up_link": "Regístrate"
+    },
+    "sign_up": {
+      "title": "Crear Cuenta",
+      "subtitle": "Regístrate para comenzar tu experiencia",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "username_placeholder": "Elige tu nombre de usuario",
+      "password_placeholder": "Crea una contraseña segura",
+      "username_required": "El usuario es requerido",
+      "password_required": "La contraseña es requerida",
+      "button": "Crear Cuenta",
+      "have_account": "¿Ya tienes cuenta?",
+      "sign_in_link": "Inicia sesión"
+    }
+  },
+  "authoring-phrase": {
+    "intro": "Hecho con",
+    "use": "utilizando",
+    "author": "por el equipo de Desarrolladores de {brand}"
   }
 }

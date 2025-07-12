@@ -3,7 +3,7 @@
  * @constant {Object} defaultStyle - Default dialog width styling
  */
 
-const defaultStyle = { width: '400px' };
+const defaultStyle = { width: '550px' };
 
 /**
  * @component

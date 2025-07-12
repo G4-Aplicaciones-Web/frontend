@@ -1,21 +1,16 @@
 <template>
   <div>
-    <h3>🍽️ Comidas del plan</h3>
-    <ul v-if="meals.length">
-      <li v-for="meal in meals" :key="meal.id">
-        Día {{ meal.day_number }} - {{ getMealType(meal.meal_plan_type_id) }}: Receta #{{ meal.recipe_id }}
-        <button @click="edit(meal)">Editar</button>
-        <button @click="remove(meal.id)">Eliminar</button>
-      </li>
-    </ul>
+    <h3>🍽️ {{ $t('meal_plan_day.title') }}</h3>
     <MealPlanDayForm :editData="selected" :mealPlanId="mealPlanId" @updated="loadMeals" />
+    <MealPlanDayList :meals="meals" @edit="edit" @remove="removeMeal" />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { getAllByMealPlanId, removeMeal } from '../services/meal-plan-day.service';
+import { getAllByMealPlanId, removeMeal as deleteMeal  } from '../services/meal-plan-day.service';
 import MealPlanDayForm from './meal-plan-day-form.component.vue';
+import MealPlanDayList from './meal-plan-day-list.component.vue';
 
 const props = defineProps({ mealPlanId: Number });
 const meals = ref([]);
@@ -27,18 +22,14 @@ const loadMeals = async () => {
   }
 };
 
-const remove = async (id) => {
-  await removeMeal(id);
-  loadMeals();
-};
-
 const edit = (data) => {
   selected.value = { ...data };
 };
 
-watch(() => props.mealPlanId, loadMeals);
-onMounted(loadMeals);
+const removeMeal = async (id) => {
+  await deleteMeal(id);
+  loadMeals();
+};
 
-const getMealType = (id) =>
-    ({ 1: 'Desayuno', 2: 'Almuerzo', 3: 'Cena' }[id] || 'Desconocido');
+watch(() => props.mealPlanId, loadMeals, { immediate: true });
 </script>

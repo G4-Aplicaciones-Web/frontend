@@ -1,12 +1,8 @@
 import httpInstance from "@/shared/services/http.instance.js";
 
 export class RecommendationService {
-    /**
-     * @returns {string} The complete API endpoint for recommendations
-     */
-    get resourceEndpoint() {
-        return import.meta.env.VITE_RECOMMENDATIONS_ENDPOINT_PATH || '/api/v1/recommendations';
-    }
+    /** @type {string} The API endpoint for recommendations */
+    resourceEndpoint= import.meta.env.VITE_RECOMMENDATIONS_ENDPOINT_PATH;
 
     getAll() {
         return httpInstance.get(this.resourceEndpoint)

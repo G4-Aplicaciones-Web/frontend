@@ -4,6 +4,7 @@
  */
 
 import {createRouter, createWebHistory} from "vue-router";
+import {authenticationGuard} from "@/domains/iam/services/authentication.guard.js";
 
 
 /**
@@ -11,11 +12,21 @@ import {createRouter, createWebHistory} from "vue-router";
  * Using dynamic imports to enable code splitting and improve initial load performance
  */
 
-const HomeComponent = () => import('../public/pages/home.component.vue');
-const AboutComponent = () => import('../public/pages/about.component.vue');
-const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue');
+const HomeComponent = () => import('@/public/pages/home.component.vue');
+const AboutComponent = () => import('@/public/pages/about.component.vue');
+const PageNotFoundComponent = () => import('@/public/pages/page-not-found.component.vue');
 
-const RecommendationManagement = () => import('../domains/recommendations/pages/recommendation-management.component.vue');
+const RecommendationManagement = () => import('@/domains/recommendations/pages/recommendation-management.component.vue');
+const MealPlanDetail = () => import('@/domains/meal_plans/pages/meal-plan-detail.component.vue');
+
+const RecipeListComponent = ()=> import("@/domains/recipes/pages/recipe-list.component.vue");
+const RecipeDetailComponent = ()=> import("@/domains/recipes/components/recipe-detail.component.vue");
+const RecipeEditorComponent = ()=> import("@/domains/recipes/pages/recipe-editor.component.vue");
+const ProfileManagementComponent = ()=> import("@/domains/profiles/pages/profile-management.component.vue");
+
+const SignInComponent = () => import('../domains/iam/pages/sign-in.component.vue');
+const SignUpComponent = () => import('../domains/iam/pages/sign-up.component.vue');
+
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -27,11 +38,51 @@ const RecommendationManagement = () => import('../domains/recommendations/pages/
  * - meta: Additional metadata including page title
  */
 const routes = [
-    {   path: '/home',                 name: 'home',      component: HomeComponent,              meta: {title: 'Home'}},
-    {   path: '/about',                 name: 'about',      component: AboutComponent,              meta: {title: 'About us'}},
-    {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement, meta: {title: 'Recommendations'}},
-    {   path: '/',                      name: 'default',    redirect: {name: 'home'}},
-    {   path: '/:pathMatch(.*)*',       name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}},
+    {   path: '/home',                  name: 'home',      component: HomeComponent,                            meta: {title: 'Home'}},
+    {   path: '/about',                 name: 'about',      component: AboutComponent,                          meta: {title: 'About us'}},
+    {   path: '/recommendations',       name: 'recommendations', component: RecommendationManagement,           meta: {title: 'Recommendations'}},
+    {
+        path: '/meal_plans/1',
+        name: 'meal_plan-detail',
+        component: MealPlanDetail,
+        props: true,
+        meta: { title: 'Meal Plan Detail' }
+    },
+    {
+        path: '/recipes',
+        name: 'recipe-list',
+        component: RecipeListComponent,
+        meta: {title: 'Recipe List'}
+    },
+    {
+        path: '/recipes/new', // Route for creating a new recipe
+        name: 'recipe-creator',
+        component: RecipeEditorComponent,
+        meta: {title: 'Create Your Recipe'}
+    },
+    {
+        path: '/recipes/:id', // Route for displaying a recipe detail
+        name: 'recipe-detail',
+        component: RecipeDetailComponent, // Or a page component that loads the detail component
+        props: route => ({ recipeId: route.params.id }),// Pass route params as props (useful for detail page to get ID)
+        meta: {title: 'Recipe Detail'}
+    },
+    {
+        path: '/recipes/:id/edit', // Route for editing an existing recipe
+        name: 'recipe-editor',
+        component: RecipeEditorComponent,
+        props: route => ({ recipeId: route.params.id }),
+        meta: {title: 'Edit A Recipe'}
+    },
+    {   path: '/profile',
+        name: 'profile',
+        component : ProfileManagementComponent,
+        meta: {title: 'Profile'}
+    },
+    {   path: '/sign-in',           name: 'sign-in',    component: SignInComponent,   meta: {title: 'Sign In'}},
+    {   path: '/sign-up',           name: 'sign-up',    component: SignUpComponent,   meta: {title: 'Sign Up'}},
+    {   path: '/',                  name: 'default',    redirect: {name: 'home'}},
+    {   path: '/:pathMatch(.*)*',   name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}}
 ]
 
 /**
@@ -60,7 +111,7 @@ router.beforeEach((to, from, next) => {
     // Set the page title
     let baseTitle = 'Alimentate+';
     document.title = `${baseTitle} | ${to.meta['title']}`;
-    next();
+    authenticationGuard(to, from, next);
 });
 
 export default router;

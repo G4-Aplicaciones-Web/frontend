@@ -3,7 +3,69 @@
     "home": "Home",
     "about": "About",
     "recommendations": "Recommendations",
-    "sign-in": "Sign In"
+    "meal_plans": "Meal Plans",
+    "recipes": "Recipes",
+    "profile": "Profile"
+  },
+  "meal_plans": {
+    "description": "Description",
+    "total_calories": "Total Calories",
+    "total_carbs": "Total Carbs",
+    "profile_id": "Profile ID"
+  },
+  "meal_plan": {
+    "form": {
+      "add_plan": "Add New Meal Plan",
+      "edit_plan": "Edit Meal Plan",
+      "profile_id": "Profile ID",
+      "score": "Score",
+      "summary": "Plan Summary",
+      "summary_placeholder": "Briefly describe this meal plan...",
+      "profile_required": "Profile ID is required",
+      "summary_required": "Summary is required",
+      "cancel": "Cancel",
+      "create": "Create Plan",
+      "update": "Update Plan"
+    },
+    "search": {
+      "title": "Search Meal Plan",
+      "meal_plan_id": "Meal Plan ID",
+      "search": "Search",
+      "found": "Meal Plan Found",
+      "profile_id": "Profile ID",
+      "score": "Score",
+      "summary": "Summary"
+    }
+  },
+  "meal_plan_day": {
+    "title": "Meal Plans",
+    "form": {
+      "add_meal": "Add New Meal",
+      "edit_meal": "Edit Meal",
+      "recipe_id": "Recipe ID",
+      "day_number": "Plan Day",
+      "meal_type": "Meal Type",
+      "breakfast": "🌅 Breakfast",
+      "lunch": "🌞 Lunch",
+      "dinner": "🌙 Dinner",
+      "select_meal_type": "Select meal type",
+      "recipe_required": "Recipe ID is required",
+      "day_required": "Day is required",
+      "meal_type_required": "Meal type is required",
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update"
+    },
+    "list": {
+      "meals_count": "meal",
+      "meals_count_plural": "meals",
+      "day": "Day",
+      "recipe": "Recipe #",
+      "edit_tooltip": "Edit meal",
+      "delete_tooltip": "Delete meal",
+      "empty_title": "No meals added",
+      "empty_message": "Start adding meals to your plan using the form above"
+    }
   },
   "recommendation": {
     "title": "Nutrition Recommendations Management",
@@ -37,5 +99,92 @@
     "quantity": "Quantity(gr)",
     "notes": "Food",
     "calories": "Calories(Kcal)"
+  },
+  "recipes": {
+    "title": "Recipes",
+    "newRecipe": "New Recipe",
+    "searchPlaceholder": "Search recipes...",
+    "loading": "Loading recipes...",
+    "noMatches": "No recipes found matching",
+    "emptyMessage": "No recipes available. Create your first one!"
+  },
+  "recipeDetail": {
+    "loading": "Loading recipe...",
+    "retry": "Retry loading",
+    "backToList": "Back to list",
+    "saving": "Saving...",
+    "notFound": "Recipe not found or failed to load.",
+    "description": "Description",
+    "confirmDeleteTitle": "Confirm Deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this recipe? This action cannot be undone."
+  },
+  "recipeForm": {
+    "title": "Title:",
+    "description": "Description:",
+    "nutritionInfo": "Nutritional Information",
+    "totalCalories": "Total Calories:",
+    "carbs": "Carbohydrates (g):",
+    "proteins": "Proteins (g):",
+    "fats": "Fats (g):"
+  },
+  "recipeCard": {
+    "calories": "Calories:",
+    "carbs": "Carbs:",
+    "proteins": "Proteins:",
+    "fats": "Fats:"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "delete": "Delete",
+    "update": "Update",
+    "viewDetails": "View Details",
+    "edit": "Edit"
+  },
+  "about": {
+    "title": "About Us",
+    "mission-title": "Our Mission" ,
+    "vision-title": "Our Vision",
+    "mission": "At NutriPlus, our mission is to empower people to make informed decisions about their nutrition and achieve their health goals sustainably. Through our flagship product, Alimentate+, we provide the tools needed to maintain effective nutritional control and enjoy a healthier life.",
+    "vision": "Our vision is to become the leading nutritional wellness platform in Latin America, offering innovative and personalized solutions that adapt to each user's needs.",
+    "description": "Alimentate+ is the result of our dedication to combining technology with nutritional knowledge, creating an accessible, practical, and motivating experience for our users."
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "message": "The route",
+    "goHome": "Go to Home"
+  },
+  "auth": {
+    "sign_in": {
+      "title": "Sign In",
+      "subtitle": "Enter your credentials to access",
+      "username": "Username",
+      "password": "Password",
+      "username_placeholder": "Enter your username",
+      "password_placeholder": "Enter your password",
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "button": "Sign In",
+      "no_account": "Don't have an account?",
+      "sign_up_link": "Sign up"
+    },
+    "sign_up": {
+      "title": "Create Account",
+      "subtitle": "Sign up to start your experience",
+      "username": "Username",
+      "password": "Password",
+      "username_placeholder": "Choose your username",
+      "password_placeholder": "Create a secure password",
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "button": "Create Account",
+      "have_account": "Already have an account?",
+      "sign_in_link": "Sign in"
+    }
+  },
+  "authoring-phrase": {
+    "intro": "Made with",
+    "use": "using",
+    "author": "by {brand} Developer Team"
   }
 }
