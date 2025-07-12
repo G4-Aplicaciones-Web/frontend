@@ -4,7 +4,8 @@
     "about": "About",
     "recommendations": "Recommendations",
     "meal_plans": "Meal Plans",
-    "recipes": "Recipes"
+    "recipes": "Recipes",
+    "profile": "Profile"
   },
   "meal_plans": {
     "description": "Description",
