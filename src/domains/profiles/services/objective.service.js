@@ -7,7 +7,10 @@ export class ObjectiveService {
 
     getAll(){
         return httpInstance.get(this.resourceEndpoint)
-            .then(response => response.data)
+            .then(response => {
+                console.log('Objectives response:', response.data);
+                return response.data;
+            })
             .catch(error => {
                 console.error('Error fetching objectives:', error);
                 throw error;

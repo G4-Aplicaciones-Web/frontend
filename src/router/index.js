@@ -22,7 +22,7 @@ const MealPlanDetail = () => import('@/domains/meal_plans/pages/meal-plan-detail
 const RecipeListComponent = ()=> import("@/domains/recipes/pages/recipe-list.component.vue");
 const RecipeDetailComponent = ()=> import("@/domains/recipes/components/recipe-detail.component.vue");
 const RecipeEditorComponent = ()=> import("@/domains/recipes/pages/recipe-editor.component.vue");
-const ProfileManagementComponent = ()=> import("@/domains/profiles/pages/profile-management.component.vue");
+const ProfileManagementComponent = () => import("@/domains/profiles/pages/profile-management.component.vue");
 
 const SignInComponent = () => import('../domains/iam/pages/sign-in.component.vue');
 const SignUpComponent = () => import('../domains/iam/pages/sign-up.component.vue');

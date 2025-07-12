@@ -70,5 +70,8 @@ app.use(i18n)
     .component('pv-toolbar', Toolbar)
     .component('pv-toast', Toast)
     .component('pv-dropdown', Dropdown)
+    .component('pv-inputtext', InputText)
+    .component('pv-inputnumber', InputNumber)
+
     .use(router)
     .mount('#app')
