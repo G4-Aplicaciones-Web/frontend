@@ -1,4 +1,5 @@
 <script>
+import { useAuthenticationStore} from "@/domains/iam/services/authentication.store.js";
 
 export default {
   name: 'recipe-form',
@@ -19,32 +20,41 @@ export default {
   data() {
     return {
       formData: {
-        id: 0,
-        title: '',
+        name: '',
         description: '',
-        total_calories: 0,
-        total_carbs: 0,
-        total_proteins: 0,
-        total_fats: 0
+        userId: 0, // Se llenará automáticamente
+        recipeType: 0,
+        urlInstructions: ''
       }
     };
   },
   mounted() {
+    const authStore = useAuthenticationStore();
+    this.formData.userId = authStore.currentUserId;
     this.syncFormData();
     console.log('Formulario montado con recipe:', this.recipe);
   },
   watch: {
     recipe: {
       handler(newRecipe) {
-        this.formData = { ...newRecipe };
+        const allowedFields = ['name', 'description', 'userId', 'recipeType', 'urlInstructions'];
+        this.formData = allowedFields.reduce((acc, key) => {
+          acc[key] = newRecipe[key] ?? '';
+          return acc;
+        }, {});
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   methods: {
     syncFormData() {
       if (this.recipe) {
-        this.formData = { ...this.recipe };
+        const allowedFields = ['name', 'description', 'userId', 'recipeType', 'urlInstructions'];
+        this.formData = allowedFields.reduce((acc, key) => {
+          acc[key] = this.recipe[key] ?? '';
+          return acc;
+        }, {});
       }
     },
     submitForm(event) {
@@ -56,7 +66,7 @@ export default {
       }
 
       // Validate form data
-      if (!this.formData.title || !this.formData.description) {
+      if (!this.formData.name || !this.formData.description) {
         alert('Por favor, completa todos los campos requeridos.');
         return;
       }
@@ -83,11 +93,11 @@ export default {
     <!-- Eliminamos @submit.prevent y usamos @click en el botón de submit -->
     <form>
       <div class="form-group">
-        <label for="title">{{ $t('recipeForm.title') }}</label>
+        <label for="name">{{ $t('recipeForm.title') }}</label>
         <input
             type="text"
-            id="title"
-            v-model="formData.title"
+            id="name"
+            v-model="formData.name"
             class="form-control"
             required
             :disabled="disabled"
@@ -106,62 +116,27 @@ export default {
         ></textarea>
       </div>
 
-      <div class="nutrition-section">
-        <h3>{{ $t('recipeForm.nutritionInfo') }}</h3>
+      <div class="form-group">
+        <label for="urlInstructions">{{ $t('recipeForm.urlInstructions') }}</label>
+        <input
+            type="text"
+            id="urlInstructions"
+            v-model="formData.urlInstructions"
+            class="form-control"
+            :disabled="disabled"
+        />
+      </div>
 
-        <div class="form-group">
-          <label for="total_calories">{{ $t('recipeForm.totalCalories') }}</label>
-          <input
-              type="number"
-              id="total_calories"
-              v-model.number="formData.total_calories"
-              class="form-control"
-              min="0"
-              required
-              :disabled="disabled"
-          />
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="total_carbs">{{ $t('recipeForm.carbs') }}</label>
-            <input
-                type="number"
-                id="total_carbs"
-                v-model.number="formData.total_carbs"
-                class="form-control"
-                min="0"
-                required
-                :disabled="disabled"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="total_proteins">{{ $t('recipeForm.proteins') }}</label>
-            <input
-                type="number"
-                id="total_proteins"
-                v-model.number="formData.total_proteins"
-                class="form-control"
-                min="0"
-                required
-                :disabled="disabled"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="total_fats">{{ $t('recipeForm.fats') }}</label>
-            <input
-                type="number"
-                id="total_fats"
-                v-model.number="formData.total_fats"
-                class="form-control"
-                min="0"
-                required
-                :disabled="disabled"
-            />
-          </div>
-        </div>
+      <div class="form-group">
+        <label for="recipeType">{{ $t('recipeForm.recipeType') }}</label>
+        <input
+            type="number"
+            id="recipeType"
+            v-model.number="formData.recipeType"
+            class="form-control"
+            min="0"
+            :disabled="disabled"
+        />
       </div>
 
       <div class="form-actions">
@@ -222,13 +197,6 @@ label {
 
 input[type="number"] {
   text-align: right;
-}
-
-.nutrition-section {
-  background-color: #f0f8f0;
-  padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 20px;
 }
 
 .nutrition-section h3 {

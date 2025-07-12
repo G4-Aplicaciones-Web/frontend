@@ -36,7 +36,14 @@ export default {
       await this.fetchRecipe(this.recipeId); // Fetch existing recipe if editing
     } else {
       this.isEditing = false;
-      this.recipe = new Recipe({}); // Initialize with an empty recipe for creation
+      this.recipe = {
+        name: '',
+        description: '',
+        userId: 0,
+        recipeType: 0,
+        urlInstructions: ''
+      };
+
     }
   },
   methods: {

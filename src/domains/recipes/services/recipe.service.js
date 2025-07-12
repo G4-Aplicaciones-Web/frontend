@@ -35,4 +35,12 @@ export class RecipeService {
     delete(id) {
         return httpInstance.delete(`${this.resourceEndpoint}/${id}`);
     }
+
+    addIngredient(recipeId, { ingredientId, quantity }) {
+        return httpInstance.post(`${this.resourceEndpoint}/${recipeId}/ingredients`, {
+            ingredientId,
+            quantity
+        }).then(res => res.data);
+    }
+
 }

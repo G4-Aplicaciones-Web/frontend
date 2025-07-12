@@ -1,7 +1,8 @@
 <script>
-import { RecipeService } from "@/domains/recipes/services/recipe.service.js";
-import { Recipe } from "@/domains/recipes/models/recipe.entity.js";
+import {IngredientService} from "@/domains/recipes/services/ingredient.service.js";
+import {RecipeService} from "@/domains/recipes/services/recipe.service.js";
 
+const ingredientService = new IngredientService();
 const recipeService = new RecipeService();
 
 export default {
@@ -15,6 +16,9 @@ export default {
   data() {
     return {
       recipe: null,
+      allIngredients: [],
+      selectedIngredientId: '',
+      selectedQuantity: null,
       loading: true,
       error: null,
       showDeleteModal: false
@@ -22,18 +26,36 @@ export default {
   },
   created() {
     this.loadRecipe();
+    ingredientService.getAll().then(data => {
+      this.allIngredients = data;
+    });
   },
   methods: {
     async loadRecipe() {
       try {
         this.loading = true;
-        const recipeData = await recipeService.getById(this.recipeId);
-        this.recipe = new Recipe(recipeData);
+        this.recipe = await recipeService.getById(this.recipeId);
         this.loading = false;
       } catch (error) {
         this.error = 'Error al cargar la receta. Por favor, inténtalo de nuevo.';
         console.error(error);
         this.loading = false;
+      }
+    },
+    async addIngredient() {
+      try {
+        await recipeService.addIngredient(this.recipeId, {
+          ingredientId: this.selectedIngredientId,
+          quantity: this.selectedQuantity
+        });
+
+        this.selectedIngredientId = '';
+        this.selectedQuantity = null;
+
+        await this.loadRecipe(); // recargar con ingredientes actualizados
+      } catch (err) {
+        console.error('Error al agregar ingrediente:', err);
+        alert('Ocurrió un error al agregar el ingrediente.');
       }
     },
     editRecipe() {
@@ -65,7 +87,7 @@ export default {
   </div>
   <div v-else-if="recipe" class="recipe-detail">
     <div class="detail-header">
-      <h2>{{ recipe.title }}</h2>
+      <h2>{{ recipe.name }}</h2>
       <div class="action-buttons">
         <button @click="editRecipe" class="btn btn-primary">{{ $t('common.edit') }}</button>
         <button @click="confirmDelete" class="btn btn-danger">{{ $t('common.delete') }}</button>
@@ -74,20 +96,20 @@ export default {
 
     <div class="nutrition-summary">
       <div class="nutrition-card">
-        <div class="nutrition-value">{{ recipe.total_calories }}</div>
-        <div class="nutrition-label">{{ $t('recipeCard.calories') }}</div>
+        <div class="nutrition-value">{{ recipe.totalNutrients.calories }}</div>
+        <div class="nutrition-label">Calorías</div>
       </div>
       <div class="nutrition-card">
-        <div class="nutrition-value">{{ recipe.total_carbs }}g</div>
-        <div class="nutrition-label">{{ $t('recipeCard.carbs') }}</div>
+        <div class="nutrition-value">{{ recipe.totalNutrients.carbohydrates }}g</div>
+        <div class="nutrition-label">Carbs</div>
       </div>
       <div class="nutrition-card">
-        <div class="nutrition-value">{{ recipe.total_proteins }}g</div>
-        <div class="nutrition-label">{{ $t('recipeCard.proteins') }}</div>
+        <div class="nutrition-value">{{ recipe.totalNutrients.proteins }}g</div>
+        <div class="nutrition-label">Proteínas</div>
       </div>
       <div class="nutrition-card">
-        <div class="nutrition-value">{{ recipe.total_fats }}g</div>
-        <div class="nutrition-label">{{ $t('recipeCard.fats') }}</div>
+        <div class="nutrition-value">{{ recipe.totalNutrients.fats }}g</div>
+        <div class="nutrition-label">Grasas</div>
       </div>
     </div>
 
@@ -97,6 +119,39 @@ export default {
         {{ recipe.description }}
       </div>
     </div>
+
+    <!-- INGREDIENTES EXISTENTES -->
+    <div class="ingredients-section">
+      <h3>Ingredientes actuales</h3>
+      <ul>
+        <li v-for="i in recipe.ingredients" :key="i.ingredientId">
+          {{ i.ingredientName }} - {{ i.quantity }}g
+        </li>
+      </ul>
+    </div>
+
+    <!-- FORMULARIO PARA AÑADIR INGREDIENTES -->
+    <div class="add-ingredient-form">
+      <h3>Agregar Ingrediente</h3>
+      <select v-model="selectedIngredientId">
+        <option disabled value="">Selecciona un ingrediente</option>
+        <option v-for="ing in allIngredients" :key="ing.id" :value="ing.id">
+          {{ ing.name }}
+        </option>
+      </select>
+
+      <input
+          type="number"
+          v-model.number="selectedQuantity"
+          placeholder="Cantidad en gramos"
+          min="1"
+      />
+
+      <button @click="addIngredient" :disabled="!selectedIngredientId || !selectedQuantity">
+        Agregar
+      </button>
+    </div>
+
 
     <div class="modal" v-if="showDeleteModal">
       <div class="modal-content">
@@ -191,6 +246,37 @@ export default {
   border-radius: 8px;
   line-height: 1.6;
   white-space: pre-wrap;
+}
+
+.add-ingredient-form {
+  background-color: #f0f8f0;
+  padding: 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-ingredient-form select,
+.add-ingredient-form input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.add-ingredient-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-ingredient-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .btn {
