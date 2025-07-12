@@ -1,180 +1,161 @@
-<script>
-/**
- * Import the Recommendation entity models
- */
-import {Recommendation} from "../model/recommendation.entity.js";
-
-/**
- * Import the RecommendationService for API operations
- */
-import {RecommendationService} from "../services/recommendation.service.js";
-
-/**
- * Import the DataManager component
- */
-import DataManager from "@/shared/components/data-manager.component.vue";
-
-/**
- * Import the RecommendationItemCreateAndEditDialog component
- */
-import RecommendationItemCreateAndEditDialog from "../components/recommendation-item-create-and-edit.component.vue";
-import {Column as PvColumn} from "primevue";
-
-/**
- * @component
- * @description Page component for managing nutritional recommendations
- */
-export default {
-  name: "recommendation-management",
-  components: {PvColumn, RecommendationItemCreateAndEditDialog, DataManager},
-
-  data() {
-    return {
-      title: {singular: "Recommendation", plural: "Recommendations"},
-      recommendations: [],
-      recommendation: new Recommendation({}),
-      selectedRecommendations: [],
-      recommendationService: null,
-      createAndEditDialogIsVisible: false,
-      isEdit: false,
-      submitted: false,
-    }
-  },
-  methods: {
-    notifySuccessfulAction(message) {
-      this.$toast.add({severity: 'success', summary: 'Success', detail: message, life: 3000});
-    },
-
-    findIndexById(id) {
-      return this.recommendations.findIndex(recommendation => recommendation.id === id);
-    },
-
-    onNewItem() {
-      this.recommendation = new Recommendation({});
-      this.isEdit = false;
-      this.submitted = false;
-      this.createAndEditDialogIsVisible = true;
-    },
-
-    onEditItem(item) {
-      this.recommendation = new Recommendation({...item});
-      this.isEdit = true;
-      this.submitted = false;
-      this.createAndEditDialogIsVisible = true;
-    },
-
-    onDeleteItem(item) {
-      this.recommendation = {...item};
-      this.deleteRecommendation();
-    },
-
-    onDeleteSelectedItems(selectedItems) {
-      this.selectedRecommendations = selectedItems;
-      this.deleteSelectedRecommendations();
-    },
-
-    onCancelRequested() {
-      this.createAndEditDialogIsVisible = false;
-      this.submitted = false;
-      this.isEdit = false;
-    },
-
-    onSaveRequested(item) {
-      this.submitted = true;
-      if (item.reason.trim()) {
-        this.recommendation = {...item};
-        if (this.recommendation.id) {
-          this.updateRecommendation();
-        } else {
-          this.createRecommendation();
-        }
-        this.createAndEditDialogIsVisible = false;
-        this.isEdit = false;
-      }
-    },
-
-    createRecommendation() {
-      console.log('Creando recomendación:', this.recommendation);
-      this.recommendationService.create(this.recommendation)
-          .then(data => {
-            let recommendation = new Recommendation(data);
-            this.recommendations.push(recommendation);
-            this.notifySuccessfulAction("Recommendation Created");
-          })
-          .catch(error => console.error('Error al crear:', error));
-    },
-
-    updateRecommendation() {
-      console.log('Actualizando recomendación:', this.recommendation);
-      this.recommendationService.update(this.recommendation.id, this.recommendation)
-          .then(data => {
-            let index = this.findIndexById(this.recommendation.id);
-            this.recommendations[index] = new Recommendation(data);
-            this.notifySuccessfulAction("Recommendation Updated");
-          })
-          .catch(error => console.error('Error al actualizar:', error));
-    },
-
-    deleteRecommendation() {
-      this.recommendationService.delete(this.recommendation.id)
-          .then(() => {
-            let index = this.findIndexById(this.recommendation.id);
-            this.recommendations.splice(index, 1);
-            this.notifySuccessfulAction("Recommendation Deleted");
-          })
-          .catch(error => console.error('Error al eliminar:', error));
-    },
-
-    deleteSelectedRecommendations() {
-      this.selectedRecommendations.forEach((recommendation) => {
-        this.recommendationService.delete(recommendation.id)
-            .then(() => {
-              this.recommendations = this.recommendations.filter((t) => t.id !== recommendation.id);
-            })
-            .catch(error => console.error('Error al eliminar seleccionados:', error));
-      });
-      this.notifySuccessfulAction("Recommendations Deleted");
-    }
-  },
-
-  created() {
-    this.recommendationService = new RecommendationService();
-    this.recommendationService.getAll()
-        .then(data => {
-          console.log('Datos recibidos:', data);
-          this.recommendations = Array.isArray(data) ?
-              data.map(recommendation => new Recommendation(recommendation)) : [];
-        })
-        .catch(error => console.error('Error al cargar recomendaciones:', error));
-  }
-}
-</script>
-
 <template>
-  <div class="w-full">
-    <data-manager :title="title"
-                  :items="recommendations"
-                  @new-item-requested="onNewItem"
-                  @edit-item-requested="onEditItem($event)"
-                  @delete-item-requested="onDeleteItem($event)"
-                  @delete-selected-items-requested="onDeleteSelectedItems($event)">
-      <template #custom-columns>
-        <pv-column :sortable="true" field="id" header="ID" style="min-width: 8rem"/>
-        <pv-column field="reason" header="Reason" style="min-width: 20rem"/>
-        <pv-column field="time_of_day" header="Time of Day" style="min-width: 12rem"/>
-        <pv-column field="notes" header="Notes" style="min-width: 12rem"/>
-        <pv-column :sortable="true" field="score" header="Score" style="min-width: 8rem"/>
-        <pv-column field="status" header="Status" style="min-width: 10rem"/>
-      </template>
-    </data-manager>
-    <recommendation-item-create-and-edit-dialog
-        :edit="isEdit"
-        :item="recommendation"
-        :visible="createAndEditDialogIsVisible"
-        @cancel-requested="onCancelRequested"
-        @save-requested="onSaveRequested($event)"/>
+  <div class="recommendations-page">
+    <div v-if="loading || assigning" class="loading-section">
+      <pv-progress-spinner />
+      <p>Cargando recomendaciones...</p>
+    </div>
+    <div v-else-if="recommendations.length === 0" class="empty-state">
+      <h3>No tienes recomendaciones asignadas</h3>
+    </div>
+    <div v-else class="recommendations-grid">
+      <pv-card v-for="recommendation in recommendations" :key="recommendation.id">
+        <template #header>
+          <h3>{{ recommendation.getTemplateTitle() }}</h3>
+        </template>
+        <template #content>
+          <p><strong>Motivo:</strong> {{ recommendation.reason }}</p>
+          <p><strong>Notas:</strong> {{ recommendation.notes }}</p>
+          <p><strong>Horario:</strong> {{ recommendation.timeOfDayDisplay }}</p>
+          <p><strong>Puntaje:</strong> {{ recommendation.score }}</p>
+          <p><strong>Estado:</strong> {{ recommendation.statusDisplay }}</p>
+          <p><strong>Asignado:</strong> {{ recommendation.getFormattedAssignedDate() }}</p>
+        </template>
+        <template #footer>
+          <pv-button label="Editar" icon="pi pi-pencil" @click="editRecommendation(recommendation)" />
+          <pv-button label="Borrar" icon="pi pi-trash" severity="danger" @click="deleteRecommendation(recommendation.id)" />
+        </template>
+      </pv-card>
+    </div>
+    <RecommendationItemCreateAndEdit
+        v-if="editingRecommendation"
+        :item="editingRecommendation"
+        :visible="editDialogVisible"
+        :edit="true"
+        @cancel-requested="closeEditDialog"
+        @save-requested="saveEditRecommendation"
+    />
   </div>
 </template>
 
-<style scoped>
-</style>
+<script>
+import { Recommendation, AutoAssignRecommendationsRequest } from "../model/recommendation.entity.js";
+import { RecommendationService } from "../services/recommendation.service.js";
+import { Card as PvCard, Button as PvButton, ProgressSpinner as PvProgressSpinner } from "primevue";
+import RecommendationItemCreateAndEdit from "../components/recommendation-item-create-and-edit.component.vue";
+
+export default {
+  name: "recommendation-management",
+  components: {
+    PvCard,
+    PvButton,
+    PvProgressSpinner,
+    RecommendationItemCreateAndEdit
+  },
+  data() {
+    return {
+      recommendations: [],
+      loading: false,
+      assigning: false,
+      currentUserId: 1, // Debes obtenerlo del contexto real
+      editingRecommendation: null,
+      editDialogVisible: false,
+      recommendationService: new RecommendationService()
+    }
+  },
+  methods: {
+    async autoAssignRecommendations() {
+      this.assigning = true;
+      try {
+        const request = new AutoAssignRecommendationsRequest({
+          userId: this.currentUserId,
+          count: 3
+        });
+        await this.recommendationService.autoAssignRecommendations(request);
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron asignar recomendaciones',
+          life: 3000
+        });
+      } finally {
+        this.assigning = false;
+      }
+    },
+
+    async loadUserRecommendations() {
+      console.log('Entrando a loadUserRecommendations');
+      this.loading = true;
+      try {
+        const data = await this.recommendationService.getByUserId(this.currentUserId);
+        console.log('Recomendaciones recibidas:', data);
+        this.recommendations = Array.isArray(data) ? data.map(rec => new Recommendation(rec)) : [];
+      } catch (error) {
+        console.log('Error en loadUserRecommendations:', error);
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar las recomendaciones',
+          life: 3000
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+
+
+    editRecommendation(recommendation) {
+      this.editingRecommendation = { ...recommendation };
+      this.editDialogVisible = true;
+    },
+    closeEditDialog() {
+      this.editDialogVisible = false;
+      this.editingRecommendation = null;
+    },
+    async saveEditRecommendation(updatedItem) {
+      try {
+        await this.recommendationService.update(updatedItem.id, updatedItem);
+        await this.loadUserRecommendations();
+        this.closeEditDialog();
+        this.$toast.add({
+          severity: 'success',
+          summary: 'Actualizado',
+          detail: 'Recomendación actualizada',
+          life: 3000
+        });
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo actualizar',
+          life: 3000
+        });
+      }
+    },
+    async deleteRecommendation(id) {
+      try {
+        await this.recommendationService.delete(id);
+        await this.loadUserRecommendations();
+        this.$toast.add({
+          severity: 'success',
+          summary: 'Eliminado',
+          detail: 'Recomendación eliminada',
+          life: 3000
+        });
+      } catch (error) {
+        this.$toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo eliminar',
+          life: 3000
+        });
+      }
+    }
+  },
+  async mounted() {
+    await this.autoAssignRecommendations();
+    await this.loadUserRecommendations();
+  },
+  recommendationService: new RecommendationService()
+}
+</script>
