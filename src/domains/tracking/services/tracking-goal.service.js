@@ -40,4 +40,37 @@ export class TrackingGoalService {
     create(resource) {
         return httpInstance.post(this.resourceEndpoint, resource);
     }
+
+    /**
+     * Creates a new tracking goal based on objective type
+     * @param {Object} resource - Tracking goal creation payload
+     * @param {number} resource.userId - ID of the user
+     * @param {string} resource.goalType - Type of goal (e.g., "Weight Loss", "Muscle Gain", etc.)
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
+     */
+    createByObjective(resource) {
+        return httpInstance.post(`${this.resourceEndpoint}/by-objective`, resource);
+    }
+
+    /**
+     * Updates an existing tracking goal for a user
+     * @param {number} userId - The user ID
+     * @param {Object} resource - Update payload
+     * @param {string} resource.goalType - New goal type
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
+     */
+    update(userId, resource) {
+        return httpInstance.put(`${this.resourceEndpoint}/${userId}`, resource);
+    }
+
+    /**
+     * Creates a tracking goal based on profile objective with IAM user validation
+     * @param {number} profileId - The ID of the profile to get the objective from
+     * @param {Object} resource - The resource containing the userId to validate
+     * @param {number} resource.userId - User ID for validation
+     * @returns {Promise<import('axios').AxiosResponse<any>>}
+     */
+    createFromProfile(profileId, resource) {
+        return httpInstance.post(`${this.resourceEndpoint}/from-profile/${profileId}`, resource);
+    }
 }
