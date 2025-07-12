@@ -1,5 +1,5 @@
 import axios from "axios";
-import { authenticationInterceptor } from "@/domains/iam/services/authentication.interceptor.js";
+
 import { authenticationInterceptor } from "@/domains/iam/services/authentication.interceptor.js";
 
 const httpInstance = axios.create({
