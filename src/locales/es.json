@@ -70,33 +70,24 @@
   },
   "recommendation": {
     "title": "Gestión de Recomendaciones Nutricionales",
-    "loading": "Cargando recomendaciones...",
-    "empty": "No tienes recomendaciones asignadas",
     "columns": {
       "id": "ID",
       "reason": "Razón",
-      "notes": "Notas",
       "time_of_day": "Momento del Día",
+      "notes": "Notas",
       "score": "Puntuación",
-      "status": "Estado",
-      "assigned": "Fecha de asignación"
+      "status": "Estado"
     },
     "actions": {
-      "edit": "Editar",
+      "create": "Crear Recomendación",
+      "edit": "Editar Recomendación",
       "delete": "Eliminar",
-      "load": "Asignar recomendaciones",
-      "load_more": "Asignar más recomendaciones"
+      "delete_selected": "Eliminar Seleccionados"
     },
-    "time_of_day": {
-      "morning": "Mañana",
-      "afternoon": "Tarde",
-      "evening": "Noche",
-      "all_day": "Todo el día"
-    },
-    "status": {
-      "pending": "Pendiente",
-      "active": "Activa",
-      "inactive": "Inactiva"
+    "messages": {
+      "created": "Recomendación creada exitosamente",
+      "updated": "Recomendación actualizada exitosamente",
+      "deleted": "Recomendación eliminada exitosamente"
     }
   },
   "authoring-phrase": {
@@ -191,5 +182,26 @@
       "have_account": "¿Ya tienes cuenta?",
       "sign_in_link": "Inicia sesión"
     }
+  },
+  "authoring-phrase": {
+    "intro": "Hecho con",
+    "use": "utilizando",
+    "author": "por el equipo de Desarrolladores de {brand}"
+  },
+  "tracking_management": {
+    "title": "Gestión de Seguimiento",
+    "goal_title": "Macronutrientes Objetivo",
+    "calories": "Calorías",
+    "protein": "Proteínas",
+    "carbs": "Carbohidratos",
+    "fats": "Grasas",
+    "meals_title": "Entradas del Plan de Comida",
+    "add_entry": "Agregar Entrada",
+    "recipe_id": "ID Receta",
+    "meal_type": "Tipo de Comida",
+    "day": "Día",
+    "actions": "Acciones",
+    "no_data_title": "No se encontraron entradas del plan de comida.",
+    "error_loading": "Ocurrió un error al cargar el seguimiento."
   }
 }
