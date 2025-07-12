@@ -4,6 +4,7 @@
  */
 
 import {createRouter, createWebHistory} from "vue-router";
+import {authenticationGuard} from "@/domains/iam/services/authentication.guard.js";
 
 
 /**
@@ -21,6 +22,10 @@ const MealPlanDetail = () => import('../domains/meal_plans/pages/meal-plan-detai
 import RecipeListComponent from "@/domains/recipes/pages/recipe-list.component.vue";
 import RecipeDetailComponent from "@/domains/recipes/components/recipe-detail.component.vue";
 import RecipeEditorComponent from "@/domains/recipes/pages/recipe-editor.component.vue";
+
+const SignInComponent = () => import('../domains/iam/pages/sign-in.component.vue');
+const SignUpComponent = () => import('../domains/iam/pages/sign-up.component.vue');
+
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -68,8 +73,10 @@ const routes = [
         props: route => ({ recipeId: route.params.id }),
         meta: {title: 'Edit A Recipe'}
     },
-    {   path: '/',                      name: 'default',    redirect: {name: 'home'}},
-    {   path: '/:pathMatch(.*)*',       name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}}
+    {   path: '/sign-in',           name: 'sign-in',    component: SignInComponent,   meta: {title: 'Sign In'}},
+    {   path: '/sign-up',           name: 'sign-up',    component: SignUpComponent,   meta: {title: 'Sign Up'}},
+    {   path: '/',                  name: 'default',    redirect: {name: 'home'}},
+    {   path: '/:pathMatch(.*)*',   name: 'not-found',  component: PageNotFoundComponent,       meta: {title: 'Page not found'}}
 ]
 
 /**

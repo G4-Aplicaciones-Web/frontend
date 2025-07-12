@@ -12,6 +12,30 @@
     "total_carbs": "Total Carbs",
     "profile_id": "Profile ID"
   },
+  "meal_plan": {
+    "form": {
+      "add_plan": "Add New Meal Plan",
+      "edit_plan": "Edit Meal Plan",
+      "profile_id": "Profile ID",
+      "score": "Score",
+      "summary": "Plan Summary",
+      "summary_placeholder": "Briefly describe this meal plan...",
+      "profile_required": "Profile ID is required",
+      "summary_required": "Summary is required",
+      "cancel": "Cancel",
+      "create": "Create Plan",
+      "update": "Update Plan"
+    },
+    "search": {
+      "title": "Search Meal Plan",
+      "meal_plan_id": "Meal Plan ID",
+      "search": "Search",
+      "found": "Meal Plan Found",
+      "profile_id": "Profile ID",
+      "score": "Score",
+      "summary": "Summary"
+    }
+  },
   "meal_plan_day": {
     "title": "Meal Plans",
     "form": {
@@ -118,6 +142,8 @@
   },
   "about": {
     "title": "About Us",
+    "mission-title": "Our Mission" ,
+    "vision-title": "Our Vision",
     "mission": "At NutriPlus, our mission is to empower people to make informed decisions about their nutrition and achieve their health goals sustainably. Through our flagship product, Alimentate+, we provide the tools needed to maintain effective nutritional control and enjoy a healthier life.",
     "vision": "Our vision is to become the leading nutritional wellness platform in Latin America, offering innovative and personalized solutions that adapt to each user's needs.",
     "description": "Alimentate+ is the result of our dedication to combining technology with nutritional knowledge, creating an accessible, practical, and motivating experience for our users."
