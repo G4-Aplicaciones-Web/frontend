@@ -13,6 +13,30 @@
     "total_carbs": "Total Carbs",
     "profile_id": "Profile ID"
   },
+  "meal_plan": {
+    "form": {
+      "add_plan": "Add New Meal Plan",
+      "edit_plan": "Edit Meal Plan",
+      "profile_id": "Profile ID",
+      "score": "Score",
+      "summary": "Plan Summary",
+      "summary_placeholder": "Briefly describe this meal plan...",
+      "profile_required": "Profile ID is required",
+      "summary_required": "Summary is required",
+      "cancel": "Cancel",
+      "create": "Create Plan",
+      "update": "Update Plan"
+    },
+    "search": {
+      "title": "Search Meal Plan",
+      "meal_plan_id": "Meal Plan ID",
+      "search": "Search",
+      "found": "Meal Plan Found",
+      "profile_id": "Profile ID",
+      "score": "Score",
+      "summary": "Summary"
+    }
+  },
   "meal_plan_day": {
     "title": "Meal Plans",
     "form": {
@@ -129,6 +153,34 @@
     "title": "404 - Page Not Found",
     "message": "The route",
     "goHome": "Go to Home"
+  },
+  "auth": {
+    "sign_in": {
+      "title": "Sign In",
+      "subtitle": "Enter your credentials to access",
+      "username": "Username",
+      "password": "Password",
+      "username_placeholder": "Enter your username",
+      "password_placeholder": "Enter your password",
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "button": "Sign In",
+      "no_account": "Don't have an account?",
+      "sign_up_link": "Sign up"
+    },
+    "sign_up": {
+      "title": "Create Account",
+      "subtitle": "Sign up to start your experience",
+      "username": "Username",
+      "password": "Password",
+      "username_placeholder": "Choose your username",
+      "password_placeholder": "Create a secure password",
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "button": "Create Account",
+      "have_account": "Already have an account?",
+      "sign_in_link": "Sign in"
+    }
   },
   "authoring-phrase": {
     "intro": "Made with",

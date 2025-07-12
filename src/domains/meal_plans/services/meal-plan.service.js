@@ -4,31 +4,24 @@ export class MealPlanService {
 
     resourceEndpoint = import.meta.env.VITE_MEAL_PLAN_ENDPOINT_PATH;
 
-
-    getAll() {
+    getAllMealPlans(resource) {
         return httpInstance.get(this.resourceEndpoint);
-    }
-
-    getById(id) {
-        return httpInstance.get(`${this.resourceEndpoint}/${id}`);
     }
 
     create(resource) {
         return httpInstance.post(this.resourceEndpoint, resource);
     }
 
-    update(id, resource) {
-        return httpInstance.put(`${this.resourceEndpoint}/${id}`, resource);
+    getByMealPlanId(mealPlanId) {
+        return httpInstance.get(`${this.resourceEndpoint}/${mealPlanId}`);
     }
 
-    delete(id) {
-        return httpInstance.delete(`${this.resourceEndpoint}/${id}`);
+    updateMealPlan(mealPlanId, resource) {
+        return httpInstance.put(`${this.resourceEndpoint}/${mealPlanId}`, resource);
     }
 
-    getByName(profile_id) {
-        return httpInstance.get(`${this.resourceEndpoint}?user_id=${profile_id}`);
+    deleteMealPlan(mealPlanId) {
+        return httpInstance.delete(`${this.resourceEndpoint}/${mealPlanId}`);
     }
-
-
 
 }
