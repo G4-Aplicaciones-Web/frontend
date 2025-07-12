@@ -153,6 +153,34 @@
     "message": "The route",
     "goHome": "Go to Home"
   },
+  "auth": {
+    "sign_in": {
+      "title": "Sign In",
+      "subtitle": "Enter your credentials to access",
+      "username": "Username",
+      "password": "Password",
+      "username_placeholder": "Enter your username",
+      "password_placeholder": "Enter your password",
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "button": "Sign In",
+      "no_account": "Don't have an account?",
+      "sign_up_link": "Sign up"
+    },
+    "sign_up": {
+      "title": "Create Account",
+      "subtitle": "Sign up to start your experience",
+      "username": "Username",
+      "password": "Password",
+      "username_placeholder": "Choose your username",
+      "password_placeholder": "Create a secure password",
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "button": "Create Account",
+      "have_account": "Already have an account?",
+      "sign_in_link": "Sign in"
+    }
+  },
   "authoring-phrase": {
     "intro": "Made with",
     "use": "using",

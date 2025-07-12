@@ -105,7 +105,7 @@ router.beforeEach((to, from, next) => {
     // Set the page title
     let baseTitle = 'Alimentate+';
     document.title = `${baseTitle} | ${to.meta['title']}`;
-    next();
+    authenticationGuard(to, from, next);
 });
 
 export default router;
