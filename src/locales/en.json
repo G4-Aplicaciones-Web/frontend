@@ -186,5 +186,21 @@
     "intro": "Made with",
     "use": "using",
     "author": "by {brand} Developer Team"
+  },
+  "tracking_management": {
+    "title": "Tracking Management",
+    "goal_title": "Target Macronutrients",
+    "calories": "Calories",
+    "protein": "Proteins",
+    "carbs": "Carbs",
+    "fats": "Fats",
+    "meals_title": "Meal Plan Entries",
+    "add_entry": "Add Entry",
+    "recipe_id": "Recipe ID",
+    "meal_type": "Meal Type",
+    "day": "Day",
+    "actions": "Actions",
+    "no_data_title": "No meal plan entries found.",
+    "error_loading": "There was an error loading tracking data."
   }
 }

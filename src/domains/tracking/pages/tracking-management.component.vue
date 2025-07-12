@@ -255,7 +255,7 @@ onMounted(() => {
     <pv-card class="main-card">
       <template #header>
         <div class="card-header">
-          <h2 class="page-title">Gestión de Seguimiento</h2>
+          <h2 class="page-title">{{ $t('tracking_management.title') }}</h2>
         </div>
       </template>
 
@@ -263,16 +263,15 @@ onMounted(() => {
         <div class="card-content">
           <div v-if="error" class="error-message">
             <i class="pi pi-exclamation-triangle"></i>
-            <span>{{ error }}</span>
+            <span>{{ $t('tracking_management.error_loading') }}</span>
           </div>
-
 
           <div v-if="tracking.trackingGoal" class="goal-section">
             <pv-card class="goal-card card">
               <template #header>
                 <div class="goal-header">
                   <i class="pi pi-chart-line"></i>
-                  <h3>Macronutrientes Objetivo</h3>
+                  <h3>{{ $t('tracking_management.goal_title') }}</h3>
                 </div>
               </template>
 
@@ -280,31 +279,23 @@ onMounted(() => {
                 <div class="goal-content">
                   <div class="targets-grid">
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-bolt"></i>
-                      </div>
-                      <span class="target-label">Calorías</span>
+                      <div class="target-icon"><i class="pi pi-bolt"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.calories') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetCalories }}</span>
                     </div>
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-shield"></i>
-                      </div>
-                      <span class="target-label">Proteínas</span>
+                      <div class="target-icon"><i class="pi pi-shield"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.protein') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetProtein }}g</span>
                     </div>
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-star"></i>
-                      </div>
-                      <span class="target-label">Carbohidratos</span>
+                      <div class="target-icon"><i class="pi pi-star"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.carbs') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetCarbs }}g</span>
                     </div>
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-circle"></i>
-                      </div>
-                      <span class="target-label">Grasas</span>
+                      <div class="target-icon"><i class="pi pi-circle"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.fats') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetFats }}g</span>
                     </div>
                   </div>
@@ -317,9 +308,9 @@ onMounted(() => {
             <pv-card class="meals-card card">
               <template #header>
                 <div class="meals-header">
-                  <h3>Entradas del Plan de Comida</h3>
+                  <h3>{{ $t('tracking_management.meals_title') }}</h3>
                   <pv-button
-                      label="Agregar Entrada"
+                      :label="$t('tracking_management.add_entry')"
                       icon="pi pi-plus"
                       class="primary-button"
                       @click="openCreateDialog"
@@ -337,35 +328,23 @@ onMounted(() => {
                     responsiveLayout="scroll"
                     class="meals-table"
                 >
-                  <pv-column field="recipeId" header="ID Receta" sortable />
-                  <pv-column field="mealPlanType" header="Tipo de Comida" sortable>
+                  <pv-column :field="'recipeId'" :header="$t('tracking_management.recipe_id')" sortable />
+                  <pv-column :field="'mealPlanType'" :header="$t('tracking_management.meal_type')" sortable>
                     <template #body="{ data }">
                       <pv-tag
                           :value="data.mealPlanType"
-                          :severity="
-                            data.mealPlanType === 'Breakfast' ? 'success' :
-                            data.mealPlanType === 'Lunch' ? 'info' :
-                            data.mealPlanType === 'Dinner' ? 'warning' : 'secondary'
-                          "
+                          :severity="data.mealPlanType === 'Breakfast' ? 'success' :
+                                    data.mealPlanType === 'Lunch' ? 'info' :
+                                    data.mealPlanType === 'Dinner' ? 'warning' : 'secondary'"
                       />
                     </template>
                   </pv-column>
-                  <pv-column field="dayNumber" header="Día" sortable />
-                  <pv-column header="Acciones">
+                  <pv-column :field="'dayNumber'" :header="$t('tracking_management.day')" sortable />
+                  <pv-column :header="$t('tracking_management.actions')">
                     <template #body="{ data }">
                       <div class="action-buttons">
-                        <pv-button
-                            icon="pi pi-pencil"
-                            severity="info"
-                            size="small"
-                            @click="openEditDialog(data)"
-                        />
-                        <pv-button
-                            icon="pi pi-trash"
-                            severity="danger"
-                            size="small"
-                            @click="confirmDelete(data)"
-                        />
+                        <pv-button icon="pi pi-pencil" severity="info" size="small" @click="openEditDialog(data)" />
+                        <pv-button icon="pi pi-trash" severity="danger" size="small" @click="confirmDelete(data)" />
                       </div>
                     </template>
                   </pv-column>
@@ -373,7 +352,7 @@ onMounted(() => {
 
                 <div v-else class="no-data">
                   <i class="pi pi-inbox no-data-icon"></i>
-                  <p>No se encontraron entradas del plan de comida para este seguimiento.</p>
+                  <p>{{ $t('tracking_management.no_data_title') }}</p>
                 </div>
               </template>
             </pv-card>
