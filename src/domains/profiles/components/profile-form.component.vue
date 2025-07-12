@@ -278,7 +278,7 @@ const saveProfile = async () => {
       console.log('Creando nuevo perfil...');
       result = await profileService.create(profileData);
 
-      // Guardar el profileId en localStorage cuando se crea un nuevo perfil
+      // ✅ Aquí ya es el objeto, NO necesitas `.data`
       if (result && result.id) {
         localStorage.setItem('profileId', result.id.toString());
         console.log('ProfileId guardado en localStorage:', result.id);
