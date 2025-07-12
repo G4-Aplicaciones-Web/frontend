@@ -1,11 +1,16 @@
-import axios from "axios";
-import { authenticationInterceptor } from "@/domains/iam/services/authentication.interceptor.js";
+// http.instance.js
+import axios from 'axios';
 
 const httpInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    baseURL: 'http://localhost:5037/api/v1',
 });
 
-httpInstance.interceptors.request.use(authenticationInterceptor);
+httpInstance.interceptors.request.use(config => {
+    const token = localStorage.getItem('token'); // O como lo guardes
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export default httpInstance;

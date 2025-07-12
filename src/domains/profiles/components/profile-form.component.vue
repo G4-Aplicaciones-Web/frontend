@@ -1,40 +1,59 @@
+<!-- profile-form.component.vue -->
 <template>
-  <pv-card>
+  <pv-card class="profile-card">
     <template #title>
-      Perfil de Usuario
+      <div class="card-title">
+        <i class="pi pi-user profile-icon"></i>
+        Perfil de Usuario
+      </div>
     </template>
     <template #content>
-      <form @submit.prevent="saveProfile">
+      <form @submit.prevent="saveProfile" class="profile-form">
         <div class="formgrid grid">
           <!-- Nombre -->
           <div class="field col-12 md:col-6">
-            <label for="firstName">Nombre *</label>
+            <label for="firstName" class="field-label">
+              <i class="pi pi-user"></i>
+              Nombre *
+            </label>
             <pv-inputtext
                 id="firstName"
                 v-model="localProfile.firstName"
                 :class="{ 'p-invalid': errors.firstName }"
                 placeholder="Ingresa tu nombre"
-                class="w-full"
+                class="w-full modern-input"
             />
-            <small v-if="errors.firstName" class="p-error">{{ errors.firstName }}</small>
+            <small v-if="errors.firstName" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.firstName }}
+            </small>
           </div>
 
           <!-- Apellido -->
           <div class="field col-12 md:col-6">
-            <label for="lastName">Apellido *</label>
+            <label for="lastName" class="field-label">
+              <i class="pi pi-user"></i>
+              Apellido *
+            </label>
             <pv-inputtext
                 id="lastName"
                 v-model="localProfile.lastName"
                 :class="{ 'p-invalid': errors.lastName }"
                 placeholder="Ingresa tu apellido"
-                class="w-full"
+                class="w-full modern-input"
             />
-            <small v-if="errors.lastName" class="p-error">{{ errors.lastName }}</small>
+            <small v-if="errors.lastName" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.lastName }}
+            </small>
           </div>
 
           <!-- Género -->
           <div class="field col-12 md:col-6">
-            <label for="gender">Género *</label>
+            <label for="gender" class="field-label">
+              <i class="pi pi-users"></i>
+              Género *
+            </label>
             <pv-dropdown
                 id="gender"
                 v-model="localProfile.gender"
@@ -42,48 +61,66 @@
                 option-label="label"
                 option-value="value"
                 placeholder="Selecciona tu género"
-                class="w-full"
+                class="w-full modern-dropdown"
                 :class="{ 'p-invalid': errors.gender }"
             />
-            <small v-if="errors.gender" class="p-error">{{ errors.gender }}</small>
+            <small v-if="errors.gender" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.gender }}
+            </small>
           </div>
 
           <!-- Peso -->
           <div class="field col-12 md:col-6">
-            <label for="weight">Peso (kg) *</label>
+            <label for="weight" class="field-label">
+              <i class="pi pi-chart-line"></i>
+              Peso (kg) *
+            </label>
             <pv-inputnumber
                 id="weight"
                 v-model="localProfile.weight"
                 :class="{ 'p-invalid': errors.weight }"
                 placeholder="Ingresa tu peso"
-                class="w-full"
+                class="w-full modern-input"
                 :min="20"
                 :max="300"
                 :step="0.1"
                 suffix=" kg"
             />
-            <small v-if="errors.weight" class="p-error">{{ errors.weight }}</small>
+            <small v-if="errors.weight" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.weight }}
+            </small>
           </div>
 
           <!-- Altura -->
           <div class="field col-12 md:col-6">
-            <label for="height">Altura (cm) *</label>
+            <label for="height" class="field-label">
+              <i class="pi pi-arrows-v"></i>
+              Altura (cm) *
+            </label>
             <pv-inputnumber
                 id="height"
                 v-model="localProfile.height"
                 :class="{ 'p-invalid': errors.height }"
                 placeholder="Ingresa tu altura"
-                class="w-full"
+                class="w-full modern-input"
                 :min="100"
                 :max="250"
                 suffix=" cm"
             />
-            <small v-if="errors.height" class="p-error">{{ errors.height }}</small>
+            <small v-if="errors.height" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.height }}
+            </small>
           </div>
 
           <!-- Objetivo -->
           <div class="field col-12 md:col-6">
-            <label for="objective">Objetivo *</label>
+            <label for="objective" class="field-label">
+              <i class="pi pi-flag"></i>
+              Objetivo *
+            </label>
             <pv-dropdown
                 id="objective"
                 v-model="localProfile.objectiveId"
@@ -91,15 +128,21 @@
                 option-label="name"
                 option-value="id"
                 placeholder="Selecciona tu objetivo"
-                class="w-full"
+                class="w-full modern-dropdown"
                 :class="{ 'p-invalid': errors.objectiveId }"
             />
-            <small v-if="errors.objectiveId" class="p-error">{{ errors.objectiveId }}</small>
+            <small v-if="errors.objectiveId" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.objectiveId }}
+            </small>
           </div>
 
           <!-- Nivel de Actividad -->
           <div class="field col-12 md:col-6">
-            <label for="activityLevel">Nivel de Actividad *</label>
+            <label for="activityLevel" class="field-label">
+              <i class="pi pi-bolt"></i>
+              Nivel de Actividad *
+            </label>
             <pv-dropdown
                 id="activityLevel"
                 v-model="localProfile.activityLevelId"
@@ -107,34 +150,37 @@
                 option-label="name"
                 option-value="id"
                 placeholder="Selecciona tu nivel de actividad"
-                class="w-full"
+                class="w-full modern-dropdown"
                 :class="{ 'p-invalid': errors.activityLevelId }"
             />
-            <small v-if="errors.activityLevelId" class="p-error">{{ errors.activityLevelId }}</small>
+            <small v-if="errors.activityLevelId" class="error-message">
+              <i class="pi pi-exclamation-triangle"></i>
+              {{ errors.activityLevelId }}
+            </small>
           </div>
 
           <!-- Botones -->
           <div class="field col-12">
-            <div class="flex justify-content-end gap-2">
-              <pv-button
-                  type="button"
-                  label="Debug"
-                  severity="info"
-                  @click="debugForm"
-                  style="margin-right: auto;"
-              />
-              <pv-button
-                  type="button"
-                  label="Cancelar"
-                  severity="secondary"
-                  @click="resetForm"
-              />
-              <pv-button
-                  type="submit"
-                  label="Guardar Perfil"
-                  :loading="loading"
-                  :disabled="!isFormValid"
-              />
+            <div class="action-buttons">
+
+              <div class="main-actions">
+                <pv-button
+                    type="button"
+                    label="Cancelar"
+                    severity="secondary"
+                    @click="resetForm"
+                    class="cancel-btn"
+                    icon="pi pi-times"
+                />
+                <pv-button
+                    type="submit"
+                    label="Guardar Perfil"
+                    :loading="loading"
+                    :disabled="!isFormValid"
+                    class="save-btn"
+                    icon="pi pi-check"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -373,23 +419,278 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Variables CSS personalizadas - Colores actualizados */
+.profile-card {
+  --primary-color: #63B663;
+  --primary-color-hover: #45A049;
+  --text-color: #333333;
+  --text-color-light: #666666;
+  --background-color: #ffffff;
+  --background-color-alt: #f5f7fa;
+  --border-color: #e0e0e0;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --border-radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Estilos de la tarjeta principal */
+.profile-card {
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.profile-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--hover-shadow);
+}
+
+/* Título de la tarjeta */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #63B663;
+  margin: 0;
+}
+
+.profile-icon {
+  font-size: 1.8rem;
+  color: #63B663;
+}
+
+/* Formulario */
+.profile-form {
+  padding: 1rem 0;
+}
+
+/* Campos del formulario */
 .field {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
-.field label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #333333;
+  font-size: 0.95rem;
 }
 
-.p-error {
-  color: #e24c4c;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.field-label i {
+  color: #63B663;
+  font-size: 1rem;
 }
 
+/* Inputs modernos */
+.modern-input,
+.modern-dropdown {
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  padding: 12px 16px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.modern-input:focus,
+.modern-dropdown:focus,
+.modern-input:focus-within,
+.modern-dropdown:focus-within {
+  border-color: #63B663;
+  box-shadow: 0 0 0 3px rgba(99, 182, 99, 0.1);
+  outline: none;
+}
+
+.modern-input:hover,
+.modern-dropdown:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estados de error */
 .p-invalid {
-  border-color: #e24c4c;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.main-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.debug-btn,
+.cancel-btn,
+.save-btn {
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: var(--transition);
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.debug-btn {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.debug-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.cancel-btn {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #63B663 0%, #45A049 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 182, 99, 0.3);
+}
+
+.save-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 182, 99, 0.4);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .main-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .debug-btn {
+    align-self: flex-start;
+  }
+
+  .modern-input,
+  .modern-dropdown {
+    padding: 14px 16px;
+    font-size: 16px; /* Previene zoom en iOS */
+  }
+}
+
+/* Animaciones adicionales */
+.field {
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.field:nth-child(1) { animation-delay: 0.1s; }
+.field:nth-child(2) { animation-delay: 0.2s; }
+.field:nth-child(3) { animation-delay: 0.3s; }
+.field:nth-child(4) { animation-delay: 0.4s; }
+.field:nth-child(5) { animation-delay: 0.5s; }
+.field:nth-child(6) { animation-delay: 0.6s; }
+.field:nth-child(7) { animation-delay: 0.7s; }
+.field:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .profile-card {
+    background: linear-gradient(145deg, #242424, #1a1a1a);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .field-label {
+    color: #63B663;
+  }
+
+  .modern-input,
+  .modern-dropdown {
+    background: #2a2a2a;
+    border-color: #414141;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .modern-input:focus,
+  .modern-dropdown:focus {
+    border-color: #63B663;
+  }
+
+  .cancel-btn {
+    color: rgba(255, 255, 255, 0.87);
+  }
 }
 </style>

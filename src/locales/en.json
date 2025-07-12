@@ -68,25 +68,34 @@
     }
   },
   "recommendation": {
-    "title": "Nutrition Recommendations Management",
+    "title": "Nutritional Recommendations Management",
+    "loading": "Loading recommendations...",
+    "empty": "You have no assigned recommendations",
     "columns": {
       "id": "ID",
       "reason": "Reason",
-      "time_of_day": "Time of Day",
       "notes": "Notes",
+      "time_of_day": "Time of Day",
       "score": "Score",
-      "status": "Status"
+      "status": "Status",
+      "assigned": "Assigned"
     },
     "actions": {
-      "create": "Create Recommendation",
-      "edit": "Edit Recommendation",
+      "edit": "Edit",
       "delete": "Delete",
-      "delete_selected": "Delete Selected"
+      "load": "Load recommendations",
+      "load_more": "Load more recommendations"
     },
-    "messages": {
-      "created": "Recommendation created successfully",
-      "updated": "Recommendation updated successfully",
-      "deleted": "Recommendation deleted successfully"
+    "time_of_day": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "all_day": "All Day"
+    },
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "inactive": "Inactive"
     }
   },
   "authoring-phrase": {
@@ -143,7 +152,7 @@
   },
   "about": {
     "title": "About Us",
-    "mission-title": "Our Mission" ,
+    "mission-title": "Our Mission",
     "vision-title": "Our Vision",
     "mission": "At NutriPlus, our mission is to empower people to make informed decisions about their nutrition and achieve their health goals sustainably. Through our flagship product, Alimentate+, we provide the tools needed to maintain effective nutritional control and enjoy a healthier life.",
     "vision": "Our vision is to become the leading nutritional wellness platform in Latin America, offering innovative and personalized solutions that adapt to each user's needs.",
@@ -181,11 +190,6 @@
       "have_account": "Already have an account?",
       "sign_in_link": "Sign in"
     }
-  },
-  "authoring-phrase": {
-    "intro": "Made with",
-    "use": "using",
-    "author": "by {brand} Developer Team"
   },
   "tracking_management": {
     "title": "Tracking Management",
