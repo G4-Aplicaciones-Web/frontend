@@ -12,16 +12,17 @@ import {authenticationGuard} from "@/domains/iam/services/authentication.guard.j
  * Using dynamic imports to enable code splitting and improve initial load performance
  */
 
-const HomeComponent = () => import('../public/pages/home.component.vue');
-const AboutComponent = () => import('../public/pages/about.component.vue');
-const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue');
+const HomeComponent = () => import('@/public/pages/home.component.vue');
+const AboutComponent = () => import('@/public/pages/about.component.vue');
+const PageNotFoundComponent = () => import('@/public/pages/page-not-found.component.vue');
 
-const RecommendationManagement = () => import('../domains/recommendations/pages/recommendation-management.component.vue');
-const MealPlanDetail = () => import('../domains/meal_plans/pages/meal-plan-detail.component.vue');
+const RecommendationManagement = () => import('@/domains/recommendations/pages/recommendation-management.component.vue');
+const MealPlanDetail = () => import('@/domains/meal_plans/pages/meal-plan-detail.component.vue');
 
-import RecipeListComponent from "@/domains/recipes/pages/recipe-list.component.vue";
-import RecipeDetailComponent from "@/domains/recipes/components/recipe-detail.component.vue";
-import RecipeEditorComponent from "@/domains/recipes/pages/recipe-editor.component.vue";
+const RecipeListComponent = ()=> import("@/domains/recipes/pages/recipe-list.component.vue");
+const RecipeDetailComponent = ()=> import("@/domains/recipes/components/recipe-detail.component.vue");
+const RecipeEditorComponent = ()=> import("@/domains/recipes/pages/recipe-editor.component.vue");
+const ProfileManagementComponent = ()=> import("@/domains/profiles/pages/profile-management.component.vue");
 
 const SignInComponent = () => import('../domains/iam/pages/sign-in.component.vue');
 const SignUpComponent = () => import('../domains/iam/pages/sign-up.component.vue');
@@ -72,6 +73,11 @@ const routes = [
         component: RecipeEditorComponent,
         props: route => ({ recipeId: route.params.id }),
         meta: {title: 'Edit A Recipe'}
+    },
+    {   path: '/profile',
+        name: 'profile',
+        component : ProfileManagementComponent,
+        meta: {title: 'Profile'}
     },
     {   path: '/sign-in',           name: 'sign-in',    component: SignInComponent,   meta: {title: 'Sign In'}},
     {   path: '/sign-up',           name: 'sign-up',    component: SignUpComponent,   meta: {title: 'Sign Up'}},
