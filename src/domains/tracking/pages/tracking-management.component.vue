@@ -2,9 +2,13 @@
 import { ref, reactive, onMounted } from 'vue';
 import TrackingCreateAndEditDialog from "@/domains/tracking/components/tracking-create-and-edit.component.vue";
 import TrackingService from "@/domains/tracking/services/tracking.service.js";
+import { TrackingGoalService } from "@/domains/tracking/services/tracking-goal.service.js";
+import {useAuthenticationStore} from "@/domains/iam/services/authentication.store.js";
 
 
 const trackingService = new TrackingService();
+const trackingGoalService = new TrackingGoalService();
+const authStore = useAuthenticationStore();
 
 const searchUserId = ref('');
 const tracking = reactive({
@@ -20,6 +24,88 @@ const showCreateDialog = ref(false);
 const editingMealEntry = ref(null);
 const loading = ref(false);
 const error = ref('');
+
+// Función para obtener userId desde el store de autenticación
+const getUserIdFromAuth = () => {
+  return authStore.currentUserId;
+};
+
+// Función para obtener profileId desde localStorage
+const getProfileIdFromStorage = () => {
+  try {
+    const profileId = localStorage.getItem('profileId');
+    return profileId ? parseInt(profileId, 10) : null;
+  } catch (error) {
+    console.error('Error al obtener profileId desde localStorage:', error);
+    return null;
+  }
+};
+
+// Función para crear tracking goal y tracking automáticamente
+const createTrackingGoalAndTracking = async (profileId, userId) => {
+  try {
+    // Crear tracking goal basado en el profile
+    const trackingGoalResponse = await trackingGoalService.createFromProfile(profileId, { userId });
+    const trackingGoalId = trackingGoalResponse.data.id;
+
+    // Crear tracking con la fecha actual
+    const today = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    const trackingPayload = {
+      userId: userId,
+      date: today,
+      trackingGoalId: trackingGoalId
+    };
+
+    const trackingResponse = await trackingService.create(trackingPayload);
+
+    console.log('Tracking goal y tracking creados exitosamente');
+    console.log('Tracking Goal ID:', trackingGoalId);
+    console.log('Tracking ID:', trackingResponse.data.id);
+
+    return { trackingGoalId, trackingId: trackingResponse.data.id };
+  } catch (error) {
+    console.error('Error al crear tracking goal y tracking:', error);
+    throw error;
+  }
+};
+
+// Función para inicializar automáticamente al montar el componente
+const initializeTracking = async () => {
+  const userId = getUserIdFromAuth();
+  const profileId = getProfileIdFromStorage();
+
+  if (!userId) {
+    error.value = 'Usuario no autenticado. Por favor inicia sesión.';
+    return;
+  }
+
+  if (!profileId) {
+    error.value = 'No se encontró un perfil. Por favor completa tu perfil primero.';
+    return;
+  }
+
+  // Establecer el userId en el campo de búsqueda automáticamente
+  searchUserId.value = userId.toString();
+
+  try {
+    // Intentar cargar el tracking existente
+    await searchTracking();
+  } catch (err) {
+    // Si no existe tracking, crear uno nuevo automáticamente
+    console.log('No se encontró tracking existente, creando uno nuevo...');
+    try {
+      loading.value = true;
+      await createTrackingGoalAndTracking(profileId, userId);
+      // Después de crear, cargar el tracking
+      await searchTracking();
+    } catch (createError) {
+      console.error('Error al crear tracking automáticamente:', createError);
+      error.value = 'Error al inicializar el tracking. Por favor intenta manualmente.';
+    } finally {
+      loading.value = false;
+    }
+  }
+};
 
 function clearTracking() {
   tracking.id = 0;
@@ -72,6 +158,30 @@ async function searchTracking() {
     console.error('Error fetching tracking info:', err);
     error.value = 'Error al cargar los datos de seguimiento. Por favor intenta nuevamente.';
     clearTracking();
+    throw err; // Re-lanzar para que initializeTracking pueda manejarlo
+  } finally {
+    loading.value = false;
+  }
+}
+
+// Función para crear tracking manualmente si es necesario
+async function createTrackingManually() {
+  const userId = getUserIdFromAuth();
+  const profileId = getProfileIdFromStorage();
+
+  if (!userId || !profileId) {
+    error.value = 'Faltan datos requeridos. Verifica que estés autenticado y tengas un perfil.';
+    return;
+  }
+
+  loading.value = true;
+  try {
+    await createTrackingGoalAndTracking(profileId, userId);
+    await searchTracking();
+    error.value = '';
+  } catch (err) {
+    console.error('Error creating tracking manually:', err);
+    error.value = 'Error al crear el tracking manualmente.';
   } finally {
     loading.value = false;
   }
@@ -150,6 +260,11 @@ function onEditCanceled() {
 function confirmDelete(entry) {
   deleteMealPlanEntry(entry);
 }
+
+// Inicializar automáticamente al montar el componente
+onMounted(() => {
+  initializeTracking();
+});
 </script>
 
 <template>
@@ -168,35 +283,6 @@ function confirmDelete(entry) {
             <span>{{ error }}</span>
           </div>
 
-          <div class="search-section">
-            <div class="search-controls">
-              <pv-float-label>
-                <pv-input-number
-                    id="searchUserId"
-                    v-model="searchUserId"
-                    :min="1"
-                    :disabled="loading"
-                    class="search-input"
-                />
-                <label for="searchUserId">ID de Usuario</label>
-              </pv-float-label>
-
-              <div class="search-buttons">
-                <pv-button
-                    label="Buscar"
-                    icon="pi pi-search"
-                    :loading="loading"
-                    @click="searchTracking"
-                />
-                <pv-button
-                    label="Limpiar"
-                    icon="pi pi-times"
-                    severity="secondary"
-                    @click="clearTracking"
-                />
-              </div>
-            </div>
-          </div>
 
           <div v-if="tracking.trackingGoal" class="goal-section">
             <pv-card class="goal-card card">
