@@ -154,6 +154,34 @@
     "message": "La ruta",
     "goHome": "Volver al inicio"
   },
+  "auth": {
+    "sign_in": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Ingresa tus credenciales para acceder",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "username_placeholder": "Ingresa tu usuario",
+      "password_placeholder": "Ingresa tu contraseña",
+      "username_required": "El usuario es requerido",
+      "password_required": "La contraseña es requerida",
+      "button": "Iniciar Sesión",
+      "no_account": "¿No tienes cuenta?",
+      "sign_up_link": "Regístrate"
+    },
+    "sign_up": {
+      "title": "Crear Cuenta",
+      "subtitle": "Regístrate para comenzar tu experiencia",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "username_placeholder": "Elige tu nombre de usuario",
+      "password_placeholder": "Crea una contraseña segura",
+      "username_required": "El usuario es requerido",
+      "password_required": "La contraseña es requerida",
+      "button": "Crear Cuenta",
+      "have_account": "¿Ya tienes cuenta?",
+      "sign_in_link": "Inicia sesión"
+    }
+  },
   "authoring-phrase": {
     "intro": "Hecho con",
     "use": "utilizando",

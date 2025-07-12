@@ -121,25 +121,43 @@ const submit = async () => {
     return;
   }
 
-  // Crear instancia de MealPlan
-  const mealPlan = new MealPlan({
-    profile_id: form.profileId,
-    summary: form.summary,
-    score: form.score
-  });
-  
-  console.log('MealPlan entity:', mealPlan);
-  console.log('Tipo de profile_id:', typeof mealPlan.profileId);
-  
   try {
-    const response = await mealPlanService.create(mealPlan);
-    console.log('Respuesta del servidor:', response.data);
+    if (form.id) {
+      // Actualizar meal plan existente
+      const mealPlan = new MealPlan({
+        id: form.id,
+        profileId: form.profileId,
+        summary: form.summary,
+        score: form.score
+      });
+      
+      await mealPlanService.updateMealPlan(form.id, mealPlan);
+      console.log('Plan actualizado con ID:', form.id);
+    } else {
+      // Crear nuevo meal plan
+      const existingPlans = await mealPlanService.getAllMealPlans();
+      const existingIds = existingPlans.data.map(plan => plan.id);
+      console.log('Existing plans:', existingPlans.data);
+      console.log('Existing IDs:', existingIds);
+      const uniqueId = MealPlan.generateUniqueId(existingIds);
+      console.log('Generated unique ID:', uniqueId);
+      
+      const mealPlan = new MealPlan({
+        id: uniqueId,
+        profileId: form.profileId,
+        summary: form.summary,
+        score: form.score
+      });
+      
+      await mealPlanService.create(mealPlan);
+      console.log('Plan creado con ID:', uniqueId);
+    }
+    
     reset();
     emit('updated');
   } catch (error) {
     console.error('Error al guardar:', error);
     console.error('Response data:', error.response?.data);
-    console.error('Validation errors:', error.response?.data?.errors);
   }
 };
 </script>
