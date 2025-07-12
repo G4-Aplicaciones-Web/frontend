@@ -154,7 +154,7 @@ function confirmDelete(entry) {
 
 <template>
   <div class="tracking-management">
-    <pv-card>
+    <pv-card class="main-card">
       <template #header>
         <div class="card-header">
           <h2 class="page-title">Gestión de Seguimiento</h2>
@@ -199,61 +199,44 @@ function confirmDelete(entry) {
           </div>
 
           <div v-if="tracking.trackingGoal" class="goal-section">
-            <pv-card class="goal-card">
+            <pv-card class="goal-card card">
               <template #header>
                 <div class="goal-header">
-                  <h3>Objetivo de Seguimiento</h3>
+                  <i class="pi pi-chart-line"></i>
+                  <h3>Macronutrientes Objetivo</h3>
                 </div>
               </template>
 
               <template #content>
                 <div class="goal-content">
-
                   <div class="targets-grid">
                     <div class="target-item">
+                      <div class="target-icon">
+                        <i class="pi pi-bolt"></i>
+                      </div>
                       <span class="target-label">Calorías</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetCalories }}</span>
                     </div>
                     <div class="target-item">
+                      <div class="target-icon">
+                        <i class="pi pi-shield"></i>
+                      </div>
                       <span class="target-label">Proteínas</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetProtein }}g</span>
                     </div>
                     <div class="target-item">
+                      <div class="target-icon">
+                        <i class="pi pi-star"></i>
+                      </div>
                       <span class="target-label">Carbohidratos</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetCarbs }}g</span>
                     </div>
                     <div class="target-item">
+                      <div class="target-icon">
+                        <i class="pi pi-circle"></i>
+                      </div>
                       <span class="target-label">Grasas</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetFats }}g</span>
-                    </div>
-                  </div>
-
-                  <div v-if="tracking.consumedMacros" class="progress-section">
-                    <h4>Progreso Actual</h4>
-                    <div class="progress-grid">
-                      <div
-                          v-for="type in ['calories', 'protein', 'carbs', 'fats']"
-                          :key="type"
-                          class="progress-item"
-                      >
-                        <div class="progress-header">
-                          <span class="progress-label">{{
-                              type === 'calories' ? 'Calorías' :
-                                  type === 'protein' ? 'Proteínas' :
-                                      type === 'carbs' ? 'Carbohidratos' : 'Grasas'
-                            }}</span>
-                          <span class="progress-text">
-                            {{ tracking.consumedMacros[type] || 0 }} /
-                            {{ tracking.trackingGoal[`target${type.charAt(0).toUpperCase() + type.slice(1)}`] || 0 }}
-                          </span>
-                        </div>
-                        <div class="progress-bar">
-                          <div
-                              class="progress-fill"
-                              :style="{ width: getProgress(type) + '%' }"
-                          ></div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -262,13 +245,14 @@ function confirmDelete(entry) {
           </div>
 
           <div v-if="tracking.id" class="meals-section">
-            <pv-card>
+            <pv-card class="meals-card card">
               <template #header>
                 <div class="meals-header">
                   <h3>Entradas del Plan de Comida</h3>
                   <pv-button
                       label="Agregar Entrada"
                       icon="pi pi-plus"
+                      class="primary-button"
                       @click="openCreateDialog"
                   />
                 </div>
@@ -348,17 +332,25 @@ function confirmDelete(entry) {
   margin: 0 auto;
 }
 
+.main-card {
+  background: var(--background-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
 .card-header {
-  padding: 1rem;
-  background: linear-gradient(135deg, #63B663 0%, #63B663 100%);
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-hover) 100%);
   color: white;
-  border-radius: 6px 6px 0 0;
+  border-radius: 0;
 }
 
 .page-title {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
+  color: white;
 }
 
 .card-content {
@@ -373,17 +365,18 @@ function confirmDelete(entry) {
   border: 1px solid #fcc;
   color: #c33;
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 400;
 }
 
 .search-section {
-  background: #f8f9fa;
+  background: var(--background-color-alt);
   padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
 .search-controls {
@@ -407,31 +400,42 @@ function confirmDelete(entry) {
 }
 
 .goal-card {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #f8fdf8 !important;
+  border: 1px solid #e8f5e8 !important;
+}
+
+.goal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 182, 99, 0.15);
 }
 
 .goal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
   padding: 1rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #63B663 0%, #5aa75a 100%) !important;
+  border-bottom: none;
+  color: white;
+  text-align: center !important;
+}
+
+.goal-header i {
+  font-size: 1.25rem;
+  color: white;
 }
 
 .goal-header h3 {
   margin: 0;
-  color: #495057;
+  color: white;
+  font-weight: 600;
+  text-align: center;
 }
 
 .goal-content {
   padding: 1.5rem;
-}
-
-.goal-description {
-  margin: 0 0 1.5rem 0;
-  color: #6c757d;
-  font-style: italic;
 }
 
 .targets-grid {
@@ -441,77 +445,89 @@ function confirmDelete(entry) {
   margin-bottom: 2rem;
 }
 
+.primary-button {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.primary-button:hover {
+  background-color: var(--primary-color-hover) !important;
+  border-color: var(--primary-color-hover) !important;
+}
+
+.primary-button:focus {
+  box-shadow: 0 0 0 2px rgba(99, 182, 99, 0.2) !important;
+}
+
 .target-item {
-  background: #f8f9fa;
-  padding: 1rem;
-  border-radius: 6px;
+  background: linear-gradient(135deg, #63B663 0%, #5aa75a 100%);
+  padding: 1.25rem;
+  border-radius: 8px;
   text-align: center;
-  border: 1px solid #e9ecef;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 150px;
+}
+
+.target-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 182, 99, 0.3);
+}
+
+.target-icon {
+  background: rgba(255, 255, 255, 0.2);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+}
+
+.target-icon i {
+  font-size: 1.25rem;
+  color: white;
 }
 
 .target-label {
-  display: block;
   font-size: 0.875rem;
-  color: #6c757d;
-  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
 }
 
 .target-value {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #495057;
+  color: white;
 }
 
 .progress-section h4 {
   margin: 0 0 1rem 0;
-  color: #495057;
-}
-
-.progress-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.progress-item {
-  background: white;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-}
-
-.progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.progress-label {
+  color: var(--text-color);
   font-weight: 500;
-  color: #495057;
-}
-
-.progress-text {
-  font-size: 0.875rem;
-  color: #6c757d;
-}
-
-.progress-bar {
-  height: 8px;
-  background: #e9ecef;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #28a745, #20c997);
-  transition: width 0.3s ease;
 }
 
 .meals-section {
   margin-top: 1rem;
+}
+
+/* Updated meals card styling with soft green theme */
+.meals-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #f4faf4 !important; /* Soft green background, less tenue */
+  border: 1px solid #d4ebd4 !important; /* More visible green border */
+}
+
+.meals-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 182, 99, 0.25); /* Stronger green shadow on hover */
 }
 
 .meals-header {
@@ -519,17 +535,43 @@ function confirmDelete(entry) {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, rgba(99, 182, 99, 0.18) 0%, rgba(99, 182, 99, 0.12) 100%) !important; /* Less tenue green gradient */
+  border-bottom: 1px solid rgba(99, 182, 99, 0.3); /* More visible green border */
 }
 
 .meals-header h3 {
   margin: 0;
-  color: #495057;
+  color: #63B663; /* Darker green for text */
+  font-weight: 600;
 }
 
 .meals-table {
   margin-top: 1rem;
+}
+
+/* Data table styling to match the green theme */
+.meals-table :deep(.p-datatable) {
+  background: #fafcfa !important; /* Soft white with more green hint */
+  border: 1px solid rgba(99, 182, 99, 0.2) !important;
+}
+
+.meals-table :deep(.p-datatable-thead th) {
+  background: rgba(99, 182, 99, 0.15) !important; /* More visible green header */
+  color: #63B663 !important; /* Dark green text */
+  border-bottom: 1px solid rgba(99, 182, 99, 0.3) !important;
+}
+
+.meals-table :deep(.p-datatable-tbody td) {
+  color: #2d5a2d !important; /* Dark green text */
+  border-bottom: 1px solid rgba(99, 182, 99, 0.15) !important;
+}
+
+.meals-table :deep(.p-datatable-tbody tr) {
+  background: #fafcfa !important; /* Soft white with green hint */
+}
+
+.meals-table :deep(.p-datatable-tbody tr:hover) {
+  background: rgba(99, 182, 99, 0.1) !important; /* More visible green on hover */
 }
 
 .action-buttons {
@@ -540,13 +582,19 @@ function confirmDelete(entry) {
 .no-data {
   text-align: center;
   padding: 3rem;
-  color: #6c757d;
+  color: var(--text-color-light);
 }
 
 .no-data-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
   display: block;
+  color: var(--text-color-light);
+}
+
+.no-data p {
+  font-weight: 300;
+  color: var(--text-color-light);
 }
 
 @media (max-width: 768px) {
@@ -563,12 +611,6 @@ function confirmDelete(entry) {
     justify-content: center;
   }
 
-  .goal-header {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
   .meals-header {
     flex-direction: column;
     gap: 1rem;
@@ -578,8 +620,13 @@ function confirmDelete(entry) {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 
-  .progress-grid {
-    grid-template-columns: 1fr;
+  .goal-content {
+    padding: 1rem;
+  }
+
+  .target-item {
+    min-width: 120px;
+    padding: 1rem;
   }
 }
 </style>
