@@ -2,9 +2,12 @@
 import { ref, reactive, onMounted } from 'vue';
 import TrackingCreateAndEditDialog from "@/domains/tracking/components/tracking-create-and-edit.component.vue";
 import TrackingService from "@/domains/tracking/services/tracking.service.js";
-
+import { TrackingGoalService } from "@/domains/tracking/services/tracking-goal.service.js";
+import { useAuthenticationStore } from "@/domains/iam/services/authentication.store.js";
 
 const trackingService = new TrackingService();
+const trackingGoalService = new TrackingGoalService();
+const authStore = useAuthenticationStore();
 
 const searchUserId = ref('');
 const tracking = reactive({
@@ -21,6 +24,73 @@ const editingMealEntry = ref(null);
 const loading = ref(false);
 const error = ref('');
 
+const getUserIdFromAuth = () => authStore.currentUserId;
+
+const getProfileIdFromStorage = () => {
+  try {
+    const profileId = localStorage.getItem('profileId');
+    const parsed = parseInt(profileId, 10);
+    return isNaN(parsed) ? null : parsed;
+  } catch (e) {
+    return null;
+  }
+};
+
+const createTrackingGoalAndTracking = async (profileId, userId) => {
+  const trackingGoalResponse = await trackingGoalService.createFromProfile(profileId, { userId });
+  const trackingGoalId = trackingGoalResponse.data.id;
+
+  const today = new Date().toISOString().split('T')[0];
+  const trackingResponse = await trackingService.create({
+    userId,
+    date: today,
+    trackingGoalId,
+  });
+
+  return {
+    trackingGoalId,
+    trackingId: trackingResponse.data.id,
+  };
+};
+
+const initializeTracking = async () => {
+  const userId = getUserIdFromAuth();
+  if (!userId) {
+    error.value = 'Usuario no autenticado. Por favor inicia sesión.';
+    clearTracking();
+    return;
+  }
+
+  clearTracking();
+
+  const profileId = getProfileIdFromStorage();
+  if (!profileId) {
+    error.value = 'No se encontró un perfil. Por favor completa tu perfil primero.';
+    return;
+  }
+
+  searchUserId.value = userId.toString();
+
+  try {
+    await searchTracking();
+  } catch (err) {
+    try {
+      loading.value = true;
+      if (err.message === 'NOT_FOUND') {
+        await createTrackingGoalAndTracking(profileId, userId);
+        await searchTracking();
+      } else {
+        throw err;
+      }
+    } catch (createError) {
+      console.error('Error al crear tracking:', createError);
+      error.value = 'Error al inicializar el tracking.';
+    } finally {
+      loading.value = false;
+    }
+  }
+};
+
 function clearTracking() {
   tracking.id = 0;
   tracking.userId = 0;
@@ -29,6 +99,7 @@ function clearTracking() {
   tracking.consumedMacros = null;
   tracking.mealPlanEntries = [];
   error.value = '';
+  searchUserId.value = '';
 }
 
 function getProgress(type) {
@@ -38,7 +109,6 @@ function getProgress(type) {
 }
 
 async function searchTracking() {
-  clearTracking();
   const userId = parseInt(searchUserId.value);
   if (!userId || userId <= 0) {
     error.value = 'Por favor ingresa un ID de usuario válido';
@@ -69,9 +139,34 @@ async function searchTracking() {
     const mealsRes = await trackingService.getAllMealsByTrackingId(trackingData.id);
     tracking.mealPlanEntries = mealsRes.data;
   } catch (err) {
-    console.error('Error fetching tracking info:', err);
-    error.value = 'Error al cargar los datos de seguimiento. Por favor intenta nuevamente.';
+    if (err.response && err.response.status === 404) {
+      clearTracking();
+      throw new Error('NOT_FOUND');
+    }
     clearTracking();
+    throw err;
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function createTrackingManually() {
+  const userId = getUserIdFromAuth();
+  const profileId = getProfileIdFromStorage();
+
+  if (!userId || !profileId) {
+    error.value = 'Faltan datos requeridos.';
+    return;
+  }
+
+  loading.value = true;
+  try {
+    await createTrackingGoalAndTracking(profileId, userId);
+    await searchTracking();
+    error.value = '';
+  } catch (err) {
+    console.error('Error creating tracking manually:', err);
+    error.value = 'Error al crear el tracking manualmente.';
   } finally {
     loading.value = false;
   }
@@ -94,7 +189,6 @@ async function onMealPlanEntryAdded(event) {
     showCreateDialog.value = false;
     await refreshMealPlanEntries();
   } catch (err) {
-    console.error('Error adding meal plan entry:', err);
     error.value = 'Error al agregar la entrada del plan de comida';
   } finally {
     loading.value = false;
@@ -108,7 +202,6 @@ async function onMealPlanEntryUpdated(event) {
     showCreateDialog.value = false;
     await refreshMealPlanEntries();
   } catch (err) {
-    console.error('Error updating meal plan entry:', err);
     error.value = 'Error al actualizar la entrada del plan de comida';
   } finally {
     loading.value = false;
@@ -121,7 +214,6 @@ async function deleteMealPlanEntry(entry) {
     await trackingService.removeMealPlanEntry(tracking.id, entry.id);
     await refreshMealPlanEntries();
   } catch (err) {
-    console.error('Error deleting meal plan entry:', err);
     error.value = 'Error al eliminar la entrada del plan de comida';
   } finally {
     loading.value = false;
@@ -137,7 +229,7 @@ async function refreshMealPlanEntries() {
       const macrosRes = await trackingService.getConsumedMacros(tracking.id);
       tracking.consumedMacros = macrosRes.data;
     } catch (err) {
-      console.error('Error refreshing meal plan entries:', err);
+      console.error('Error al refrescar las comidas:', err);
     }
   }
 }
@@ -150,14 +242,20 @@ function onEditCanceled() {
 function confirmDelete(entry) {
   deleteMealPlanEntry(entry);
 }
+
+onMounted(() => {
+  authStore.initializeFromStorage();
+  initializeTracking();
+});
 </script>
+
 
 <template>
   <div class="tracking-management">
     <pv-card class="main-card">
       <template #header>
         <div class="card-header">
-          <h2 class="page-title">Gestión de Seguimiento</h2>
+          <h2 class="page-title">{{ $t('tracking_management.title') }}</h2>
         </div>
       </template>
 
@@ -165,37 +263,7 @@ function confirmDelete(entry) {
         <div class="card-content">
           <div v-if="error" class="error-message">
             <i class="pi pi-exclamation-triangle"></i>
-            <span>{{ error }}</span>
-          </div>
-
-          <div class="search-section">
-            <div class="search-controls">
-              <pv-float-label>
-                <pv-input-number
-                    id="searchUserId"
-                    v-model="searchUserId"
-                    :min="1"
-                    :disabled="loading"
-                    class="search-input"
-                />
-                <label for="searchUserId">ID de Usuario</label>
-              </pv-float-label>
-
-              <div class="search-buttons">
-                <pv-button
-                    label="Buscar"
-                    icon="pi pi-search"
-                    :loading="loading"
-                    @click="searchTracking"
-                />
-                <pv-button
-                    label="Limpiar"
-                    icon="pi pi-times"
-                    severity="secondary"
-                    @click="clearTracking"
-                />
-              </div>
-            </div>
+            <span>{{ $t('tracking_management.error_loading') }}</span>
           </div>
 
           <div v-if="tracking.trackingGoal" class="goal-section">
@@ -203,7 +271,7 @@ function confirmDelete(entry) {
               <template #header>
                 <div class="goal-header">
                   <i class="pi pi-chart-line"></i>
-                  <h3>Macronutrientes Objetivo</h3>
+                  <h3>{{ $t('tracking_management.goal_title') }}</h3>
                 </div>
               </template>
 
@@ -211,31 +279,23 @@ function confirmDelete(entry) {
                 <div class="goal-content">
                   <div class="targets-grid">
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-bolt"></i>
-                      </div>
-                      <span class="target-label">Calorías</span>
+                      <div class="target-icon"><i class="pi pi-bolt"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.calories') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetCalories }}</span>
                     </div>
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-shield"></i>
-                      </div>
-                      <span class="target-label">Proteínas</span>
+                      <div class="target-icon"><i class="pi pi-shield"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.protein') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetProtein }}g</span>
                     </div>
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-star"></i>
-                      </div>
-                      <span class="target-label">Carbohidratos</span>
+                      <div class="target-icon"><i class="pi pi-star"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.carbs') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetCarbs }}g</span>
                     </div>
                     <div class="target-item">
-                      <div class="target-icon">
-                        <i class="pi pi-circle"></i>
-                      </div>
-                      <span class="target-label">Grasas</span>
+                      <div class="target-icon"><i class="pi pi-circle"></i></div>
+                      <span class="target-label">{{ $t('tracking_management.fats') }}</span>
                       <span class="target-value">{{ tracking.trackingGoal.targetFats }}g</span>
                     </div>
                   </div>
@@ -248,9 +308,9 @@ function confirmDelete(entry) {
             <pv-card class="meals-card card">
               <template #header>
                 <div class="meals-header">
-                  <h3>Entradas del Plan de Comida</h3>
+                  <h3>{{ $t('tracking_management.meals_title') }}</h3>
                   <pv-button
-                      label="Agregar Entrada"
+                      :label="$t('tracking_management.add_entry')"
                       icon="pi pi-plus"
                       class="primary-button"
                       @click="openCreateDialog"
@@ -268,35 +328,23 @@ function confirmDelete(entry) {
                     responsiveLayout="scroll"
                     class="meals-table"
                 >
-                  <pv-column field="recipeId" header="ID Receta" sortable />
-                  <pv-column field="mealPlanType" header="Tipo de Comida" sortable>
+                  <pv-column :field="'recipeId'" :header="$t('tracking_management.recipe_id')" sortable />
+                  <pv-column :field="'mealPlanType'" :header="$t('tracking_management.meal_type')" sortable>
                     <template #body="{ data }">
                       <pv-tag
                           :value="data.mealPlanType"
-                          :severity="
-                            data.mealPlanType === 'Breakfast' ? 'success' :
-                            data.mealPlanType === 'Lunch' ? 'info' :
-                            data.mealPlanType === 'Dinner' ? 'warning' : 'secondary'
-                          "
+                          :severity="data.mealPlanType === 'Breakfast' ? 'success' :
+                                    data.mealPlanType === 'Lunch' ? 'info' :
+                                    data.mealPlanType === 'Dinner' ? 'warning' : 'secondary'"
                       />
                     </template>
                   </pv-column>
-                  <pv-column field="dayNumber" header="Día" sortable />
-                  <pv-column header="Acciones">
+                  <pv-column :field="'dayNumber'" :header="$t('tracking_management.day')" sortable />
+                  <pv-column :header="$t('tracking_management.actions')">
                     <template #body="{ data }">
                       <div class="action-buttons">
-                        <pv-button
-                            icon="pi pi-pencil"
-                            severity="info"
-                            size="small"
-                            @click="openEditDialog(data)"
-                        />
-                        <pv-button
-                            icon="pi pi-trash"
-                            severity="danger"
-                            size="small"
-                            @click="confirmDelete(data)"
-                        />
+                        <pv-button icon="pi pi-pencil" severity="info" size="small" @click="openEditDialog(data)" />
+                        <pv-button icon="pi pi-trash" severity="danger" size="small" @click="confirmDelete(data)" />
                       </div>
                     </template>
                   </pv-column>
@@ -304,7 +352,7 @@ function confirmDelete(entry) {
 
                 <div v-else class="no-data">
                   <i class="pi pi-inbox no-data-icon"></i>
-                  <p>No se encontraron entradas del plan de comida para este seguimiento.</p>
+                  <p>{{ $t('tracking_management.no_data_title') }}</p>
                 </div>
               </template>
             </pv-card>

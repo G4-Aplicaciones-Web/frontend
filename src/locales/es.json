@@ -187,5 +187,21 @@
     "intro": "Hecho con",
     "use": "utilizando",
     "author": "por el equipo de Desarrolladores de {brand}"
+  },
+  "tracking_management": {
+    "title": "Gestión de Seguimiento",
+    "goal_title": "Macronutrientes Objetivo",
+    "calories": "Calorías",
+    "protein": "Proteínas",
+    "carbs": "Carbohidratos",
+    "fats": "Grasas",
+    "meals_title": "Entradas del Plan de Comida",
+    "add_entry": "Agregar Entrada",
+    "recipe_id": "ID Receta",
+    "meal_type": "Tipo de Comida",
+    "day": "Día",
+    "actions": "Acciones",
+    "no_data_title": "No se encontraron entradas del plan de comida.",
+    "error_loading": "Ocurrió un error al cargar el seguimiento."
   }
 }
