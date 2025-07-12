@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import LanguageSwitcher from "@/public/components/language-switcher.component.vue";
 
 const currentYear = ref(new Date().getFullYear());
 </script>
@@ -16,6 +17,8 @@ const currentYear = ref(new Date().getFullYear());
         <a href="https://primevue.org/" target="_blank" class="text-secondary-300 hover:underline">PrimeVue</a>
         {{ $t('authoring-phrase.author', { brand: 'NutriPlus' }) }}
       </p>
+      <language-switcher />
+
     </div>
   </footer>
 </template>
