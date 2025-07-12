@@ -3,8 +3,7 @@ import { ref, reactive, onMounted } from 'vue';
 import TrackingCreateAndEditDialog from "@/domains/tracking/components/tracking-create-and-edit.component.vue";
 import TrackingService from "@/domains/tracking/services/tracking.service.js";
 import { TrackingGoalService } from "@/domains/tracking/services/tracking-goal.service.js";
-import {useAuthenticationStore} from "@/domains/iam/services/authentication.store.js";
-
+import { useAuthenticationStore } from "@/domains/iam/services/authentication.store.js";
 
 const trackingService = new TrackingService();
 const trackingGoalService = new TrackingGoalService();
@@ -25,82 +24,67 @@ const editingMealEntry = ref(null);
 const loading = ref(false);
 const error = ref('');
 
-// Función para obtener userId desde el store de autenticación
-const getUserIdFromAuth = () => {
-  return authStore.currentUserId;
-};
+const getUserIdFromAuth = () => authStore.currentUserId;
 
-// Función para obtener profileId desde localStorage
 const getProfileIdFromStorage = () => {
   try {
     const profileId = localStorage.getItem('profileId');
-    return profileId ? parseInt(profileId, 10) : null;
-  } catch (error) {
-    console.error('Error al obtener profileId desde localStorage:', error);
+    const parsed = parseInt(profileId, 10);
+    return isNaN(parsed) ? null : parsed;
+  } catch (e) {
     return null;
   }
 };
 
-// Función para crear tracking goal y tracking automáticamente
 const createTrackingGoalAndTracking = async (profileId, userId) => {
-  try {
-    // Crear tracking goal basado en el profile
-    const trackingGoalResponse = await trackingGoalService.createFromProfile(profileId, { userId });
-    const trackingGoalId = trackingGoalResponse.data.id;
+  const trackingGoalResponse = await trackingGoalService.createFromProfile(profileId, { userId });
+  const trackingGoalId = trackingGoalResponse.data.id;
 
-    // Crear tracking con la fecha actual
-    const today = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
-    const trackingPayload = {
-      userId: userId,
-      date: today,
-      trackingGoalId: trackingGoalId
-    };
+  const today = new Date().toISOString().split('T')[0];
+  const trackingResponse = await trackingService.create({
+    userId,
+    date: today,
+    trackingGoalId,
+  });
 
-    const trackingResponse = await trackingService.create(trackingPayload);
-
-    console.log('Tracking goal y tracking creados exitosamente');
-    console.log('Tracking Goal ID:', trackingGoalId);
-    console.log('Tracking ID:', trackingResponse.data.id);
-
-    return { trackingGoalId, trackingId: trackingResponse.data.id };
-  } catch (error) {
-    console.error('Error al crear tracking goal y tracking:', error);
-    throw error;
-  }
+  return {
+    trackingGoalId,
+    trackingId: trackingResponse.data.id,
+  };
 };
 
-// Función para inicializar automáticamente al montar el componente
 const initializeTracking = async () => {
   const userId = getUserIdFromAuth();
-  const profileId = getProfileIdFromStorage();
-
   if (!userId) {
     error.value = 'Usuario no autenticado. Por favor inicia sesión.';
+    clearTracking();
     return;
   }
 
+  clearTracking();
+
+  const profileId = getProfileIdFromStorage();
   if (!profileId) {
     error.value = 'No se encontró un perfil. Por favor completa tu perfil primero.';
     return;
   }
 
-  // Establecer el userId en el campo de búsqueda automáticamente
   searchUserId.value = userId.toString();
 
   try {
-    // Intentar cargar el tracking existente
     await searchTracking();
   } catch (err) {
-    // Si no existe tracking, crear uno nuevo automáticamente
-    console.log('No se encontró tracking existente, creando uno nuevo...');
     try {
       loading.value = true;
-      await createTrackingGoalAndTracking(profileId, userId);
-      // Después de crear, cargar el tracking
-      await searchTracking();
+      if (err.message === 'NOT_FOUND') {
+        await createTrackingGoalAndTracking(profileId, userId);
+        await searchTracking();
+      } else {
+        throw err;
+      }
     } catch (createError) {
-      console.error('Error al crear tracking automáticamente:', createError);
-      error.value = 'Error al inicializar el tracking. Por favor intenta manualmente.';
+      console.error('Error al crear tracking:', createError);
+      error.value = 'Error al inicializar el tracking.';
     } finally {
       loading.value = false;
     }
@@ -115,6 +99,7 @@ function clearTracking() {
   tracking.consumedMacros = null;
   tracking.mealPlanEntries = [];
   error.value = '';
+  searchUserId.value = '';
 }
 
 function getProgress(type) {
@@ -124,7 +109,6 @@ function getProgress(type) {
 }
 
 async function searchTracking() {
-  clearTracking();
   const userId = parseInt(searchUserId.value);
   if (!userId || userId <= 0) {
     error.value = 'Por favor ingresa un ID de usuario válido';
@@ -155,22 +139,23 @@ async function searchTracking() {
     const mealsRes = await trackingService.getAllMealsByTrackingId(trackingData.id);
     tracking.mealPlanEntries = mealsRes.data;
   } catch (err) {
-    console.error('Error fetching tracking info:', err);
-    error.value = 'Error al cargar los datos de seguimiento. Por favor intenta nuevamente.';
+    if (err.response && err.response.status === 404) {
+      clearTracking();
+      throw new Error('NOT_FOUND');
+    }
     clearTracking();
-    throw err; // Re-lanzar para que initializeTracking pueda manejarlo
+    throw err;
   } finally {
     loading.value = false;
   }
 }
 
-// Función para crear tracking manualmente si es necesario
 async function createTrackingManually() {
   const userId = getUserIdFromAuth();
   const profileId = getProfileIdFromStorage();
 
   if (!userId || !profileId) {
-    error.value = 'Faltan datos requeridos. Verifica que estés autenticado y tengas un perfil.';
+    error.value = 'Faltan datos requeridos.';
     return;
   }
 
@@ -204,7 +189,6 @@ async function onMealPlanEntryAdded(event) {
     showCreateDialog.value = false;
     await refreshMealPlanEntries();
   } catch (err) {
-    console.error('Error adding meal plan entry:', err);
     error.value = 'Error al agregar la entrada del plan de comida';
   } finally {
     loading.value = false;
@@ -218,7 +202,6 @@ async function onMealPlanEntryUpdated(event) {
     showCreateDialog.value = false;
     await refreshMealPlanEntries();
   } catch (err) {
-    console.error('Error updating meal plan entry:', err);
     error.value = 'Error al actualizar la entrada del plan de comida';
   } finally {
     loading.value = false;
@@ -231,7 +214,6 @@ async function deleteMealPlanEntry(entry) {
     await trackingService.removeMealPlanEntry(tracking.id, entry.id);
     await refreshMealPlanEntries();
   } catch (err) {
-    console.error('Error deleting meal plan entry:', err);
     error.value = 'Error al eliminar la entrada del plan de comida';
   } finally {
     loading.value = false;
@@ -247,7 +229,7 @@ async function refreshMealPlanEntries() {
       const macrosRes = await trackingService.getConsumedMacros(tracking.id);
       tracking.consumedMacros = macrosRes.data;
     } catch (err) {
-      console.error('Error refreshing meal plan entries:', err);
+      console.error('Error al refrescar las comidas:', err);
     }
   }
 }
@@ -261,11 +243,12 @@ function confirmDelete(entry) {
   deleteMealPlanEntry(entry);
 }
 
-// Inicializar automáticamente al montar el componente
 onMounted(() => {
+  authStore.initializeFromStorage();
   initializeTracking();
 });
 </script>
+
 
 <template>
   <div class="tracking-management">
