@@ -67,6 +67,28 @@
       "empty_message": "Start adding meals to your plan using the form above"
     }
   },
+  "recommendation": {
+    "title": "Nutrition Recommendations Management",
+    "columns": {
+      "id": "ID",
+      "reason": "Reason",
+      "time_of_day": "Time of Day",
+      "notes": "Notes",
+      "score": "Score",
+      "status": "Status"
+    },
+    "actions": {
+      "create": "Create Recommendation",
+      "edit": "Edit Recommendation",
+      "delete": "Delete",
+      "delete_selected": "Delete Selected"
+    },
+    "messages": {
+      "created": "Recommendation created successfully",
+      "updated": "Recommendation updated successfully",
+      "deleted": "Recommendation deleted successfully"
+    }
+  },
   "authoring-phrase": {
     "intro": "Made with",
     "use": "using",
@@ -121,7 +143,7 @@
   },
   "about": {
     "title": "About Us",
-    "mission-title": "Our Mission",
+    "mission-title": "Our Mission" ,
     "vision-title": "Our Vision",
     "mission": "At NutriPlus, our mission is to empower people to make informed decisions about their nutrition and achieve their health goals sustainably. Through our flagship product, Alimentate+, we provide the tools needed to maintain effective nutritional control and enjoy a healthier life.",
     "vision": "Our vision is to become the leading nutritional wellness platform in Latin America, offering innovative and personalized solutions that adapt to each user's needs.",
@@ -160,35 +182,9 @@
       "sign_in_link": "Sign in"
     }
   },
-  "recommendation": {
-    "title": "Nutritional Recommendations Management",
-    "loading": "Loading recommendations...",
-    "empty": "You have no assigned recommendations",
-    "columns": {
-      "id": "ID",
-      "reason": "Reason",
-      "notes": "Notes",
-      "time_of_day": "Time of Day",
-      "score": "Score",
-      "status": "Status",
-      "assigned": "Assigned"
-    },
-    "actions": {
-      "edit": "Edit",
-      "delete": "Delete",
-      "load": "Load recommendations",
-      "load_more": "Load more recommendations"
-    },
-    "time_of_day": {
-      "morning": "Morning",
-      "afternoon": "Afternoon",
-      "evening": "Evening",
-      "all_day": "All Day"
-    },
-    "status": {
-      "pending": "Pending",
-      "active": "Active",
-      "inactive": "Inactive"
-    }
+  "authoring-phrase": {
+    "intro": "Made with",
+    "use": "using",
+    "author": "by {brand} Developer Team"
   }
 }
