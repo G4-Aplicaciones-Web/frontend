@@ -105,7 +105,7 @@ export default {
       templates: [], // Debes cargar las plantillas de recomendaciones si es necesario
       loading: false,
       assigning: false,
-      currentUserId: 1, // Debes obtenerlo del contexto real
+      currentUserId: localStorage.getItem('userId') ? parseInt(localStorage.getItem('userId')) : 1,
       editingRecommendation: null,
       editDialogVisible: false,
       recommendationService: new RecommendationService(),
