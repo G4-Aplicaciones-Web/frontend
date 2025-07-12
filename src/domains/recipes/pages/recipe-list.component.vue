@@ -44,7 +44,7 @@ export default {
 
       const query = this.searchQuery.toLowerCase();
       this.filteredRecipes = this.recipes.filter(recipe =>
-          recipe.title.toLowerCase().includes(query) ||
+          recipe.name.toLowerCase().includes(query) ||
           recipe.description.toLowerCase().includes(query)
       );
     },

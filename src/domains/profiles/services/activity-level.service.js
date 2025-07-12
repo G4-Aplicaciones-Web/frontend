@@ -7,7 +7,10 @@ export class ActivityLevelService {
 
     getAll(){
         return httpInstance.get(this.resourceEndpoint)
-            .then(response => response.data)
+            .then(response => {
+                console.log('Objectives response:', response.data);
+                return response.data;
+            })
             .catch(error => {
                 console.error('Error fetching activity levels:', error);
                 throw error;

@@ -26,30 +26,31 @@ export default {
 <template>
   <div class="recipe-card">
     <div class="card-header">
-      <h3 class="recipe-title">{{ recipe.title }}</h3>
+      <h3 class="recipe-title">{{ recipe.name }}</h3>
     </div>
     <div class="card-body">
       <p class="recipe-description">{{ truncateDescription(recipe.description) }}</p>
       <div class="nutrition-info">
         <div class="nutrition-item">
           <span class="label">{{ $t('recipeCard.calories') }}</span>
-          <span class="value">{{ recipe.total_calories }}</span>
+          <span class="value">{{ recipe.totalNutrients?.calories ?? 0 }}</span>
         </div>
         <div class="nutrition-items">
           <div class="nutrition-item">
             <span class="label">{{ $t('recipeCard.carbs') }}</span>
-            <span class="value">{{ recipe.total_carbs }}g</span>
+            <span class="value">{{ recipe.totalNutrients?.carbohydrates ?? 0 }}g</span>
           </div>
           <div class="nutrition-item">
             <span class="label">{{ $t('recipeCard.proteins') }}</span>
-            <span class="value">{{ recipe.total_proteins }}g</span>
+            <span class="value">{{ recipe.totalNutrients?.proteins ?? 0 }}g</span>
           </div>
           <div class="nutrition-item">
             <span class="label">{{ $t('recipeCard.fats') }}</span>
-            <span class="value">{{ recipe.total_fats }}g</span>
+            <span class="value">{{ recipe.totalNutrients?.fats ?? 0 }}g</span>
           </div>
         </div>
       </div>
+
     </div>
     <div class="card-footer">
       <button @click="viewDetails" class="btn btn-primary">{{ $t('common.viewDetails') }}</button>
