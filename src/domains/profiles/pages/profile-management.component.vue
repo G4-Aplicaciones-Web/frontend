@@ -15,15 +15,18 @@
         </pv-card>
       </div>
 
-      <div class="col-12 md:col-4">
+      <div class="col-12 md:col-8">
         <profile-form
             :profile="profile"
             :objectives="objectives"
             :activity-levels="activityLevels"
             @saved="refreshProfile"/>
       </div>
+    </div>
 
-      <div class="col-12 md:col-4">
+    <!-- Formulario de preferencias separado -->
+    <div class="grid mt-4" v-if="profile.id">
+      <div class="col-12">
         <preferences-form
             :profile-id="profile.id"
             :allergies="profile.allergies"
@@ -53,20 +56,46 @@ const objectiveService = new ObjectiveService();
 const profile = ref({});
 const objectives = ref([]);
 const activityLevels = ref([]);
+const loading = ref(false);
 
 const loadData = async () => {
+  loading.value = true;
   try {
-    profile.value = await profileService.getByUserId(userId);
-  } catch {
-    profile.value = {}; // No hay perfil creado aún
-  }
+    // Cargar perfil
+    try {
+      profile.value = await profileService.getByUserId(userId);
+      console.log('Perfil cargado:', profile.value);
+    } catch (error) {
+      console.log('No se encontró perfil existente, se creará uno nuevo');
+      profile.value = {}; // No hay perfil creado aún
+    }
 
-  objectives.value = await objectiveService.getAll();
-  activityLevels.value = await activityLevelService.getAll();
+    // Cargar objetivos y niveles de actividad
+    const [objectivesData, activityLevelsData] = await Promise.all([
+      objectiveService.getAll(),
+      activityLevelService.getAll()
+    ]);
+
+    objectives.value = objectivesData.data || objectivesData;
+    activityLevels.value = activityLevelsData.data || activityLevelsData;
+
+    console.log('Objetivos cargados:', objectives.value);
+    console.log('Niveles de actividad cargados:', activityLevels.value);
+
+  } catch (error) {
+    console.error('Error loading data:', error);
+  } finally {
+    loading.value = false;
+  }
 };
 
 const refreshProfile = async () => {
-  profile.value = await profileService.getByUserId(userId);
+  try {
+    profile.value = await profileService.getByUserId(userId);
+    console.log('Perfil actualizado:', profile.value);
+  } catch (error) {
+    console.error('Error refreshing profile:', error);
+  }
 };
 
 onMounted(loadData);

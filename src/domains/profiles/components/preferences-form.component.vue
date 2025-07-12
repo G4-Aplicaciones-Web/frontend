@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, watch } from 'vue';
+import { reactive, watch } from 'vue';
 import { ProfileService } from '@/domains/profiles/services/profile.service.js';
 
 const props = defineProps({
@@ -73,7 +73,10 @@ const form = reactive({
 
 // Prellenar formulario al recibir datos
 watch(() => props.profile, (newProfile) => {
-  if (!newProfile) return;
+  if (!newProfile) {
+    return;
+  }
+
   form.id = newProfile.id;
   form.gender = newProfile.gender || '';
   form.height = newProfile.height || 0;
@@ -95,7 +98,10 @@ const saveProfile = async () => {
     if (form.id) {
       await profileService.update(form.id, payload);
     } else {
-      await profileService.create(payload);
+      const newProfile = await profileService.create(payload);
+      if (newProfile && newProfile.id) {
+        form.id = newProfile.id;
+      }
     }
     emit('saved');
   } catch (error) {
